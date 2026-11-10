@@ -5,8 +5,8 @@
 // Airtable tables expected:
 //   Flavors   (Slug, Name, Description, Image ID, Tags [multi-select], Contains, This Week [checkbox], Active [checkbox])
 //   Locations (Slug, Name, City, Address, Phone, Hours JSON, Hours Label, Note, Order)
-//   Tour      (City, Date, Venue, Status [announced | on_sale | sold_out], Order)
-//   Settings  (Key, Value)  e.g. week_of, lineup_also, order_link
+//   Tour      (City, Date [YYYY-MM-DD], Time, Address, Venue, Status [announced | sold_out], Order)
+//   Settings  (Key, Value)  e.g. week_of, lineup_also, order_link, flyer_image, prices
 
 export async function onRequestGet({ env, request }) {
   const origin = new URL(request.url).origin;
@@ -57,9 +57,10 @@ export async function onRequestGet({ env, request }) {
         id: l.Slug, name: l.Name, city: l.City, address: l.Address, phone: l.Phone,
         hours: JSON.parse(l["Hours JSON"] || "{}"), hours_label: l["Hours Label"], note: l.Note,
       })),
-      tour: { stops: tour.map((t) => ({ city: t.City, date: t.Date || "", venue: t.Venue || "", status: t.Status || "announced" })) },
+      tour: { stops: tour.map((t) => ({ city: t.City, date: t.Date || "", time: t.Time || "", address: t.Address || "", venue: t.Venue || "", status: t.Status || "announced" })) },
       links: {
         order: set.order_link || "",
+        flyer_image: set.flyer_image || "",
         instagram: "https://www.instagram.com/cloudydonuts/",
         facebook: "https://www.facebook.com/CloudyDonutCo",
         sevenstreams: "https://www.thesevenstreams.com",

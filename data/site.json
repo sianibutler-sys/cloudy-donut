@@ -3,7 +3,16 @@
   "lineup": {
     "_note": "SAMPLE lineup for the demo, chosen from flavors pictured on cloudydonut.com. Staff set the real one each week.",
     "week_of": "",
-    "flavors": ["strawberry-lemonade", "cookie-monster", "cherry-pie", "maple-butter-pecan", "blackberry-mint-mojito", "powdered-jelly", "mint-chocolate-chip", "sugarberry"],
+    "flavors": [
+      "strawberry-lemonade",
+      "cookie-monster",
+      "cherry-pie",
+      "maple-butter-pecan",
+      "blackberry-mint-mojito",
+      "powdered-jelly",
+      "mint-chocolate-chip",
+      "sugarberry"
+    ],
     "also": "Plus cinnamon rolls and pound cakes"
   },
   "locations": [
@@ -13,7 +22,20 @@
       "city": "Brooklyn, NY",
       "address": "14 Columbia Pl., Brooklyn, NY 11201",
       "phone": "347.463.9628",
-      "hours": { "5": ["09:00", "16:00"], "6": ["09:00", "16:00"], "0": ["09:00", "16:00"] },
+      "hours": {
+        "5": [
+          "09:00",
+          "16:00"
+        ],
+        "6": [
+          "09:00",
+          "16:00"
+        ],
+        "0": [
+          "09:00",
+          "16:00"
+        ]
+      },
       "hours_label": "Fri, Sat, Sun 9am–4pm",
       "note": "Gift cards available in store"
     },
@@ -23,7 +45,20 @@
       "city": "New York, NY",
       "address": "209 Mott Street, New York, NY 10012",
       "phone": "347.463.9628",
-      "hours": { "5": ["11:00", "18:00"], "6": ["11:00", "18:00"], "0": ["11:00", "18:00"] },
+      "hours": {
+        "5": [
+          "11:00",
+          "18:00"
+        ],
+        "6": [
+          "11:00",
+          "18:00"
+        ],
+        "0": [
+          "11:00",
+          "18:00"
+        ]
+      },
       "hours_label": "Fri, Sat, Sun 11am–6pm",
       "note": "Our largest lineup, with 50+ flavors in rotation"
     },
@@ -39,19 +74,63 @@
     }
   ],
   "tour": {
-    "_note": "Cities from the fall 2026 national tour as reported in press. Dates, venues and sold-out status are filled in by staff in Airtable.",
+    "_note": "Pop-up stops. Newark is from Cloudy's Instagram flyer (Nov 2026). Other cities are from press about the fall tour; staff add dates in Airtable. date is YYYY-MM-DD.",
     "stops": [
-      { "city": "Delaware", "date": "", "venue": "", "status": "announced" },
-      { "city": "Detroit", "date": "", "venue": "", "status": "announced" },
-      { "city": "Chicago", "date": "", "venue": "", "status": "announced" },
-      { "city": "New Orleans", "date": "", "venue": "", "status": "announced" },
-      { "city": "Los Angeles", "date": "", "venue": "", "status": "announced" }
+      {
+        "city": "Newark, NJ",
+        "date": "2026-11-14",
+        "time": "12PM–6PM",
+        "address": "33 Washington St, Newark 07102",
+        "venue": "",
+        "status": "announced"
+      },
+      {
+        "city": "Delaware",
+        "date": "",
+        "time": "",
+        "address": "",
+        "venue": "",
+        "status": "announced"
+      },
+      {
+        "city": "Detroit",
+        "date": "",
+        "time": "",
+        "address": "",
+        "venue": "",
+        "status": "announced"
+      },
+      {
+        "city": "Chicago",
+        "date": "",
+        "time": "",
+        "address": "",
+        "venue": "",
+        "status": "announced"
+      },
+      {
+        "city": "New Orleans",
+        "date": "",
+        "time": "",
+        "address": "",
+        "venue": "",
+        "status": "announced"
+      },
+      {
+        "city": "Los Angeles",
+        "date": "",
+        "time": "",
+        "address": "",
+        "venue": "",
+        "status": "announced"
+      }
     ]
   },
   "links": {
     "order": "",
     "instagram": "https://www.instagram.com/cloudydonuts/",
     "facebook": "https://www.facebook.com/CloudyDonutCo",
-    "sevenstreams": "https://www.thesevenstreams.com"
+    "sevenstreams": "https://www.thesevenstreams.com",
+    "flyer_image": "d6231e_2ddfd7964b1f4e089573e576a08eb5e0~mv2.jpg"
   }
 }

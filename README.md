@@ -33,8 +33,11 @@ Set these in Cloudflare Pages > Settings > Variables, in Cloudy's own account: `
 ## Before you send it
 
 - Open it in a browser and confirm the photos load. They couldn't be checked from the build environment.
-- Match the palette to their logo. The current colors are a sky-and-glaze starting point, not pulled from their brand files.
+- Design direction: their real brand colors from cloudydonut.com (cream #FFFBED, mint #ABDBC6, sage #80A495, charcoal) and their Caudex serif, pushed toward the founders' Instagram energy: film grain, cinematic photography, 7Streams-style condensed headlines (Anton), and pop-ups styled like their "Cloudy Donut Presents" flyers.
+- The splash uses SVG fractal-noise filters to render real volumetric clouds, then reveals the logo and their tagline. It plays once per visit and is skipped for reduced-motion users.
+- Founder section is typographic on purpose. Ask Derrick and Zewiditu for portraits they'd like used before adding any photos of them.
+- The Newark pop-up (Sat Nov 14) comes from their Instagram flyer. After that date passes, the flyer falls back to "On Tour" until a new dated stop is added.
 - The weekly lineup is a sample of 8 real flavors pictured on their homepage. Swap in the current week from their Instagram if you can, since that's the strongest live proof.
 - Find the "Order ahead" link. Their FAQ mentions DoorDash, Grubhub and ordering direct, but the live provider isn't identifiable from the site. Put it in `links.order` in `site.json`. Until then the button shows a placeholder note.
-- Tour dates are blank on purpose. Press reported the fall stops (Delaware, Detroit, Chicago, New Orleans, Los Angeles) but no dates.
+- Tour dates for Delaware, Detroit, Chicago, New Orleans and Los Angeles are blank on purpose. Press reported the cities but no dates.
 - Their site has a few contradictions the new build fixes by having one source of truth. Catering notice is listed as both 14 and 7 days (this demo uses 14). The FAQ lists two NYC shops and a Federal Hill merch shop that the Locations page doesn't show. Raise these gently in the pitch as cleanup the build handles.

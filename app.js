@@ -26,19 +26,25 @@
   try { seen = sessionStorage.getItem("cd-intro") === "1"; } catch (e) {}
   if (seen || reduceMotion) intro.classList.add("done");
   else {
-    setTimeout(endIntro, 2900);
+    setTimeout(endIntro, 4300);
     $(".intro-skip").addEventListener("click", endIntro);
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") endIntro(); }, { once: true });
   }
+
+  /* ---------- Header ---------- */
+  const header = $(".site-header");
+  const onScroll = () => header.classList.toggle("solid", window.scrollY > 40);
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
   /* ---------- Nav ---------- */
   const toggle = $(".nav-toggle"), nav = $("#nav");
   toggle.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
+    document.body.style.overflow = open ? "hidden" : "";
     toggle.setAttribute("aria-expanded", String(open));
   });
   $$("#nav a").forEach((a) => a.addEventListener("click", () => {
-    nav.classList.remove("open"); toggle.setAttribute("aria-expanded", "false");
+    nav.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); document.body.style.overflow = "";
   }));
 
   /* ---------- Concept panel ---------- */
@@ -106,7 +112,7 @@
 
     // Lineup
     $("#lineup-grid").innerHTML = data.lineup.flavors.map((id) => byId[id]).filter(Boolean).map((f) => `
-      <li><button class="lineup-card reveal" type="button" data-id="${f.id}">
+      <li><button class="lineup-card" type="button" data-id="${f.id}">
         <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
         <h3>${esc(f.name)}</h3>
         <span class="tag">${f.contains ? esc(f.contains) : ""}</span>
@@ -183,7 +189,7 @@
           <div class="loc-actions">
             <a href="${map}" target="_blank" rel="noopener">Directions</a>
             <a href="tel:+1${l.phone.replace(/\D/g, "")}">Call</a>
-            ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="#tour">See pop-ups</a>`}
+            ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="#popups">See pop-ups</a>`}
           </div>
         </li>`;
       }).join("");
@@ -206,10 +212,36 @@
     });
 
     // Tour
-    $("#tour-list").innerHTML = data.tour.stops.map((t) => `
-      <li><div><div class="tour-city">${esc(t.city)}</div>
-      <div class="tour-when">${t.date ? esc(t.date) + (t.venue ? " · " + esc(t.venue) : "") : "Date and venue announced on Instagram"}</div></div>
-      <span class="tour-badge ${t.status === "sold_out" ? "sold" : ""}">${t.status === "sold_out" ? "Sold out" : t.date ? "On sale" : "Coming soon"}</span></li>`).join("");
+    // Marquee
+    const names = data.flavors.filter((f) => !f.tags.includes("pups")).map((f) => `<span>${esc(f.name)}</span>`).join("");
+    $("#marquee").innerHTML = names + names;
+
+    // Pop-ups: next dated stop becomes the flyer
+    const todayISO = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+    const stops = data.tour.stops.slice().sort((a, b) => (a.date || "9999") < (b.date || "9999") ? -1 : 1);
+    const upcoming = stops.filter((s) => s.date && s.date >= todayISO && s.status !== "sold_out");
+    const next = upcoming[0];
+    const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    const ord = (d) => { const s = ["th", "st", "nd", "rd"], v = d % 100; return d + (s[(v - 20) % 10] || s[v] || s[0]); };
+    const flyerDate = (iso) => { const d = new Date(iso + "T12:00:00"); return `${d.toLocaleDateString("en-US", { weekday: "long" })}, ${d.toLocaleDateString("en-US", { month: "long" })} ${ord(d.getDate())}`; };
+    if (data.links.flyer_image) $("#flyer").style.setProperty("--flyer-img", `url("${wix(data.links.flyer_image, 1400)}")`);
+    if (next) {
+      $("#popups-h").textContent = next.city.split(",")[0];
+      $("#flyer-bottom").innerHTML = `<span>${esc(next.address || next.venue || next.city)}</span><span class="r">${esc(next.time || "")}<br>${esc(flyerDate(next.date))}</span>`;
+      const days = Math.round((new Date(next.date + "T12:00:00") - new Date(todayISO + "T12:00:00")) / 864e5);
+      $("#flyer-count").textContent = days === 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`;
+      const hp = $("#hero-popup"); if (hp) hp.textContent = `Next pop-up: ${next.city.split(",")[0]}`;
+    } else {
+      $("#flyer-bottom").innerHTML = `<span>New cities announced on Instagram</span><span class="r">@cloudydonuts</span>`;
+    }
+    $("#tour-list").innerHTML = stops.map((s) => {
+      const isNext = next && s === next;
+      const past = s.date && s.date < todayISO;
+      if (past) return "";
+      const when = s.date ? [fmtDate(s.date), s.time, s.address].filter(Boolean).map(esc).join(" · ") : "Date and venue announced on Instagram";
+      const badge = s.status === "sold_out" ? ["sold", "Sold out"] : isNext ? ["next", "Next up"] : s.date ? ["", "Announced"] : ["", "Coming soon"];
+      return `<li><span class="tour-city">${esc(s.city)}</span><span class="tour-badge ${badge[0]}">${badge[1]}</span><span class="tour-when">${when}</span></li>`;
+    }).join("");
 
     hydrateImages();
     observeReveals();
@@ -263,7 +295,7 @@
 
   /* ---------- Reveal on scroll ---------- */
   function observeReveals() {
-    const els = $$(".section-head, .lineup-card, .ship-card, .cat-grid > *, .story-grid > *, .faq details");
+    const els = $$(".head-row, .lineup-grid li, .founder, .firsts li, .press-list li, .loc-card, .exp-grid > *, .ship-card > *, .faq details, .display-xl");
     if (reduceMotion || !("IntersectionObserver" in window)) return;
     els.forEach((el) => el.classList.add("reveal"));
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
