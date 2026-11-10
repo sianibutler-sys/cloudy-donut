@@ -921,3 +921,26 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .concept-panel .cmp-all summary { cursor: pointer; font: 800 .8rem var(--sans); padding: 6px 0; }
 .concept-panel .cmp-rule { border: 0; border-top: 1px solid rgba(36,35,35,.15); margin: 6px 0 16px; }
 .concept-panel h2 + .cmp { margin-top: -4px; }
+
+/* Compare toggle */
+.concept-pill { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; }
+.concept-pill .pill-sub { font: 600 .62rem var(--sans); letter-spacing: .04em; text-transform: none; opacity: .8; }
+.concept-panel .cmp-help { font-size: .88rem; color: #4a4741; margin: -6px 0 12px; }
+.cmp-toggle { position: sticky; top: -26px; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; margin: 0 0 14px; background: var(--ink); border-radius: 999px; }
+.cmp-toggle button { border: 0; border-radius: 999px; padding: .7em .4em; background: transparent; color: var(--cream); font: 800 .7rem var(--sans); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.cmp-toggle button[aria-pressed="true"] { background: var(--cream); color: var(--ink); }
+.cmp-toggle button:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+.cmp-toggle button[data-cmp="demo"][aria-pressed="true"] { background: var(--mint); }
+.cmp-view { border-radius: 16px; padding: 14px 16px 6px; margin-bottom: 12px; }
+.cmp-view.cmp-live { background: rgba(36,35,35,.06); }
+.cmp-view.cmp-demo { background: rgba(171,219,198,.38); }
+.cmp-view[data-view="build"] { padding: 4px 0 0; }
+.cmp-view h3, .concept-panel .build-h { font: 800 .72rem var(--sans); letter-spacing: .12em; text-transform: uppercase; margin: 4px 0 6px; }
+.cmp-view ul { margin: 0 0 12px; padding-left: 1.1em; }
+.cmp-view li { font-size: .88rem; color: #4a4741; margin-bottom: 5px; }
+.cmp-live li::marker { content: "✕  "; color: #8a3b2e; font-size: .75em; }
+.cmp-demo li::marker { content: "✓  "; color: var(--mint-ink); font-weight: 800; }
+.cmp-next { font-size: .82rem; font-style: italic; color: #4a4741; margin: 0 0 10px; }
+.cmp-cta { margin: 6px 0 4px; padding: 12px 14px; border-radius: 14px; background: var(--ink); color: var(--cream); font-size: .88rem; }
+.concept-panel .fine { color: #5d5a52; }
+.cmp-toggle button { white-space: nowrap; letter-spacing: .05em; font-size: .66rem; padding: .8em .3em; }

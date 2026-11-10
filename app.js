@@ -59,6 +59,11 @@
   const setPanel = (open) => { panel.hidden = !open; pill.setAttribute("aria-expanded", String(open)); };
   pill.addEventListener("click", () => setPanel(panel.hidden));
   $(".concept-close").addEventListener("click", () => setPanel(false));
+  $$(".cmp-toggle button").forEach((b) => b.addEventListener("click", () => {
+    $$(".cmp-toggle button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    $$(".cmp-view").forEach((v) => { v.hidden = v.dataset.view !== b.dataset.cmp; });
+    panel.scrollTop = 0;
+  }));
 
   /* ---------- Time helpers (New York) ---------- */
   const nyNow = () => {
@@ -303,7 +308,7 @@
         <p class="loc-status"></p>
         <address>${esc(l.address)}</address>
         <p class="fine" style="margin:0">${esc(l.hours_label)}</p>
-        <p class="loc-note">${esc(l.note || "")}</p>
+        ${l.note ? `<p class="loc-note">${esc(l.note)}</p>` : ""}
         <div class="loc-actions">
           <a href="tel:+1${l.phone.replace(/\D/g, "")}">Call</a>
           ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="pop-ups.html">See pop-ups</a>`}

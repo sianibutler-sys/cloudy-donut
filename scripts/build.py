@@ -112,12 +112,11 @@ FOOTER = f"""
   </div>
 </footer>
 
-<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates</button>
+<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates<span class="pill-sub">See current vs demo</span></button>
 <aside class="concept-panel" id="concept" hidden aria-label="About this concept">
   <button class="concept-close" type="button" aria-label="Close">×</button>
   __COMPARE__
-  <p class="kicker dark">What this build does</p>
-  <h2>Yours to run, yours to keep</h2>
+  <h3 class="build-h">Yours to run, yours to keep</h3>
   <ol>
     <li><h3>The lineup updates itself</h3><p>Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows.</p></li>
     <li><h3>Every pop-up gets a flyer</h3><p>Add a city and date, and the site builds the "Cloudy Donut Presents" flyer with a live countdown.</p></li>
@@ -127,6 +126,8 @@ FOOTER = f"""
     <li><h3>Owned by Cloudy</h3><p>Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription.</p></li>
   </ol>
   <p class="fine">Forms in this concept are not connected. Nothing you type is saved.</p>
+  </div>
+  <p class="cmp-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
 </aside>
 
 <dialog class="search-dialog" id="search-dialog" aria-label="Search Cloudy Donut">
@@ -337,7 +338,7 @@ FAQ = """
         <details><summary>Do you all ship?</summary><p>Due to the short shelf life of our vegan donuts, we do not ship them. Pound cakes are coming next year, and the <a href="experiences.html#ship">waitlist</a> hears first.</p></details>
         <details><summary>Do you all wholesale the donuts?</summary><p>We do not wholesale our donuts at this time, but call <a href="tel:+13474639628">347.463.9628</a> to learn how we can help with your program or event.</p></details>
         <details><summary>Do you sell gift cards?</summary><p>Gift cards are available in store at our Brooklyn Heights location.</p></details>
-        <details><summary>Do you all sell merchandise?</summary><p>We have merchandise available for purchase at our Federal Hill shop, 1049 S. Charles St.</p></details>
+        <details><summary>Do you all sell merchandise?</summary><p>Call <a href="tel:+13474639628">347.463.9628</a> or DM <a href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">@cloudydonuts</a> to ask what merch is in stock.</p></details>
         <details><summary>How can I apply for a job?</summary><p>Email us at <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>. We are always open to new talent with an interest in baking.</p></details>
         <details><summary>Something for the dog?</summary><p>Yes. Lil Bow Wow and the Snoop Doggy Donut are <a href="flavors.html?filter=pups">made for pups</a>.</p></details>
       </div>
@@ -592,48 +593,57 @@ LOCS = f"""
 
 COMPARE_PAGES = {
     "index.html": ("Home",
-        ["Log In and a cart sit in the header. Nothing is sold online, so the cart stays at zero.",
-         "Nav text on mint measures about 3.85:1, under the 4.5:1 that WCAG AA asks for."],
-        ["This week's lineup arrives in a sealed box. Tap the seal to open it.",
-         "Each shop shows open or closed on New York time.",
-         "The next tour stop sits on the home page with a countdown.",
-         "Search with a quick menu for hours, flavors and pop-ups."]),
+        ["This week's lineup sits behind a button, inside a pop-up.",
+         "Lineup photos are described to screen readers by file name, like \"raspberry lemonade.png\".",
+         "The page's main heading reads \"100% Vegan\"."],
+        ["This week's lineup opens on the page, in a sealed box. Tap the seal.",
+         "Every donut photo is named for the donut.",
+         "Each shop shows open or closed on New York time, plus the next tour stop with a countdown."]),
     "flavors.html": ("Flavors",
-        ["The page has no H1, so a screen reader lands with no page title.",
-         "Photo alt text reads as file names."],
+        ["Every flavor sits in one long scroll.",
+         "Nut warnings live inside the descriptions, with no way to filter."],
         ["All 44 flavors, filterable by nut-free, boozy and made for pups.",
          "Tap any donut for its deli-paper card with allergens.",
          "Find your flavor: four questions, this week's box or every flavor."]),
     "pop-ups.html": ("Pop-ups",
-        ["The ordering page reads \"No items to show yet.\""],
-        ["The flyer builds itself from the tour list. Next stop: Newark, Nov 14.",
+        ["There's no tour page. Stops are announced on Instagram.",
+         "The pop-up ordering page reads \"No items to show yet.\""],
+        ["A tour page with a flyer built from the tour list. Next stop: Newark, Nov 14.",
          "\"Bring Cloudy to my city\" signups show where demand is."]),
     "our-story.html": ("Our story",
-        ["Six leftover Wix template posts, on fintech startups and earbuds, are indexed by Google under the Cloudy name."],
-        ["The story copy, word for word.",
-         "Press lists Cloudy coverage only, with working links."]),
+        ["\"Our Story\" in the menu links back to the home page."],
+        ["Its own page, with the story copy word for word.",
+         "Firsts and press coverage, each press item linked to the source."]),
     "experiences.html": ("Experiences",
         ["Catering notice reads 14 days in one place and 7 in another."],
         ["One number, 14 days, in the event form.",
          "Event requests and the cake waitlist land in one Airtable base."]),
     "locations.html": ("Locations",
-        ["The page has no H1.",
-         "Phone numbers are plain text. A tap on a phone does nothing.",
-         "The FAQ names a Federal Hill merch shop the page doesn't list."],
+        ["Hours are listed with no open or closed status, no map and no directions link.",
+         "The FAQ sends merch shoppers to a Federal Hill shop this page doesn't list."],
         ["Maps with donut pins, plus Google Maps, Apple Maps and Waze links.",
          "Open now, by shop, and tap to call.",
-         "All 14 FAQ answers from the current site, plus one for dogs."]),
+         "Only the three shops on the current site, and all 14 FAQ answers."]),
 }
 
+# Each pair lines up: the live issue, then the demo fix, in the same order.
 EVERY_PAGE = [
-    "Text contrast meets WCAG AA. Mint text on cream measures about 1.5:1 on the current site.",
-    "Photos carry real descriptions, or stay silent when the donut's name sits beside them.",
-    "One H1 per page and no skipped heading levels.",
-    "A skip-to-content link for keyboard users.",
-    "Links that open a new tab say so to screen readers.",
-    "Phone numbers call on tap. Email sits in the footer of every page.",
-    "Search has a label. No empty header links.",
-    "axe-core scan: 0 WCAG 2.1 AA issues across all six pages.",
+    ("Mint text on cream measures about 1.5:1. WCAG AA asks for 4.5:1.",
+     "Text contrast meets WCAG AA on every page."),
+    ("Photos are described to screen readers by file name.",
+     "Photos carry real descriptions, or stay silent when the donut's name sits beside them."),
+    ("Flavors and Locations have no H1. Contact and FAQ jump from H1 to H3.",
+     "One H1 per page, no skipped heading levels."),
+    ("Instagram and Facebook open new tabs without saying so.",
+     "Links that open a new tab tell screen readers first."),
+    ("No phone number on the site can be tapped to call.",
+     "Every phone number calls on tap."),
+    ("The email address appears only on Contact.",
+     "Email sits in the footer of every page."),
+    ("Log In and a cart sit in every header. Nothing is sold online.",
+     "No login or cart until there's something to sell."),
+    ("Six leftover Wix template posts, on fintech and earbuds, are indexed by Google under the Cloudy name.",
+     "Only Cloudy pages exist to be indexed."),
 ]
 
 def compare_block(fname):
@@ -641,12 +651,23 @@ def compare_block(fname):
     li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
     return f"""<p class="kicker dark">Behind the scenes</p>
   <h2>Current site vs this demo</h2>
-  <div class="cmp">
-    <div class="cmp-col"><h3>{name} on cloudydonut.com</h3><ul>{li(live)}</ul></div>
-    <div class="cmp-col cmp-demo"><h3>{name} in this demo</h3><ul>{li(demo)}</ul></div>
+  <p class="cmp-help">Flip the switch to see this page both ways.</p>
+  <div class="cmp-toggle" role="group" aria-label="Compare">
+    <button type="button" data-cmp="live" aria-pressed="true">Current site</button>
+    <button type="button" data-cmp="demo" aria-pressed="false">This demo</button>
+    <button type="button" data-cmp="build" aria-pressed="false">The build</button>
   </div>
-  <details class="cmp-all"><summary>Fixed on every page</summary><ul>{li(EVERY_PAGE)}</ul></details>
-  <hr class="cmp-rule">"""
+  <div class="cmp-view cmp-live" data-view="live">
+    <h3>{name} on cloudydonut.com</h3><ul>{li(live)}</ul>
+    <h3>Across the site</h3><ul>{li(a for a, b in EVERY_PAGE)}</ul>
+    <p class="cmp-next">Flip to "This demo" to see each one fixed.</p>
+  </div>
+  <div class="cmp-view cmp-demo" data-view="demo" hidden>
+    <h3>{name} in this demo</h3><ul>{li(demo)}</ul>
+    <h3>Across the site</h3><ul>{li(b for a, b in EVERY_PAGE)}</ul>
+    <p class="cmp-next">Automated accessibility scan (axe-core, WCAG 2.1 AA): 0 issues on all six pages.</p>
+  </div>
+  <div class="cmp-view" data-view="build" hidden>"""
 
 PAGES = {
     "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch, hand crafted.", HOME, True),

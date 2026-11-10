@@ -88,19 +88,29 @@
   </div>
 </footer>
 
-<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates</button>
+<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates<span class="pill-sub">See current vs demo</span></button>
 <aside class="concept-panel" id="concept" hidden aria-label="About this concept">
   <button class="concept-close" type="button" aria-label="Close">×</button>
   <p class="kicker dark">Behind the scenes</p>
   <h2>Current site vs this demo</h2>
-  <div class="cmp">
-    <div class="cmp-col"><h3>Pop-ups on cloudydonut.com</h3><ul><li>The ordering page reads "No items to show yet."</li></ul></div>
-    <div class="cmp-col cmp-demo"><h3>Pop-ups in this demo</h3><ul><li>The flyer builds itself from the tour list. Next stop: Newark, Nov 14.</li><li>"Bring Cloudy to my city" signups show where demand is.</li></ul></div>
+  <p class="cmp-help">Flip the switch to see this page both ways.</p>
+  <div class="cmp-toggle" role="group" aria-label="Compare">
+    <button type="button" data-cmp="live" aria-pressed="true">Current site</button>
+    <button type="button" data-cmp="demo" aria-pressed="false">This demo</button>
+    <button type="button" data-cmp="build" aria-pressed="false">The build</button>
   </div>
-  <details class="cmp-all"><summary>Fixed on every page</summary><ul><li>Text contrast meets WCAG AA. Mint text on cream measures about 1.5:1 on the current site.</li><li>Photos carry real descriptions, or stay silent when the donut's name sits beside them.</li><li>One H1 per page and no skipped heading levels.</li><li>A skip-to-content link for keyboard users.</li><li>Links that open a new tab say so to screen readers.</li><li>Phone numbers call on tap. Email sits in the footer of every page.</li><li>Search has a label. No empty header links.</li><li>axe-core scan: 0 WCAG 2.1 AA issues across all six pages.</li></ul></details>
-  <hr class="cmp-rule">
-  <p class="kicker dark">What this build does</p>
-  <h2>Yours to run, yours to keep</h2>
+  <div class="cmp-view cmp-live" data-view="live">
+    <h3>Pop-ups on cloudydonut.com</h3><ul><li>There's no tour page. Stops are announced on Instagram.</li><li>The pop-up ordering page reads "No items to show yet."</li></ul>
+    <h3>Across the site</h3><ul><li>Mint text on cream measures about 1.5:1. WCAG AA asks for 4.5:1.</li><li>Photos are described to screen readers by file name.</li><li>Flavors and Locations have no H1. Contact and FAQ jump from H1 to H3.</li><li>Instagram and Facebook open new tabs without saying so.</li><li>No phone number on the site can be tapped to call.</li><li>The email address appears only on Contact.</li><li>Log In and a cart sit in every header. Nothing is sold online.</li><li>Six leftover Wix template posts, on fintech and earbuds, are indexed by Google under the Cloudy name.</li></ul>
+    <p class="cmp-next">Flip to "This demo" to see each one fixed.</p>
+  </div>
+  <div class="cmp-view cmp-demo" data-view="demo" hidden>
+    <h3>Pop-ups in this demo</h3><ul><li>A tour page with a flyer built from the tour list. Next stop: Newark, Nov 14.</li><li>"Bring Cloudy to my city" signups show where demand is.</li></ul>
+    <h3>Across the site</h3><ul><li>Text contrast meets WCAG AA on every page.</li><li>Photos carry real descriptions, or stay silent when the donut's name sits beside them.</li><li>One H1 per page, no skipped heading levels.</li><li>Links that open a new tab tell screen readers first.</li><li>Every phone number calls on tap.</li><li>Email sits in the footer of every page.</li><li>No login or cart until there's something to sell.</li><li>Only Cloudy pages exist to be indexed.</li></ul>
+    <p class="cmp-next">Automated accessibility scan (axe-core, WCAG 2.1 AA): 0 issues on all six pages.</p>
+  </div>
+  <div class="cmp-view" data-view="build" hidden>
+  <h3 class="build-h">Yours to run, yours to keep</h3>
   <ol>
     <li><h3>The lineup updates itself</h3><p>Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows.</p></li>
     <li><h3>Every pop-up gets a flyer</h3><p>Add a city and date, and the site builds the "Cloudy Donut Presents" flyer with a live countdown.</p></li>
@@ -110,6 +120,8 @@
     <li><h3>Owned by Cloudy</h3><p>Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription.</p></li>
   </ol>
   <p class="fine">Forms in this concept are not connected. Nothing you type is saved.</p>
+  </div>
+  <p class="cmp-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
 </aside>
 
 <dialog class="search-dialog" id="search-dialog" aria-label="Search Cloudy Donut">
