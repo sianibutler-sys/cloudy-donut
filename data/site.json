@@ -1,0 +1,57 @@
+{
+  "_note": "Everything staff would change week to week. In production these are Airtable tables (Lineup, Locations, Tour) read by /functions/api/content.js. This file is the fallback and the demo's seed data.",
+  "lineup": {
+    "_note": "SAMPLE lineup for the demo, chosen from flavors pictured on cloudydonut.com. Staff set the real one each week.",
+    "week_of": "",
+    "flavors": ["strawberry-lemonade", "cookie-monster", "cherry-pie", "maple-butter-pecan", "blackberry-mint-mojito", "powdered-jelly", "mint-chocolate-chip", "sugarberry"],
+    "also": "Plus cinnamon rolls and pound cakes"
+  },
+  "locations": [
+    {
+      "id": "brooklyn",
+      "name": "Brooklyn Heights",
+      "city": "Brooklyn, NY",
+      "address": "14 Columbia Pl., Brooklyn, NY 11201",
+      "phone": "347.463.9628",
+      "hours": { "5": ["09:00", "16:00"], "6": ["09:00", "16:00"], "0": ["09:00", "16:00"] },
+      "hours_label": "Fri, Sat, Sun 9am–4pm",
+      "note": "Gift cards available in store"
+    },
+    {
+      "id": "nolita",
+      "name": "NoLita",
+      "city": "New York, NY",
+      "address": "209 Mott Street, New York, NY 10012",
+      "phone": "347.463.9628",
+      "hours": { "5": ["11:00", "18:00"], "6": ["11:00", "18:00"], "0": ["11:00", "18:00"] },
+      "hours_label": "Fri, Sat, Sun 11am–6pm",
+      "note": "Our largest lineup, with 50+ flavors in rotation"
+    },
+    {
+      "id": "lauraville",
+      "name": "Lauraville",
+      "city": "Baltimore, MD",
+      "address": "4311 Harford Rd, Baltimore, MD 21214",
+      "phone": "347.463.9628",
+      "hours": {},
+      "hours_label": "Pop-ups only",
+      "note": "Where it started. Watch the pop-up schedule."
+    }
+  ],
+  "tour": {
+    "_note": "Cities from the fall 2026 national tour as reported in press. Dates, venues and sold-out status are filled in by staff in Airtable.",
+    "stops": [
+      { "city": "Delaware", "date": "", "venue": "", "status": "announced" },
+      { "city": "Detroit", "date": "", "venue": "", "status": "announced" },
+      { "city": "Chicago", "date": "", "venue": "", "status": "announced" },
+      { "city": "New Orleans", "date": "", "venue": "", "status": "announced" },
+      { "city": "Los Angeles", "date": "", "venue": "", "status": "announced" }
+    ]
+  },
+  "links": {
+    "order": "",
+    "instagram": "https://www.instagram.com/cloudydonuts/",
+    "facebook": "https://www.facebook.com/CloudyDonutCo",
+    "sevenstreams": "https://www.thesevenstreams.com"
+  }
+}

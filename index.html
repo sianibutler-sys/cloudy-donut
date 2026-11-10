@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Cloudy Donut Co. | Concept by Siani Creates</title>
+  <meta name="description" content="Concept site for Cloudy Donut Co., 100% vegan small-batch donuts in Brooklyn Heights, NoLita and Baltimore. Prepared by Siani Creates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..800,100&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Intro: clouds part to reveal the wordmark -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-sky">
+    <span class="puff p1"></span><span class="puff p2"></span><span class="puff p3"></span>
+    <span class="puff p4"></span><span class="puff p5"></span><span class="puff p6"></span>
+  </div>
+  <div class="intro-mark">
+    <img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="360" alt="">
+    <p class="intro-word">Cloudy Donut Co.</p>
+  </div>
+  <button class="intro-skip" type="button">Skip</button>
+</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top" aria-label="Cloudy Donut Co. home">
+    <img class="wix brand-logo" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="160" alt="Cloudy Donut Co. logo">
+    <span class="brand-word">Cloudy Donut Co.</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav id="nav" class="nav" aria-label="Main">
+    <a href="#lineup">This week</a>
+    <a href="#flavors">Flavors</a>
+    <a href="#locations">Locations</a>
+    <a href="#tour">Pop-ups</a>
+    <a href="#catering">Catering</a>
+    <a href="#story">Our story</a>
+    <a class="btn btn-small order-link" href="#locations">Order ahead</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">100% vegan · small batch · made from scratch</p>
+      <h1>Light As A Cloud.<br>Baked In Small Batches.<br>Gone By Sunday.</h1>
+      <p class="lede">Pillowy soft donuts, cinnamon rolls and pound cakes from Brooklyn Heights, NoLita and Baltimore. Six to eight flavors a week, chosen from more than forty.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#lineup">See this week's lineup</a>
+        <a class="btn btn-ghost" href="#locations">Find a shop</a>
+      </div>
+      <p class="open-now" id="hero-status" aria-live="polite"></p>
+    </div>
+    <div class="hero-art">
+      <div class="hero-cloud" aria-hidden="true"></div>
+      <img class="wix hero-photo" data-wix="d6231e_10e5d550abfb440db5e68d3c37b4679d~mv2.jpg" data-w="900" alt="A box of Cloudy Donut Co. donuts">
+      <img class="wix float f1" data-wix="d6231e_acbf1bb5e0f7468cbe6ecee1d8356f36~mv2.png" data-w="320" alt="">
+      <img class="wix float f2" data-wix="d6231e_48a7f829a25342a3b7de68e11918e842~mv2.png" data-w="320" alt="">
+      <img class="wix float f3" data-wix="d6231e_39a567b0401142f38f3bb70722d23bd7~mv2.png" data-w="320" alt="">
+    </div>
+  </section>
+
+  <!-- This week -->
+  <section class="section lineup" id="lineup" aria-labelledby="lineup-h">
+    <div class="section-head">
+      <p class="eyebrow">Fri · Sat · Sun</p>
+      <h2 id="lineup-h">This week's lineup</h2>
+      <p class="section-sub" id="lineup-sub">Small batches. When a flavor sells out, it's gone until it rotates back.</p>
+    </div>
+    <ul class="lineup-grid" id="lineup-grid" role="list"></ul>
+    <p class="lineup-also" id="lineup-also"></p>
+    <div class="price-strip" id="price-strip" aria-label="Prices"></div>
+
+    <form class="inline-signup" data-form="newsletter" novalidate>
+      <label for="nl-email">Get the lineup in your inbox every week</label>
+      <div class="inline-row">
+        <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+        <button class="btn" type="submit">Subscribe</button>
+      </div>
+      <p class="form-msg" role="status"></p>
+    </form>
+  </section>
+
+  <!-- Flavor library -->
+  <section class="section flavors" id="flavors" aria-labelledby="flavors-h">
+    <div class="section-head">
+      <p class="eyebrow">The full rotation</p>
+      <h2 id="flavors-h">Every flavor we make</h2>
+      <p class="section-sub">Each week we pull six to eight from this list. Tap a donut for the details.</p>
+    </div>
+    <div class="flavor-tools">
+      <div class="chips" role="group" aria-label="Filter flavors" id="chips"></div>
+      <label class="search">
+        <span class="visually-hidden">Search flavors</span>
+        <input type="search" id="flavor-search" placeholder="Search flavors">
+      </label>
+    </div>
+    <p class="flavor-count" id="flavor-count" aria-live="polite"></p>
+    <ul class="flavor-grid" id="flavor-grid" role="list"></ul>
+    <p class="fine">Every donut is 100% vegan. They are not gluten free. Allergens are listed on each flavor.</p>
+  </section>
+
+  <!-- Locations -->
+  <section class="section locations" id="locations" aria-labelledby="loc-h">
+    <div class="section-head">
+      <p class="eyebrow">Come early</p>
+      <h2 id="loc-h">Where to find us</h2>
+      <p class="section-sub">Weekends sell out fast. Order ahead for pickup and skip the line.</p>
+    </div>
+    <ul class="loc-grid" id="loc-grid" role="list"></ul>
+  </section>
+
+  <!-- Pop-up tour -->
+  <section class="section tour" id="tour" aria-labelledby="tour-h">
+    <div class="tour-inner">
+      <div class="section-head">
+        <p class="eyebrow">On the road</p>
+        <h2 id="tour-h">The pop-up tour</h2>
+        <p class="section-sub">Dates drop on Instagram first. Pop-ups sell out, so get there early.</p>
+      </div>
+      <ol class="tour-list" id="tour-list"></ol>
+      <form class="inline-signup on-dark" data-form="tour_alert" novalidate>
+        <label for="tour-email">Tell me when Cloudy comes to my city</label>
+        <div class="inline-row">
+          <input id="tour-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+          <input name="city" type="text" autocomplete="address-level2" placeholder="Your city" aria-label="Your city" required>
+          <button class="btn btn-light" type="submit">Notify me</button>
+        </div>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Cake shipping waitlist -->
+  <section class="section ship" id="ship" aria-labelledby="ship-h">
+    <div class="ship-card">
+      <div>
+        <p class="eyebrow">Coming next year</p>
+        <h2 id="ship-h">Pound cakes, shipped to your door</h2>
+        <p>Our donuts are best within hours, so they stay in the shop. Our pound cakes keep for days, and they're the first thing we'll ship. Join the list and you'll hear first.</p>
+      </div>
+      <form class="stack-form" data-form="ship_waitlist" novalidate>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+        <button class="btn" type="submit">Join the waitlist</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Catering -->
+  <section class="section catering" id="catering" aria-labelledby="cat-h">
+    <div class="cat-grid">
+      <div class="cat-copy">
+        <p class="eyebrow">Catering &amp; events</p>
+        <h2 id="cat-h">Cloudy Donut Minis</h2>
+        <p>A two-to-four-bite vegan donut, passed on trays or set up as a display. You pick the flavors. We reply with menu options after we review your request.</p>
+        <p class="note">Please give us at least 14 days' notice before your event.</p>
+        <img class="wix cat-photo" data-wix="d6231e_de85e764a62b4080bf6cb8aab7b5ee25~mv2.png" data-w="600" alt="Raspberry Rosé donuts">
+      </div>
+      <form class="cat-form" data-form="catering" novalidate>
+        <div class="row2">
+          <label>First name<input name="first_name" autocomplete="given-name" required></label>
+          <label>Last name<input name="last_name" autocomplete="family-name" required></label>
+        </div>
+        <div class="row2">
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+        </div>
+        <div class="row2">
+          <label>Date of event<input name="event_date" type="date" required id="event-date"></label>
+          <label>Time of event<input name="event_time" type="time"></label>
+        </div>
+        <fieldset class="seg">
+          <legend>Pick up or delivery?</legend>
+          <label><input type="radio" name="fulfillment" value="Pick up" checked> Pick up</label>
+          <label><input type="radio" name="fulfillment" value="Delivery"> Delivery</label>
+        </fieldset>
+        <label class="addr">Event address<input name="address" autocomplete="street-address" placeholder="Street, city, state, zip"></label>
+        <label>Setup
+          <select name="package" required>
+            <option value="">Choose one</option>
+            <option>Minis, passed</option>
+            <option>Minis, display</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label>Dietary restrictions<input name="dietary" placeholder="Nut allergies, etc."></label>
+        <label>Anything else<textarea name="notes" rows="3" placeholder="Guest count, flavors you love, the occasion"></textarea></label>
+        <button class="btn" type="submit">Send request</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="section story" id="story" aria-labelledby="story-h">
+    <div class="story-grid">
+      <div class="story-photos">
+        <img class="wix" data-wix="d6231e_c89404741c31438ebe480745bb432652~mv2.jpg" data-w="700" alt="Inside a Cloudy Donut Co. shop">
+        <img class="wix" data-wix="d6231e_2798173fb08a42d5bb2fd8f6fce66871~mv2.png" data-w="500" alt="Cloudy Donut Co. donuts">
+      </div>
+      <div class="story-copy">
+        <p class="eyebrow">Our story</p>
+        <h2 id="story-h">Built in Baltimore. Owned by us.</h2>
+        <p>Derrick Faulcon founded Cloudy Donut in Baltimore in 2019 and opened the first shop in 2020. He named it for the way the donuts eat: light and airy, like biting into a cloud.</p>
+        <p>Every donut is made from scratch, in house, in small batches. Applesauce, coconut milk and shortening stand in for eggs and dairy, so the whole menu is 100% vegan.</p>
+        <p>Derrick and his partner in life and business, Zewiditu Jewel, took Cloudy to New York and made history twice: the first Black-owned food and beverage business in Brooklyn Heights, then again in Nolita.</p>
+        <p>Cloudy Donut is one stream of <a href="https://www.thesevenstreams.com" target="_blank" rel="noopener">7Streams</a>, Derrick's brand.</p>
+        <p class="sig">Made From Scratch. Owned By Us. Shared With You.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq" aria-labelledby="faq-h">
+    <div class="section-head">
+      <h2 id="faq-h">Good to know</h2>
+    </div>
+    <div class="faq-list">
+      <details><summary>Are your donuts gluten free?</summary><p>Our donuts are 100% vegan, but they are not gluten free.</p></details>
+      <details><summary>Which donuts have nuts?</summary><p>Every flavor that contains nuts is marked in the flavor list above.</p></details>
+      <details><summary>What do you use in place of eggs and dairy?</summary><p>Applesauce, coconut milk and shortening. All donuts are fried in liquid vegetable shortening.</p></details>
+      <details><summary>How long do the donuts keep?</summary><p>There are no preservatives, so we recommend eating donuts within 13 hours at room temperature. Cinnamon rolls and pound cakes keep for 2–3 days.</p></details>
+      <details><summary>Do you ship?</summary><p>Not donuts. They're too delicate to travel. Pound cakes are coming next year, and the <a href="#ship">waitlist</a> hears first.</p></details>
+      <details><summary>Do you make custom donuts?</summary><p>We offer holiday and occasion packages, but not custom donuts at this time.</p></details>
+      <details><summary>Do you sell gift cards?</summary><p>Gift cards are available in store at our Brooklyn Heights shop.</p></details>
+      <details><summary>Something for the dog?</summary><p>Yes. Lil Bow Wow and the Snoop Doggy Donut are made for pups.</p></details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div>
+      <p class="brand-word">Cloudy Donut Co.</p>
+      <p>100% vegan. Brooklyn Heights · NoLita · Baltimore</p>
+      <p><a href="tel:+13474639628">347.463.9628</a></p>
+    </div>
+    <div class="foot-links">
+      <a href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/CloudyDonutCo" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.thesevenstreams.com" target="_blank" rel="noopener">7Streams</a>
+    </div>
+  </div>
+  <p class="concept-line">Concept site prepared by Siani Creates for Cloudy Donut Co. Not the official website. Content and photos belong to Cloudy Donut Co.</p>
+</footer>
+
+<!-- Concept notes for the pitch -->
+<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates</button>
+<aside class="concept-panel" id="concept" hidden aria-label="About this concept">
+  <button class="concept-close" type="button" aria-label="Close">×</button>
+  <p class="eyebrow">What this build does</p>
+  <h2>Yours to run, yours to keep</h2>
+  <ol>
+    <li><h3>The lineup updates itself</h3><p>Staff change this week's flavors, shop hours and pop-up dates in one Airtable base. The site reads it live, so nobody opens a site editor.</p></li>
+    <li><h3>Open now, at a glance</h3><p>Each shop shows whether it's open right now, in New York time.</p></li>
+    <li><h3>A home for the tour</h3><p>Every stop, date and sold-out flag in one place, plus a "come to my city" list that shows where demand is.</p></li>
+    <li><h3>Cake shipping, ready before launch</h3><p>A waitlist that builds now, so the first day of shipping already has buyers.</p></li>
+    <li><h3>Every form lands in one place</h3><p>Catering, newsletter, tour alerts and the waitlist go to Airtable and to email.</p></li>
+    <li><h3>Owned by Cloudy</h3><p>Custom code in your own GitHub and Cloudflare accounts. No platform subscription.</p></li>
+  </ol>
+  <p class="fine">Forms in this concept are not connected. Nothing you type is saved.</p>
+</aside>
+
+<!-- Flavor detail -->
+<dialog class="flavor-dialog" id="flavor-dialog" aria-labelledby="fd-name">
+  <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+  <img id="fd-img" alt="">
+  <div class="fd-body">
+    <p class="fd-badge" id="fd-badge" hidden>On this week's lineup</p>
+    <h3 id="fd-name"></h3>
+    <p id="fd-desc"></p>
+    <p class="fd-contains" id="fd-contains"></p>
+  </div>
+</dialog>
+
+<script src="data/fallback.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
