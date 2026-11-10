@@ -54,19 +54,60 @@
     nav.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); document.body.style.overflow = "";
   }));
 
-  /* ---------- Concept panel ---------- */
-  const pill = $(".concept-pill"), panel = $("#concept");
-  const setPanel = (open) => { panel.hidden = !open; pill.setAttribute("aria-expanded", String(open)); };
-  pill.addEventListener("click", () => setPanel(panel.hidden));
-  $(".concept-close").addEventListener("click", () => setPanel(false));
-  $$(".cmp-toggle button").forEach((b) => b.addEventListener("click", () => {
-    $$(".cmp-toggle button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    $$(".cmp-view").forEach((v) => { v.hidden = v.dataset.view !== b.dataset.cmp; });
-    panel.scrollTop = 0;
-  }));
+  /* ---------- Demo badge: clock switch + behind the scenes ---------- */
+  const MODES = [
+    { id: "live", label: "Right now", short: "Now", note: "Showing the real time in New York." },
+    { id: "sat", label: "Saturday 10am", short: "Sat 10am", note: "Saturday, 10am in New York: Brooklyn Heights is open, NoLita opens at 11.", day: 6, mins: 600 },
+    { id: "tue", label: "Tuesday", short: "Tue", note: "Tuesday in New York: both shops show when they open next.", day: 2, mins: 720 },
+  ];
+  let modeIx = 0;
+  try { modeIx = Math.max(0, MODES.findIndex((m) => m.id === sessionStorage.getItem("cd-mode"))); } catch (e) {}
+  const modeBtn = $("#mode-btn"), bts = $("#bts"), btsBtn = $("#bts-btn");
+  const paintMode = () => {
+    const m = MODES[modeIx];
+    modeBtn.innerHTML = `<span class="b-lg">${m.label} view · switch</span><span class="b-sm">${m.short} ⇄</span>`;
+    modeBtn.setAttribute("aria-label", `${m.label} view. Switch the clock`);
+  };
+  paintMode();
+  modeBtn.addEventListener("click", () => {
+    modeIx = (modeIx + 1) % MODES.length;
+    try { sessionStorage.setItem("cd-mode", MODES[modeIx].id); } catch (e) {}
+    paintMode();
+    if (window.__cdRefresh) window.__cdRefresh();
+    const t = $("#mode-toast"); t.textContent = MODES[modeIx].note; t.classList.add("on");
+    $("#mode-live").textContent = MODES[modeIx].note;
+    clearTimeout(paintMode.t); paintMode.t = setTimeout(() => t.classList.remove("on"), 3200);
+  });
+  const snap = () => {
+    const h1 = $("main h1");
+    const c = $('[data-snap="h1"]'); if (c && h1) c.textContent = `"${h1.innerHTML.replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()}"`;
+    const t = $('[data-snap="tel"]'); if (t) t.textContent = `Every one (${$$('a[href^="tel:"]').length} on this page)`;
+  };
+  const btsOpen = (o) => {
+    bts.hidden = !o; btsBtn.setAttribute("aria-expanded", String(o));
+    requestAnimationFrame(() => bts.classList.toggle("on", o));
+    if (o) { snap(); $(".bts-x").focus(); } else btsBtn.focus();
+  };
+  btsBtn.addEventListener("click", () => btsOpen(bts.hidden));
+  $(".bts-x").addEventListener("click", () => btsOpen(false));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !bts.hidden) btsOpen(false); });
+  const tabs = $$(".bts-tabs [role=tab]");
+  const pick = (tab) => {
+    tabs.forEach((x) => { const on = x === tab; x.setAttribute("aria-selected", String(on)); x.tabIndex = on ? 0 : -1; $("#" + x.getAttribute("aria-controls")).hidden = !on; });
+    $(".bts-body").scrollTop = 0;
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => pick(tab));
+    tab.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return; e.preventDefault(); const n = tabs[(i + d + tabs.length) % tabs.length]; pick(n); n.focus();
+    });
+  });
 
   /* ---------- Time helpers (New York) ---------- */
   const nyNow = () => {
+    const sim = MODES[modeIx];
+    if (sim.day !== undefined) return { day: sim.day, mins: sim.mins };
     const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: TZ, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false,
     }).formatToParts(new Date());
@@ -330,6 +371,7 @@
       }
     };
     refreshStatus();
+    window.__cdRefresh = refreshStatus;
     setInterval(refreshStatus, 60000);
     setupMaps();
 

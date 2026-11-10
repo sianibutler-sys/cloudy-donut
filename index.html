@@ -226,40 +226,49 @@
   </div>
 </footer>
 
-<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates<span class="pill-sub">See current vs demo</span></button>
-<aside class="concept-panel" id="concept" hidden aria-label="About this concept">
-  <button class="concept-close" type="button" aria-label="Close">×</button>
-  <p class="kicker dark">Behind the scenes</p>
-  <h2>Current site vs this demo</h2>
-  <p class="cmp-help">Flip the switch to see this page both ways.</p>
-  <div class="cmp-toggle" role="group" aria-label="Compare">
-    <button type="button" data-cmp="live" aria-pressed="true">Current site</button>
-    <button type="button" data-cmp="demo" aria-pressed="false">This demo</button>
-    <button type="button" data-cmp="build" aria-pressed="false">The build</button>
+<aside class="badge" aria-label="Demo controls">
+  <img class="badge-logo" src="assets/siani-creates-logo.png" alt="Demo by Siani Creates" width="265" height="130">
+  <button type="button" id="mode-btn"></button>
+  <button type="button" id="bts-btn" aria-expanded="false" aria-controls="bts">Behind the scenes</button>
+  <p class="visually-hidden" id="mode-live" aria-live="polite"></p>
+</aside>
+<div class="mode-toast" id="mode-toast" aria-hidden="true"></div>
+<aside class="bts" id="bts" aria-label="Behind the scenes" hidden>
+  <div class="bts-h"><h2>Behind the scenes</h2><button class="bts-x" type="button" aria-label="Close behind the scenes">×</button></div>
+  <div class="bts-tabs" role="tablist" aria-label="Behind the scenes">
+    <button role="tab" id="bt-page" aria-controls="bp-page" aria-selected="true">This page</button>
+    <button role="tab" id="bt-a11y" aria-controls="bp-a11y" aria-selected="false" tabindex="-1">Accessibility</button>
+    <button role="tab" id="bt-build" aria-controls="bp-build" aria-selected="false" tabindex="-1">The build</button>
   </div>
-  <div class="cmp-view cmp-live" data-view="live">
-    <h3>Home on cloudydonut.com</h3><ul><li>This week's lineup sits behind a button, inside a pop-up.</li><li>Lineup photos are described to screen readers by file name, like "raspberry lemonade.png".</li><li>The page's main heading reads "100% Vegan".</li></ul>
-    <h3>Across the site</h3><ul><li>Mint text on cream measures about 1.5:1. WCAG AA asks for 4.5:1.</li><li>Photos are described to screen readers by file name.</li><li>Flavors and Locations have no H1. Contact and FAQ jump from H1 to H3.</li><li>Instagram and Facebook open new tabs without saying so.</li><li>No phone number on the site can be tapped to call.</li><li>The email address appears only on Contact.</li><li>Log In and a cart sit in every header. Nothing is sold online.</li><li>Six leftover Wix template posts, on fintech and earbuds, are indexed by Google under the Cloudy name.</li></ul>
-    <p class="cmp-next">Flip to "This demo" to see each one fixed.</p>
+  <div class="bts-body">
+    <section role="tabpanel" id="bp-page" aria-labelledby="bt-page" tabindex="0">
+      <p class="bts-path">cloudydonut.com</p>
+      <h3>At a glance</h3>
+      <table class="snap"><thead><tr><th scope="col"><span class="visually-hidden">Check</span></th><th scope="col">Today</th><th scope="col">New</th></tr></thead><tbody>
+        <tr><th scope="row">Main headline</th><td>"100% Vegan"</td><td class="good" data-snap="h1"></td></tr>
+        <tr><th scope="row">Phone numbers you can tap</th><td><span class="bad">0</span></td><td class="good" data-snap="tel"></td></tr>
+        <tr><th scope="row">Email link</th><td>Contact page only</td><td class="good">Every page</td></tr>
+        <tr><th scope="row">Login and cart</th><td>In the header, nothing to buy</td><td class="good">Gone until there's a store</td></tr>
+      </tbody></table>
+      <h3>Same as the live site</h3><ul class="samel"><li><span>Logo, cream, mint and sage, and the Caudex type</span></li><li><span>Photos from cloudydonut.com</span></li><li><span>This week's lineup</span></li></ul>
+      <h3>New in this demo</h3><ul class="checkl"><li><span>This week's lineup opens on the page, in a sealed box. Tap the seal.</span></li><li><span>Every donut photo is named for the donut.</span></li><li><span>Each shop shows open or closed on New York time, plus the next tour stop with a countdown.</span></li></ul>
+      <h3>On the live site today, fixed here</h3><ul class="issl"><li><span>This week's lineup sits behind a button, inside a pop-up.</span></li><li><span>Lineup photos are described to screen readers by file name, like "raspberry lemonade.png".</span></li><li><span>The page's main heading reads "100% Vegan".</span></li></ul>
+      <h3>Switch the clock</h3>
+      <p class="bts-sub">Cloudy opens Friday to Sunday. The button at the bottom left steps the site through a Saturday morning and a Tuesday, so you can watch open and closed update whatever day you visit.</p>
+      <div class="bts-note">Live site details come from cloudydonut.com, checked November 10, 2026.</div>
+    </section>
+    <section role="tabpanel" id="bp-a11y" aria-labelledby="bt-a11y" tabindex="0" hidden>
+      <p class="bts-sub">What changes for people using screen readers, keyboards or a phone, on every page.</p>
+      <ol class="pairs"><li><span class="bts-lbl old">Today</span><p>Mint text on cream measures about 1.5:1. WCAG AA asks for 4.5:1.</p><span class="bts-lbl new">New</span><p>Text contrast meets WCAG AA on every page.</p></li><li><span class="bts-lbl old">Today</span><p>Photos are described to screen readers by file name.</p><span class="bts-lbl new">New</span><p>Photos carry real descriptions, or stay silent when the donut's name sits beside them.</p></li><li><span class="bts-lbl old">Today</span><p>Flavors and Locations have no H1. Contact and FAQ jump from H1 to H3.</p><span class="bts-lbl new">New</span><p>One H1 per page, no skipped heading levels.</p></li><li><span class="bts-lbl old">Today</span><p>Instagram and Facebook open new tabs without saying so.</p><span class="bts-lbl new">New</span><p>Links that open a new tab tell screen readers first.</p></li><li><span class="bts-lbl old">Today</span><p>No phone number on the site can be tapped to call.</p><span class="bts-lbl new">New</span><p>Every phone number calls on tap.</p></li><li><span class="bts-lbl old">Today</span><p>The email address appears only on Contact.</p><span class="bts-lbl new">New</span><p>Email sits in the footer of every page.</p></li><li><span class="bts-lbl old">Today</span><p>Log In and a cart sit in every header. Nothing is sold online.</p><span class="bts-lbl new">New</span><p>No login or cart until there's something to sell.</p></li><li><span class="bts-lbl old">Today</span><p>Six leftover Wix template posts, on fintech and earbuds, are indexed by Google under the Cloudy name.</p><span class="bts-lbl new">New</span><p>Only Cloudy pages exist to be indexed.</p></li></ol>
+      <div class="bts-note">Automated scan with axe-core against WCAG 2.1 AA, the standard used in ADA website claims: 0 issues on all six pages, with search, the flavor cards and this panel open.</div>
+    </section>
+    <section role="tabpanel" id="bp-build" aria-labelledby="bt-build" tabindex="0" hidden>
+      <h3>Yours to run, yours to keep</h3>
+      <ol class="buildl"><li><h4>The lineup updates itself</h4><p>Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows.</p></li><li><h4>Every pop-up gets a flyer</h4><p>Add a city and date, and the site builds the "Cloudy Donut Presents" flyer with a live countdown.</p></li><li><h4>Demand, mapped</h4><p>"Bring Cloudy to my city" signups show where the next tour stop should go.</p></li><li><h4>Shipping, ready before launch</h4><p>The cake waitlist builds now, so the first day of shipping already has buyers.</p></li><li><h4>One inbox for every form</h4><p>Experiences, newsletter, tour alerts and the waitlist land in Airtable and email.</p></li><li><h4>Owned by Cloudy</h4><p>Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription.</p></li></ol>
+      <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved.</div>
+      <p class="bts-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
+    </section>
   </div>
-  <div class="cmp-view cmp-demo" data-view="demo" hidden>
-    <h3>Home in this demo</h3><ul><li>This week's lineup opens on the page, in a sealed box. Tap the seal.</li><li>Every donut photo is named for the donut.</li><li>Each shop shows open or closed on New York time, plus the next tour stop with a countdown.</li></ul>
-    <h3>Across the site</h3><ul><li>Text contrast meets WCAG AA on every page.</li><li>Photos carry real descriptions, or stay silent when the donut's name sits beside them.</li><li>One H1 per page, no skipped heading levels.</li><li>Links that open a new tab tell screen readers first.</li><li>Every phone number calls on tap.</li><li>Email sits in the footer of every page.</li><li>No login or cart until there's something to sell.</li><li>Only Cloudy pages exist to be indexed.</li></ul>
-    <p class="cmp-next">Automated accessibility scan (axe-core, WCAG 2.1 AA): 0 issues on all six pages.</p>
-  </div>
-  <div class="cmp-view" data-view="build" hidden>
-  <h3 class="build-h">Yours to run, yours to keep</h3>
-  <ol>
-    <li><h3>The lineup updates itself</h3><p>Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows.</p></li>
-    <li><h3>Every pop-up gets a flyer</h3><p>Add a city and date, and the site builds the "Cloudy Donut Presents" flyer with a live countdown.</p></li>
-    <li><h3>Demand, mapped</h3><p>"Bring Cloudy to my city" signups show where the next tour stop should go.</p></li>
-    <li><h3>Shipping, ready before launch</h3><p>The cake waitlist builds now, so the first day of shipping already has buyers.</p></li>
-    <li><h3>One inbox for every form</h3><p>Experiences, newsletter, tour alerts and the waitlist land in Airtable and email.</p></li>
-    <li><h3>Owned by Cloudy</h3><p>Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription.</p></li>
-  </ol>
-  <p class="fine">Forms in this concept are not connected. Nothing you type is saved.</p>
-  </div>
-  <p class="cmp-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
 </aside>
 
 <dialog class="search-dialog" id="search-dialog" aria-label="Search Cloudy Donut">

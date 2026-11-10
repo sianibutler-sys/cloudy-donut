@@ -112,23 +112,7 @@ FOOTER = f"""
   </div>
 </footer>
 
-<button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates<span class="pill-sub">See current vs demo</span></button>
-<aside class="concept-panel" id="concept" hidden aria-label="About this concept">
-  <button class="concept-close" type="button" aria-label="Close">×</button>
-  __COMPARE__
-  <h3 class="build-h">Yours to run, yours to keep</h3>
-  <ol>
-    <li><h3>The lineup updates itself</h3><p>Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows.</p></li>
-    <li><h3>Every pop-up gets a flyer</h3><p>Add a city and date, and the site builds the "Cloudy Donut Presents" flyer with a live countdown.</p></li>
-    <li><h3>Demand, mapped</h3><p>"Bring Cloudy to my city" signups show where the next tour stop should go.</p></li>
-    <li><h3>Shipping, ready before launch</h3><p>The cake waitlist builds now, so the first day of shipping already has buyers.</p></li>
-    <li><h3>One inbox for every form</h3><p>Experiences, newsletter, tour alerts and the waitlist land in Airtable and email.</p></li>
-    <li><h3>Owned by Cloudy</h3><p>Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription.</p></li>
-  </ol>
-  <p class="fine">Forms in this concept are not connected. Nothing you type is saved.</p>
-  </div>
-  <p class="cmp-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
-</aside>
+__BTS__
 
 <dialog class="search-dialog" id="search-dialog" aria-label="Search Cloudy Donut">
   <div class="search-box">
@@ -586,7 +570,7 @@ EXPERIENCES = f"""
 LOCS = f"""
 <main id="main">
 {page_hero("Come early", "Where To<br>Find Us.", "Weekends only. Order ahead for pickup and skip the line.", "d6231e_a9fcfc976a4c48ffaec94304ac9051bb~mv2.jpg")}
-{LOCATIONS.replace('<div class="head-row">', '<div class="head-row" hidden>')}
+{LOCATIONS.replace('<div class="head-row">', '<div class="head-row visually-hidden">').replace('Where To Find Us</h2>', 'Shops and hours</h2>')}
 {CAMPAIGN}
 {FAQ}
 </main>"""
@@ -646,28 +630,83 @@ EVERY_PAGE = [
      "Only Cloudy pages exist to be indexed."),
 ]
 
-def compare_block(fname):
+LIVE = {  # what cloudydonut.com has for each page, checked Nov 10, 2026
+    "index.html": ("cloudydonut.com", "100% Vegan"),
+    "flavors.html": ("cloudydonut.com/our-flavors", None),
+    "pop-ups.html": ("No tour page today", None),
+    "our-story.html": ("Menu link goes to the home page", None),
+    "experiences.html": ("cloudydonut.com/event-packages", "Event & Catering Packages"),
+    "locations.html": ("cloudydonut.com/order-online-locations", None),
+}
+SAME = {
+    "index.html": ["Logo, cream, mint and sage, and the Caudex type", "Photos from cloudydonut.com", "This week's lineup"],
+    "flavors.html": ["Flavor names, descriptions and photos", "Nut notes from each description"],
+    "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Newark stop, as announced on Instagram"],
+    "our-story.html": ["The Our Story copy, word for word"],
+    "experiences.html": ["Event and catering packages"],
+    "locations.html": ["The three shops, with addresses, hours and phone", "All 14 FAQ answers"],
+}
+BUILD = [
+    ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows."),
+    ("Every pop-up gets a flyer", "Add a city and date, and the site builds the \"Cloudy Donut Presents\" flyer with a live countdown."),
+    ("Demand, mapped", "\"Bring Cloudy to my city\" signups show where the next tour stop should go."),
+    ("Shipping, ready before launch", "The cake waitlist builds now, so the first day of shipping already has buyers."),
+    ("One inbox for every form", "Experiences, newsletter, tour alerts and the waitlist land in Airtable and email."),
+    ("Owned by Cloudy", "Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription."),
+]
+
+def bts_block(fname):
     name, live, demo = COMPARE_PAGES[fname]
-    li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
-    return f"""<p class="kicker dark">Behind the scenes</p>
-  <h2>Current site vs this demo</h2>
-  <p class="cmp-help">Flip the switch to see this page both ways.</p>
-  <div class="cmp-toggle" role="group" aria-label="Compare">
-    <button type="button" data-cmp="live" aria-pressed="true">Current site</button>
-    <button type="button" data-cmp="demo" aria-pressed="false">This demo</button>
-    <button type="button" data-cmp="build" aria-pressed="false">The build</button>
+    url, h1 = LIVE[fname]
+    ul = lambda cls, xs: f'<ul class="{cls}">' + "".join(f"<li><span>{x}</span></li>" for x in xs) + "</ul>"
+    h1_live = f'"{h1}"' if h1 else '<span class="bad">None</span>'
+    tel_live = '<span class="bad">0</span>'
+    pairs = "".join(f'<li><span class="bts-lbl old">Today</span><p>{a}</p><span class="bts-lbl new">New</span><p>{b}</p></li>' for a, b in EVERY_PAGE)
+    build = "".join(f"<li><h4>{t}</h4><p>{d}</p></li>" for t, d in BUILD)
+    return f"""<aside class="badge" aria-label="Demo controls">
+  <img class="badge-logo" src="assets/siani-creates-logo.png" alt="Demo by Siani Creates" width="265" height="130">
+  <button type="button" id="mode-btn"></button>
+  <button type="button" id="bts-btn" aria-expanded="false" aria-controls="bts">Behind the scenes</button>
+  <p class="visually-hidden" id="mode-live" aria-live="polite"></p>
+</aside>
+<div class="mode-toast" id="mode-toast" aria-hidden="true"></div>
+<aside class="bts" id="bts" aria-label="Behind the scenes" hidden>
+  <div class="bts-h"><h2>Behind the scenes</h2><button class="bts-x" type="button" aria-label="Close behind the scenes">×</button></div>
+  <div class="bts-tabs" role="tablist" aria-label="Behind the scenes">
+    <button role="tab" id="bt-page" aria-controls="bp-page" aria-selected="true">This page</button>
+    <button role="tab" id="bt-a11y" aria-controls="bp-a11y" aria-selected="false" tabindex="-1">Accessibility</button>
+    <button role="tab" id="bt-build" aria-controls="bp-build" aria-selected="false" tabindex="-1">The build</button>
   </div>
-  <div class="cmp-view cmp-live" data-view="live">
-    <h3>{name} on cloudydonut.com</h3><ul>{li(live)}</ul>
-    <h3>Across the site</h3><ul>{li(a for a, b in EVERY_PAGE)}</ul>
-    <p class="cmp-next">Flip to "This demo" to see each one fixed.</p>
+  <div class="bts-body">
+    <section role="tabpanel" id="bp-page" aria-labelledby="bt-page" tabindex="0">
+      <p class="bts-path">{url}</p>
+      <h3>At a glance</h3>
+      <table class="snap"><thead><tr><th scope="col"><span class="visually-hidden">Check</span></th><th scope="col">Today</th><th scope="col">New</th></tr></thead><tbody>
+        <tr><th scope="row">Main headline</th><td>{h1_live}</td><td class="good" data-snap="h1"></td></tr>
+        <tr><th scope="row">Phone numbers you can tap</th><td>{tel_live}</td><td class="good" data-snap="tel"></td></tr>
+        <tr><th scope="row">Email link</th><td>Contact page only</td><td class="good">Every page</td></tr>
+        <tr><th scope="row">Login and cart</th><td>In the header, nothing to buy</td><td class="good">Gone until there's a store</td></tr>
+      </tbody></table>
+      <h3>Same as the live site</h3>{ul("samel", SAME[fname])}
+      <h3>New in this demo</h3>{ul("checkl", demo)}
+      <h3>On the live site today, fixed here</h3>{ul("issl", live)}
+      <h3>Switch the clock</h3>
+      <p class="bts-sub">Cloudy opens Friday to Sunday. The button at the bottom left steps the site through a Saturday morning and a Tuesday, so you can watch open and closed update whatever day you visit.</p>
+      <div class="bts-note">Live site details come from cloudydonut.com, checked November 10, 2026.</div>
+    </section>
+    <section role="tabpanel" id="bp-a11y" aria-labelledby="bt-a11y" tabindex="0" hidden>
+      <p class="bts-sub">What changes for people using screen readers, keyboards or a phone, on every page.</p>
+      <ol class="pairs">{pairs}</ol>
+      <div class="bts-note">Automated scan with axe-core against WCAG 2.1 AA, the standard used in ADA website claims: 0 issues on all six pages, with search, the flavor cards and this panel open.</div>
+    </section>
+    <section role="tabpanel" id="bp-build" aria-labelledby="bt-build" tabindex="0" hidden>
+      <h3>Yours to run, yours to keep</h3>
+      <ol class="buildl">{build}</ol>
+      <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved.</div>
+      <p class="bts-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
+    </section>
   </div>
-  <div class="cmp-view cmp-demo" data-view="demo" hidden>
-    <h3>{name} in this demo</h3><ul>{li(demo)}</ul>
-    <h3>Across the site</h3><ul>{li(b for a, b in EVERY_PAGE)}</ul>
-    <p class="cmp-next">Automated accessibility scan (axe-core, WCAG 2.1 AA): 0 issues on all six pages.</p>
-  </div>
-  <div class="cmp-view" data-view="build" hidden>"""
+</aside>"""
 
 PAGES = {
     "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch, hand crafted.", HOME, True),
@@ -679,6 +718,6 @@ PAGES = {
 }
 
 for fname, (title, desc, body, is_home) in PAGES.items():
-    html = head(title, desc) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER.replace("__COMPARE__", compare_block(fname))
+    html = head(title, desc) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER.replace("__BTS__", bts_block(fname))
     (ROOT / fname).write_text(html)
     print("wrote", fname)
