@@ -120,7 +120,7 @@
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
     $("#donut-box").innerHTML = week.map((f, i) => `
-      <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="${i === 0}" aria-controls="box-detail" style="--r:${(i * 47) % 360}deg">
+      <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
         <span class="well" aria-hidden="true"></span>
         <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
         <span class="visually-hidden">${esc(f.name)}</span>
@@ -133,7 +133,21 @@
         <p class="bd-desc">${esc(f.desc)}</p>
         ${f.contains ? `<p class="bd-contains">${esc(f.contains)}</p>` : ""}`;
     };
-    if (week.length) showBox(week[0]);
+    // Sealed box: tap the seal, the lid swings open, then donuts can be tapped
+    const cbox = $("#cbox");
+    const logo = wix("d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", 200);
+    const tiles = (n) => Array.from({ length: n }, () => `<img src="${logo}" alt="">`).join("");
+    $("#cbox-print").innerHTML = tiles(70); $("#lid-pat").innerHTML = tiles(70); $("#lid-pat-in").innerHTML = tiles(70);
+    const openBox = (instant) => {
+      if (cbox.dataset.state !== "closed") return;
+      cbox.dataset.state = instant ? "open" : "opening";
+      $("#cbox-seal").setAttribute("aria-expanded", "true");
+      $("#cbox-body").removeAttribute("inert");
+      const done = () => { cbox.dataset.state = "open"; if (week.length) showBox(week[0]); };
+      instant ? done() : setTimeout(done, 1100);
+    };
+    $("#cbox-seal").addEventListener("click", () => openBox(reduceMotion));
+    if (reduceMotion && week.length) openBox(true);
     $("#donut-box").addEventListener("click", (e) => { const s = e.target.closest(".slot"); if (s) showBox(byId[s.dataset.box]); });
     $("#donut-box").addEventListener("keydown", (e) => {
       const slots = $$(".slot"); const i = slots.indexOf(document.activeElement);
