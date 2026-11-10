@@ -1003,3 +1003,8 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .buildl h4 { font: 800 .95rem var(--sans); margin: 0 0 2px; }
 .buildl p { margin: 0; color: #4a4741; }
 [hidden] { display: none !important; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 26px; }
+.hero-cta span { font-size: .92rem; color: var(--cream); opacity: .9; }
+.hero-cta .btn svg { transition: transform .25s ease; }
+.hero-cta .btn:hover svg { transform: translateY(3px); }
+#picker { scroll-margin-top: -60px; }

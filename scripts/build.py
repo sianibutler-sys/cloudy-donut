@@ -158,7 +158,7 @@ __BTS__
 """
 
 
-def page_hero(kicker, title, sub, img=None):
+def page_hero(kicker, title, sub, img=None, cta=""):
     photo = f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">' if img else ""
     return f"""
   <section class="page-hero{' has-photo' if img else ''}">
@@ -167,6 +167,7 @@ def page_hero(kicker, title, sub, img=None):
       <p class="kicker">{kicker}</p>
       <h1 class="display-lg">{title}</h1>
       {f'<p class="page-sub">{sub}</p>' if sub else ''}
+      {cta}
     </div>
   </section>"""
 
@@ -448,7 +449,7 @@ HOME = f"""
 
 FLAVORS = f"""
 <main id="main">
-{page_hero("The full rotation", "Every Flavor<br>We Make.", "Six to eight of these hit the case each weekend. All 100% vegan, small-batched and hand crafted. Tap a donut for the details and allergens.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg")}
+{page_hero("The full rotation", "Every Flavor<br>We Make.", "Six to eight of these hit the case each weekend. All 100% vegan, small-batched and hand crafted. Tap a donut for the details and allergens.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", cta='<div class="hero-cta"><a class="btn btn-mint" href="#picker">Find your flavor <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span>Four questions, three donuts.</span></div>')}
   <section class="cream flavors" id="flavors" aria-label="Flavor library">
     <div class="wrap">
       <div class="flavor-tools">
