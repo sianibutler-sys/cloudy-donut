@@ -169,17 +169,24 @@
 
     // Flavor dialog
     const dlg = $("#flavor-dialog");
-    document.addEventListener("click", (e) => {
-      const card = e.target.closest("[data-id]"); if (!card) return;
-      const f = byId[card.dataset.id]; if (!f) return;
+    const openFlavor = (f) => {
       $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name;
       $("#fd-name").textContent = f.name;
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
       $("#fd-badge").hidden = !thisWeek.has(f.id);
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    };
+    document.addEventListener("click", (e) => {
+      const card = e.target.closest("[data-id]"); if (!card) return;
+      const f = byId[card.dataset.id]; if (f) openFlavor(f);
     });
     dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    const deep = new URLSearchParams(location.search).get("f");
+    if (deep && byId[deep]) setTimeout(() => openFlavor(byId[deep]), 300);
+
+    // Site search
+    setupSearch(data, thisWeek, byId, openFlavor);
 
     // Locations
     const renderLocs = () => {
@@ -309,6 +316,93 @@
       if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
     }), { rootMargin: "0px 0px -8% 0px" });
     els.forEach((el) => io.observe(el));
+  }
+
+  /* ---------- Site search ---------- */
+  const PAGES = [
+    { t: "This week's lineup", d: "The flavors in the case this weekend", u: "index.html#lineup", k: "lineup weekend this week menu" },
+    { t: "All flavors", d: "The full rotation, with allergens", u: "flavors.html", k: "flavors menu donuts list allergens" },
+    { t: "Pop-up tour", d: "Next stop, dates and city signups", u: "pop-ups.html", k: "pop up popup tour events city" },
+    { t: "Our story", d: "Firsts, intention and Worlds of Black luxury", u: "our-story.html", k: "story about founders history black owned derrick zewiditu brown collective 7streams" },
+    { t: "Experiences", d: "Cloudy Donut Minis for events and catering", u: "experiences.html", k: "catering events party wedding minis order large" },
+    { t: "Cake shipping waitlist", d: "Pound cakes, shipped, coming next year", u: "experiences.html#ship", k: "ship shipping delivery mail cake pound waitlist" },
+    { t: "Locations & hours", d: "Brooklyn Heights, NoLita and Baltimore", u: "locations.html", k: "locations hours address directions open shop store" },
+  ];
+  const FAQS = [
+    ["Are your donuts gluten free?", "gluten celiac wheat"],
+    ["Which donuts have nuts?", "nuts allergy peanut almond pistachio"],
+    ["What replaces eggs and dairy?", "vegan eggs dairy applesauce coconut oil shortening fried"],
+    ["How long do they keep?", "storage shelf life fresh keep"],
+    ["What if I forget to pick up a preorder?", "preorder pickup doordash grubhub forgot"],
+    ["Do you ship?", "ship shipping mail"],
+    ["Do you make custom donuts?", "custom special order holiday"],
+    ["Something for the dog?", "dog pup pet"],
+    ["Gift cards?", "gift card"],
+    ["How can I apply for a job?", "job hiring work apply career"],
+  ];
+  const TAG_WORDS = { nuts: "nuts nut", fruity: "fruit fruity", chocolate: "chocolate", cookie: "cookie", filled: "filled", spirited: "boozy alcohol spirited rum wine", classic: "classic plain sugar", pups: "dog pup pet" };
+
+  function setupSearch(data, thisWeek, byId, openFlavor) {
+    const sd = $("#search-dialog"), input = $("#site-search"), box = $("#search-results"), hint = $("#search-hint");
+    const items = [];
+    data.flavors.forEach((f) => items.push({
+      type: "Flavor", t: f.name, d: f.contains ? f.contains : thisWeek.has(f.id) ? "On this week's lineup" : "Vegan",
+      img: wix(f.img, 120), key: [f.name, f.desc, ...f.tags.map((g) => TAG_WORDS[g] || g), f.tags.includes("nuts") ? "" : "nut free nutfree", thisWeek.has(f.id) ? "this week" : ""].join(" "),
+      go: () => { if (document.body.classList.contains("page-flavors") || document.body.classList.contains("page-index")) { sd.close(); openFlavor(f); } else location.href = `flavors.html?f=${f.id}`; },
+    }));
+    data.locations.forEach((l) => items.push({ type: "Shop", t: l.name, d: `${l.address} · ${l.hours_label}`, key: [l.name, l.city, l.address, "shop location hours"].join(" "), go: () => (location.href = "locations.html") }));
+    data.tour.stops.forEach((s) => items.push({ type: "Pop-up", t: s.city, d: s.date ? [s.date, s.time, s.address].filter(Boolean).join(" · ") : "Date announced on Instagram", key: [s.city, s.address, "pop up popup tour"].join(" "), go: () => (location.href = "pop-ups.html") }));
+    PAGES.forEach((p) => items.push({ type: "Page", t: p.t, d: p.d, key: [p.t, p.d, p.k].join(" "), go: () => { sd.close(); location.href = p.u; } }));
+    FAQS.forEach(([q, k]) => items.push({ type: "Question", t: q, d: "Good to know", key: q + " " + k, go: () => (location.href = "locations.html#faq") }));
+
+    const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9& ]/g, " ");
+    items.forEach((i) => { i.n = norm(i.t); i.k = norm(i.key); });
+    const score = (i, q) => {
+      const words = q.split(/\s+/).filter(Boolean);
+      let s = 0;
+      for (const w of words) {
+        if (i.n.startsWith(w)) s += 6; else if (i.n.includes(" " + w)) s += 4; else if (i.n.includes(w)) s += 3;
+        else if (i.k.includes(w)) s += 1; else return 0;
+      }
+      return s + (i.type === "Flavor" ? .5 : 0);
+    };
+    let results = [], active = -1;
+    const render = () => {
+      const q = norm(input.value).trim();
+      hint.hidden = !!q;
+      if (!q) { box.innerHTML = ""; results = []; return; }
+      results = items.map((i) => [i, score(i, q)]).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([i]) => i);
+      active = results.length ? 0 : -1;
+      box.innerHTML = results.length ? results.map((r, ix) => `
+        <button type="button" class="sr" role="option" id="sr-${ix}" aria-selected="${ix === active}" data-ix="${ix}">
+          ${r.img ? `<img src="${r.img}" alt="">` : `<span class="sr-icon" aria-hidden="true">${r.type[0]}</span>`}
+          <span class="sr-text"><span class="sr-t">${esc(r.t)}</span><span class="sr-d">${esc(r.d)}</span></span>
+          <span class="sr-type">${r.type}</span>
+        </button>`).join("") : `<p class="sr-empty">Nothing for "${esc(input.value)}". Try a flavor, a city or a question.</p>`;
+      input.setAttribute("aria-activedescendant", active >= 0 ? "sr-0" : "");
+    };
+    const setActive = (n) => {
+      if (!results.length) return;
+      active = (n + results.length) % results.length;
+      $$(".sr", box).forEach((b, ix) => b.setAttribute("aria-selected", String(ix === active)));
+      const el = $(`#sr-${active}`); el.scrollIntoView({ block: "nearest" });
+      input.setAttribute("aria-activedescendant", `sr-${active}`);
+    };
+    const open = () => { if (sd.showModal) sd.showModal(); input.value = ""; render(); setTimeout(() => input.focus(), 30); };
+    $$(".search-open").forEach((b) => b.addEventListener("click", () => { nav.classList.remove("open"); document.body.style.overflow = ""; open(); }));
+    $(".search-close").addEventListener("click", () => sd.close());
+    sd.addEventListener("click", (e) => { if (e.target === sd) sd.close(); });
+    input.addEventListener("input", render);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === "Enter" && results[active]) { e.preventDefault(); results[active].go(); }
+    });
+    box.addEventListener("click", (e) => { const b = e.target.closest(".sr"); if (b) results[+b.dataset.ix].go(); });
+    document.addEventListener("keydown", (e) => {
+      const typing = /input|textarea|select/i.test(document.activeElement.tagName);
+      if ((e.key === "/" && !typing) || (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey))) { e.preventDefault(); open(); }
+    });
   }
   hydrateImages();
 })();
