@@ -657,3 +657,26 @@ select option { color: var(--ink); }
   .pp-sticker span { font-size: .54rem; }
 }
 @media (prefers-reduced-motion: reduce) { .sheet.play, .play .pp-sticker, .play .pp-donut img { animation: none !important; } }
+
+/* Pop-ups steps: numbers inside drawn donuts */
+.tn-list li { grid-template-columns: 96px 1fr; align-items: center; gap: 22px; }
+.donut-num { --glaze: #f3a9b9; position: relative; display: grid; place-items: center; width: 84px; height: 84px; border-radius: 50%;
+  background: radial-gradient(circle, transparent 0 15px, #b97a3f 15.5px 17px, var(--glaze) 18px 33px, #d9a066 33.5px 38px, #c18546 38.5px 41px, transparent 41.5px);
+  filter: drop-shadow(4px 7px 6px rgba(36,35,35,.22)); transition: transform .5s cubic-bezier(.2,.9,.25,1.2); }
+.donut-num::before { content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 22%, #fffbed 0 2px, transparent 2.5px),
+    radial-gradient(circle at 70% 24%, #242323 0 2px, transparent 2.5px),
+    radial-gradient(circle at 80% 52%, #fffbed 0 2px, transparent 2.5px),
+    radial-gradient(circle at 66% 78%, #80a495 0 2px, transparent 2.5px),
+    radial-gradient(circle at 34% 80%, #fffbed 0 2px, transparent 2.5px),
+    radial-gradient(circle at 18% 50%, #242323 0 2px, transparent 2.5px),
+    radial-gradient(circle at 50% 14%, #80a495 0 2px, transparent 2.5px);
+  -webkit-mask: radial-gradient(circle, transparent 0 19px, #000 19.5px 32px, transparent 32.5px); mask: radial-gradient(circle, transparent 0 19px, #000 19.5px 32px, transparent 32.5px); }
+.donut-num b { position: relative; font: 400 1.25rem/1 var(--display); color: var(--char); }
+.donut-num.g2 { --glaze: var(--mint); }
+.donut-num.g3 { --glaze: #6b4630; }
+.donut-num.g3::before { filter: none; }
+.tn-list li:hover .donut-num { transform: rotate(-24deg) scale(1.05); }
+.tn-list li:hover .donut-num b { transform: rotate(24deg); }
+.donut-num b { transition: transform .5s cubic-bezier(.2,.9,.25,1.2); }
