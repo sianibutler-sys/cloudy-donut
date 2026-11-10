@@ -779,3 +779,84 @@ select option { color: var(--ink); }
   .cbox-print, .lid-pat { grid-template-columns: repeat(10, 52px); gap: 16px 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .cbox-lid, .seal { transition: none !important; } }
+
+/* ===== Splash: line clouds in the logo's style ===== */
+.intro { background: radial-gradient(120% 90% at 50% 100%, #e3f2ea 0%, var(--cream) 55%); transition: opacity .7s ease, transform .9s cubic-bezier(.7,0,.3,1), visibility 0s linear .9s; }
+.intro.done { opacity: 0; transform: translateY(-6%); visibility: hidden; }
+.drift { position: absolute; inset: 0; width: 100%; height: 100%; }
+.drift use { fill: none; stroke: var(--sage); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: .45; }
+.dc { animation: drift-x 9s ease-in-out infinite alternate; opacity: 0; }
+.dc.d1 { animation: dc-in .9s ease .1s forwards, drift-x 7s ease-in-out infinite alternate; }
+.dc.d2 { animation: dc-in .9s ease .25s forwards, drift-x 9s ease-in-out -2s infinite alternate-reverse; }
+.dc.d3 { animation: dc-in .9s ease .35s forwards, drift-x 8s ease-in-out -4s infinite alternate; }
+.dc.d4 { animation: dc-in .9s ease .45s forwards, drift-x 10s ease-in-out -1s infinite alternate-reverse; }
+.dc.d5 { animation: dc-in .9s ease .55s forwards, drift-x 7.5s ease-in-out -3s infinite alternate; }
+.dc.d6 { animation: dc-in .9s ease .6s forwards, drift-x 8.5s ease-in-out -5s infinite alternate-reverse; }
+@keyframes dc-in { to { opacity: 1; } }
+@keyframes drift-x { from { transform: translateX(-26px); } to { transform: translateX(26px); } }
+.intro-mark { opacity: 1 !important; animation: none !important; }
+.mark-wrap { position: relative; width: min(400px, 76vw); aspect-ratio: 320 / 150; margin: 0 auto; }
+.mark-wrap > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.draw .ln { fill: none; stroke: var(--char-2); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.draw .l1 { animation: draw .9s cubic-bezier(.6,.1,.3,1) .35s forwards; }
+.draw .l2 { animation: draw .45s cubic-bezier(.6,.1,.3,1) 1.15s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.draw .dn { transform-box: fill-box; transform-origin: center; opacity: 0; animation: donut-drop .6s cubic-bezier(.2,1.5,.4,1) .95s forwards; }
+.draw .ring { fill: #e7c38f; stroke: var(--char-2); stroke-width: 3.2; }
+.draw .hole { fill: var(--cream); stroke: var(--char-2); stroke-width: 3; }
+.draw .glaze { fill: var(--mint); stroke: none; }
+.draw .spr path { stroke: var(--char-2); stroke-width: 2.2; stroke-linecap: round; }
+@keyframes donut-drop { 0% { opacity: 0; transform: translateY(-60px) rotate(-120deg) scale(.6); } 100% { opacity: 1; transform: none; } }
+.draw { animation: fade-out .5s ease 1.75s forwards; }
+.mark-logo { object-fit: contain; opacity: 0; animation: fade-in .55s ease 1.6s forwards; }
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes fade-out { to { opacity: 0; } }
+.intro-line { opacity: 0; animation: fade-in .6s ease 2s forwards; }
+@media (max-width: 520px) { .drift use { stroke-width: 2.2; } }
+
+/* Tour badge: straight underline */
+.tour-badge, .tour-badge.next { border-radius: 0 !important; }
+
+/* ===== Cloudy box, refined into a real bakery box ===== */
+.cbox { --ws: clamp(12px, 2.4vw, 24px); --wt: clamp(22px, 4.2vw, 42px); --wb: clamp(6px, 1vw, 10px); --rim: 4px; --fh: clamp(40px, 5.6vw, 56px); padding-top: 26%; }
+.cbox-body { position: relative; padding: calc(var(--wt) + var(--rim)) calc(var(--ws) + var(--rim)) calc(var(--wb) + var(--rim)); background: var(--mint); box-shadow: none; }
+.cbox-body::before { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(36,35,35,.12), inset 0 0 0 var(--rim) #9fd0ba; pointer-events: none; z-index: 2; }
+.wall { position: absolute; inset: var(--rim); z-index: 0; }
+.w-back  { background: linear-gradient(180deg, #fbf9f3, #f1ede3); clip-path: polygon(0 0, 100% 0, calc(100% - var(--ws)) var(--wt), var(--ws) var(--wt)); }
+.w-left  { background: linear-gradient(90deg, #e6e0d2, #ece7db); clip-path: polygon(0 0, var(--ws) var(--wt), var(--ws) calc(100% - var(--wb)), 0 100%); }
+.w-right { background: linear-gradient(270deg, #ddd6c6, #e7e1d4); clip-path: polygon(100% 0, 100% 100%, calc(100% - var(--ws)) calc(100% - var(--wb)), calc(100% - var(--ws)) var(--wt)); }
+.w-front { background: #d5cdbb; clip-path: polygon(0 100%, var(--ws) calc(100% - var(--wb)), calc(100% - var(--ws)) calc(100% - var(--wb)), 100% 100%); }
+.cbox-well { position: relative; z-index: 1; background: #f3efe5; padding: 2.4% 2%; box-shadow: inset 0 14px 14px -10px rgba(36,35,35,.22), inset 6px 0 8px -6px rgba(36,35,35,.12), inset -6px 0 8px -6px rgba(36,35,35,.14); overflow: hidden; }
+.cbox-liner { inset: 4px; }
+/* neat rows: rotation only, no shuffled offsets */
+.cbox .slot { transform: none; }
+.cbox .donut-box { gap: 2% 1.5%; }
+.cbox .slot img { transform: rotate(var(--r)) scale(1.04); }
+.cbox .slot:hover img { transform: rotate(calc(var(--r) + 12deg)) translateY(-5px) scale(1.07); }
+.cbox .slot[aria-selected="true"] img { transform: rotate(calc(var(--r) - 8deg)) translateY(-16px) scale(1.16); }
+/* lid: same footprint as the box, crisp edges, a tuck flap at its far edge */
+.cbox-lid { inset: 0; }
+.lid-out { background: linear-gradient(180deg, #a7d8c2, var(--mint) 60%, #a2d3bd); box-shadow: inset 0 0 0 1px rgba(36,35,35,.12), inset 0 -10px 0 #9fd0ba; }
+.lid-inn { background: linear-gradient(0deg, #9ccdb7, var(--mint) 70%); box-shadow: inset 0 0 0 1px rgba(36,35,35,.12); }
+.lid-inn::before { display: none; }
+.lid-inn-mark img { width: clamp(150px, 30%, 260px); }
+.tuck { position: absolute; left: 0; right: 0; top: 0; height: 9%; background: linear-gradient(180deg, #8fc4ad, #9ccdb7); border-bottom: 1px solid rgba(36,35,35,.12); }
+.cbox[data-state="opening"] .cbox-lid, .cbox[data-state="open"] .cbox-lid { transform: rotateX(-112deg); }
+/* front exterior wall: same mint, printed charcoal band with the logo */
+.cbox-front { margin: 0; clip-path: none; height: var(--fh); background: linear-gradient(180deg, #93c7b0, #9fd0ba); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), inset 0 -1px 0 rgba(36,35,35,.12); display: flex; align-items: center; justify-content: center; padding: 0; }
+.front-band { display: flex; align-items: center; justify-content: center; height: 62%; padding: 0 24px; background: var(--char); border-radius: 2px; }
+.front-band img { height: 72%; width: auto; filter: brightness(0) invert(1); opacity: .95; }
+.cbox-front > img { display: none; }
+.cbox-front .notch { width: clamp(54px, 8vw, 76px); height: 12px; background: #f3efe5; }
+.seal { bottom: calc(var(--fh) - var(--sz) / 2 + var(--sz) / 2 - var(--sz) / 2); }
+.cbox[data-state="opening"] .seal, .cbox[data-state="open"] .seal { left: 93%; bottom: calc(var(--fh) / 2 - var(--sz) * .39); }
+.seal { bottom: calc(var(--fh) - 10px); }
+.cbox[data-state="opening"] .seal, .cbox[data-state="open"] .seal { bottom: calc(var(--fh) / 2 - 10px); }
+/* front print sits left so the seal has the center seam to itself */
+.cbox-front { justify-content: flex-start; padding-left: 4%; }
+/* closed box sits up top; the space for the lid opens as it swings up */
+.cbox { padding-top: 3%; transition: padding-top 1.05s cubic-bezier(.55,.05,.25,1); }
+.cbox[data-state="opening"], .cbox[data-state="open"] { padding-top: 26%; }
+@media (max-width: 520px) {
+  .cbox[data-state="opening"] .seal, .cbox[data-state="open"] .seal { left: 84%; }
+}

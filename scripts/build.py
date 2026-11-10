@@ -35,29 +35,34 @@ def head(title, desc):
 </head>"""
 
 
-SVG_DEFS = """
-<svg class="defs" aria-hidden="true" focusable="false">
-  <filter id="cloud-back" x="-50%" y="-50%" width="200%" height="200%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="4" seed="7"/>
-    <feDisplacementMap in="SourceGraphic" scale="170"/>
-  </filter>
-  <filter id="cloud-mid" x="-50%" y="-50%" width="200%" height="200%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7"/>
-    <feDisplacementMap in="SourceGraphic" scale="150"/>
-  </filter>
-  <filter id="cloud-front" x="-50%" y="-50%" width="200%" height="200%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7"/>
-    <feDisplacementMap in="SourceGraphic" scale="100"/>
-  </filter>
-</svg>
-
+# Splash: line-drawn clouds in the style of the Cloudy logo. Small clouds drift; the
+# hero cloud draws itself, the donut lands in its top-right bump, then the real logo resolves.
+CLOUD_SMALL = "M18 70 C4 70 2 50 20 47 C18 33 34 25 48 33 C54 15 82 10 94 27 C104 13 128 15 132 33 C146 31 156 44 150 56 C162 58 162 70 150 70 Z"
+SVG_DEFS = f"""
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="sky">""" + "".join(
-    f'\n    <div class="cloud cl-{c}"><div class="back"></div><div class="mid"></div><div class="front"></div></div>' for c in "abcde"
-) + f"""
-  </div>
+  <svg class="drift" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <defs><path id="cl" d="{CLOUD_SMALL}"/></defs>
+    <g class="dc d1"><use href="#cl" transform="translate(120 140) scale(1.5)"/></g>
+    <g class="dc d2"><use href="#cl" transform="translate(1180 110) scale(1.15)"/></g>
+    <g class="dc d3"><use href="#cl" transform="translate(1290 600) scale(1.7)"/></g>
+    <g class="dc d4"><use href="#cl" transform="translate(180 640) scale(1.05)"/></g>
+    <g class="dc d5"><use href="#cl" transform="translate(760 760) scale(.8)"/></g>
+    <g class="dc d6"><use href="#cl" transform="translate(640 60) scale(.7)"/></g>
+  </svg>
   <div class="intro-mark">
-    <img class="wix" data-wix="{LOGO}" data-w="600" alt="">
+    <div class="mark-wrap">
+      <svg class="draw" viewBox="0 0 320 150" aria-hidden="true">
+        <path class="ln l1" pathLength="1" d="M78 128 L34 128 C10 128 8 98 32 95 C29 74 54 63 72 74 C78 48 114 38 134 57 C143 37 172 31 190 46"/>
+        <path class="ln l2" pathLength="1" d="M263 66 C281 66 296 82 288 100 C308 103 309 128 286 128 L250 128"/>
+        <g class="dn">
+          <circle class="ring" cx="228" cy="54" r="34"/>
+          <path class="glaze" d="M228 27 C238 26 246 31 251 37 C257 41 257 49 255 55 C258 62 254 70 248 74 C243 81 234 82 228 81 C220 83 212 79 207 73 C200 69 199 60 201 54 C199 47 203 39 209 35 C214 29 221 27 228 27 Z"/>
+          <g class="spr"><path d="M214 40 l4 -2"/><path d="M226 33 l1 4"/><path d="M240 36 l4 1"/><path d="M247 50 l2 -4"/><path d="M240 68 l-3 2"/><path d="M216 66 l-1 -4"/><path d="M209 54 l3 2"/></g>
+          <circle class="hole" cx="228" cy="54" r="10"/>
+        </g>
+      </svg>
+      <img class="wix mark-logo" data-wix="{LOGO}" data-w="600" alt="">
+    </div>
     <p class="intro-line">Where Dreams Crumb True</p>
   </div>
   <button class="intro-skip" type="button">Skip</button>
@@ -195,6 +200,7 @@ LINEUP = """
         <div class="cbox" id="cbox" data-state="closed">
           <div class="cbox-stage">
             <div class="cbox-body" id="cbox-body" inert>
+              <span class="wall w-back" aria-hidden="true"></span><span class="wall w-left" aria-hidden="true"></span><span class="wall w-right" aria-hidden="true"></span><span class="wall w-front" aria-hidden="true"></span>
               <div class="cbox-well">
                 <div class="cbox-liner" aria-hidden="true"><div class="cbox-print" id="cbox-print"></div></div>
                 <div class="donut-box" id="donut-box" role="tablist" aria-label="This week's flavors"></div>
@@ -202,10 +208,10 @@ LINEUP = """
             </div>
             <div class="cbox-lid" aria-hidden="true">
               <div class="lid-face lid-out"><div class="lid-pat" id="lid-pat"></div><img class="wix lid-logo" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""></div>
-              <div class="lid-face lid-inn"><div class="lid-pat" id="lid-pat-in"></div><div class="lid-inn-mark"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""><p>Where Dreams Crumb True</p></div></div>
+              <div class="lid-face lid-inn"><div class="lid-pat" id="lid-pat-in"></div><div class="lid-inn-mark"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""></div><span class="tuck" aria-hidden="true"></span></div>
             </div>
           </div>
-          <div class="cbox-front" aria-hidden="true"><span class="notch"></span><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="300" alt=""></div>
+          <div class="cbox-front" aria-hidden="true"><span class="notch"></span><span class="front-band"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="300" alt=""></span></div>
           <button class="seal" id="cbox-seal" type="button" aria-controls="cbox-body" aria-expanded="false"><span>Where<br>Dreams<br>Crumb<br>True</span><span class="visually-hidden">Open this week's box</span></button>
         </div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
