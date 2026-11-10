@@ -255,9 +255,7 @@
     $("#loc-grid").innerHTML = data.locations.map((l) => {
       const q = encodeURIComponent("Cloudy Donut Co, " + l.address);
       return `<li class="loc-card reveal in" data-loc="${l.id}">
-        <div class="loc-map">
-          <iframe title="Map of Cloudy Donut ${esc(l.name)}" src="https://www.google.com/maps?q=${q}&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <div class="loc-map" data-lat="${l.lat}" data-lng="${l.lng}" role="img" aria-label="Map of Cloudy Donut ${esc(l.name)}, ${esc(l.address)}"></div>
         <h3>${esc(l.name)}</h3>
         <p class="loc-city">${esc(l.city)}</p>
         <p class="loc-status"></p>
@@ -287,6 +285,7 @@
     };
     refreshStatus();
     setInterval(refreshStatus, 60000);
+    setupMaps();
 
     // Order links: placeholder until the real ordering link is confirmed
     document.addEventListener("click", (e) => {
@@ -385,6 +384,33 @@
       if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
     }), { rootMargin: "0px 0px -8% 0px" });
     els.forEach((el) => io.observe(el));
+  }
+
+  /* ---------- Maps: Leaflet + CARTO tiles, with a donut for a pin ---------- */
+  let leafletReady;
+  const loadLeaflet = () => leafletReady || (leafletReady = new Promise((res, rej) => {
+    const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "assets/leaflet/leaflet.css"; document.head.appendChild(css);
+    const js = document.createElement("script"); js.src = "assets/leaflet/leaflet.js"; js.onload = () => res(window.L); js.onerror = rej; document.head.appendChild(js);
+  }));
+  function setupMaps() {
+    const boxes = $$(".loc-map[data-lat]");
+    if (!boxes.length) return;
+    const init = (el) => loadLeaflet().then((L) => {
+      if (el._map) return;
+      const ll = [+el.dataset.lat, +el.dataset.lng];
+      const map = L.map(el, { center: ll, zoom: 16, scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false, zoomControl: true, attributionControl: true });
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        maxZoom: 19, subdomains: "abcd",
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      }).addTo(map);
+      const icon = L.divIcon({ className: "donut-pin", iconSize: [56, 62], iconAnchor: [28, 56], html: '<span class="dp-shadow"></span><span class="dp-donut"></span>' });
+      L.marker(ll, { icon, keyboard: false }).addTo(map);
+      map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
+      el._map = map;
+    }).catch(() => { el.classList.add("map-failed"); });
+    if (!("IntersectionObserver" in window)) return boxes.forEach(init);
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { init(e.target); io.unobserve(e.target); } }), { rootMargin: "200px" });
+    boxes.forEach((b) => io.observe(b));
   }
 
   /* ---------- Site search ---------- */

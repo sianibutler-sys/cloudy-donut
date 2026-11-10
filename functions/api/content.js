@@ -4,7 +4,7 @@
 //
 // Airtable tables expected:
 //   Flavors   (Slug, Name, Description, Image ID, Tags [multi-select], Contains, This Week [checkbox], Active [checkbox])
-//   Locations (Slug, Name, City, Address, Phone, Hours JSON, Hours Label, Note, Order)
+//   Locations (Slug, Name, City, Address, Phone, Hours JSON, Hours Label, Note, Lat, Lng, Order)
 //   Tour      (City, Date [YYYY-MM-DD], Time, Address, Venue, Status [announced | sold_out], Order)
 //   Settings  (Key, Value)  e.g. week_of, lineup_also, order_link, flyer_image, prices
 
@@ -55,7 +55,7 @@ export async function onRequestGet({ env, request }) {
       },
       locations: locations.map((l) => ({
         id: l.Slug, name: l.Name, city: l.City, address: l.Address, phone: l.Phone,
-        hours: JSON.parse(l["Hours JSON"] || "{}"), hours_label: l["Hours Label"], note: l.Note,
+        hours: JSON.parse(l["Hours JSON"] || "{}"), hours_label: l["Hours Label"], note: l.Note, lat: l.Lat, lng: l.Lng,
       })),
       tour: { stops: tour.map((t) => ({ city: t.City, date: t.Date || "", time: t.Time || "", address: t.Address || "", venue: t.Venue || "", status: t.Status || "announced" })) },
       links: {

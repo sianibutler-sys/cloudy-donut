@@ -27,6 +27,10 @@ To preview locally, double-click `index.html`, or run `python3 -m http.server` i
 
 Photos load straight from Cloudy's own Wix media CDN, so nothing of theirs is copied into the repo.
 
+## Maps
+
+Shop maps use Leaflet (bundled in `assets/leaflet`, BSD license) with CARTO Voyager tiles and a drawn donut as the pin. CARTO's free basemaps are fine for a demo. If Cloudy launches this, switch the tile URL in `app.js` to a keyed provider on their account (Stadia Maps or Mapbox both have free tiers for commercial sites) so usage terms are covered. Shop coordinates live in `data/site.json` (`lat`, `lng`).
+
 ## Connecting Airtable (only if they sign)
 
 Set these in Cloudflare Pages > Settings > Variables, in Cloudy's own account: `AIRTABLE_TOKEN`, `AIRTABLE_BASE`, optional `AIRTABLE_TABLE` (default `Submissions`), optional `NOTIFY_WEBHOOK` for catering emails. The expected table and field names are in the comment at the top of each function.

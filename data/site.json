@@ -37,7 +37,9 @@
         ]
       },
       "hours_label": "Fri, Sat, Sun 9am–4pm",
-      "note": "Gift cards available in store"
+      "note": "Gift cards available in store",
+      "lat": 40.693359,
+      "lng": -73.9986059
     },
     {
       "id": "nolita",
@@ -60,7 +62,9 @@
         ]
       },
       "hours_label": "Fri, Sat, Sun 11am–6pm",
-      "note": "Our largest lineup, with 50+ flavors in rotation"
+      "note": "Our largest lineup, with 50+ flavors in rotation",
+      "lat": 40.7218637,
+      "lng": -73.995478
     },
     {
       "id": "lauraville",
@@ -70,7 +74,9 @@
       "phone": "347.463.9628",
       "hours": {},
       "hours_label": "Pop-ups only",
-      "note": "Where it started. Watch the pop-up schedule."
+      "note": "Where it started. Watch the pop-up schedule.",
+      "lat": 39.3387919,
+      "lng": -76.5731214
     }
   ],
   "tour": {
