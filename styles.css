@@ -605,3 +605,12 @@ select option { color: var(--ink); }
   .pk img { width: 90px; }
   .pk-name { margin-top: 0; }
 }
+
+/* Flavor search: an underlined field that sits on the same line as the filters */
+.flavor-tools { align-items: flex-end; border-bottom: 1px solid var(--line-l); padding-bottom: 14px; }
+.flavor-tools .search { position: relative; display: flex; align-items: center; gap: 10px; flex: 0 1 240px; color: var(--char); border-bottom: 2px solid var(--char); padding-bottom: 4px; }
+.flavor-tools .search:focus-within { border-bottom-color: var(--sage); }
+.flavor-tools .search input { background: none; border: 0; border-radius: 0; padding: 4px 0; color: var(--char); font: 800 .74rem var(--sans); letter-spacing: .14em; text-transform: uppercase; box-shadow: none !important; }
+.flavor-tools .search input::placeholder { color: #8d897f; }
+.flavor-tools .search input::-webkit-search-cancel-button { filter: grayscale(1); }
+@media (max-width: 860px) { .flavor-tools .search { flex-basis: 100%; order: -1; margin-bottom: 8px; } }

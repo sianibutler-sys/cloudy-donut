@@ -448,8 +448,9 @@ FLAVORS = f"""
       <div class="flavor-tools">
         <div class="chips" role="group" aria-label="Filter flavors" id="chips"></div>
         <label class="search">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
           <span class="visually-hidden">Search flavors</span>
-          <input type="search" id="flavor-search" placeholder="Search flavors">
+          <input type="search" id="flavor-search" placeholder="Find a flavor">
         </label>
       </div>
       <div class="flavor-meta">
