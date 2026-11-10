@@ -216,19 +216,34 @@
 
     // Flavor dialog
     const dlg = $("#flavor-dialog");
+    // Flavor card: opens on a sheet of Cloudy deli paper
+    const LOGO_ID = "d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png";
+    let printed = false;
+    const tear = (y0, dir) => {
+      const pts = []; let x = 0;
+      while (x < 100) { x = Math.min(100, x + 1.5 + Math.random() * 3); pts.push(`${x.toFixed(2)}% ${(y0 + dir * Math.random() * .45).toFixed(2)}%`); }
+      return pts;
+    };
     const openFlavor = (f) => {
+      if (!printed) {
+        const logo = wix(LOGO_ID, 200);
+        $("#fd-print").innerHTML = Array.from({ length: 120 }, () => `<img src="${logo}" alt="">`).join("");
+        printed = true;
+      }
+      $("#fd-paper").style.clipPath = `polygon(0% .3%, ${tear(.15, 1).join(",")}, 100% 99.7%, ${tear(99.85, -1).reverse().join(",")}, 0% 99.7%)`;
       $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name;
       $("#fd-name").textContent = f.name;
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
       $("#fd-badge").hidden = !thisWeek.has(f.id);
+      const sheet = $("#fd-sheet"); sheet.classList.remove("play"); void sheet.offsetWidth; sheet.classList.add("play");
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
     };
     document.addEventListener("click", (e) => {
       const card = e.target.closest("[data-id]"); if (!card) return;
       const f = byId[card.dataset.id]; if (f) openFlavor(f);
     });
-    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.classList.contains("sheet-wrap")) dlg.close(); });
     const deep = new URLSearchParams(location.search).get("f");
     if (deep && byId[deep]) setTimeout(() => openFlavor(byId[deep]), 300);
 

@@ -130,14 +130,30 @@
   <p class="search-hint" id="search-hint">Try "pistachio", "nut free", "Brooklyn", "Newark" or "gluten".</p>
 </dialog>
 
-<dialog class="flavor-dialog" id="flavor-dialog" aria-labelledby="fd-name">
-  <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
-  <img id="fd-img" alt="">
-  <div class="fd-body">
-    <p class="fd-badge" id="fd-badge" hidden>On this week's lineup</p>
-    <h3 id="fd-name"></h3>
-    <p id="fd-desc"></p>
-    <p class="fd-contains" id="fd-contains"></p>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="crinkle" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".008 .014" numOctaves="4" seed="21" result="n"/>
+    <feDiffuseLighting in="n" lighting-color="#fff" surfaceScale="2.4" result="l"><feDistantLight azimuth="225" elevation="60"/></feDiffuseLighting>
+    <feColorMatrix in="l" type="matrix" values="0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .2  -1.6 0 0 0 1.32"/>
+  </filter>
+</svg>
+<dialog class="paper-dialog" id="flavor-dialog" aria-labelledby="fd-name">
+  <div class="sheet" id="fd-sheet">
+    <div class="paper" id="fd-paper">
+      <div class="pp-tone" aria-hidden="true"></div>
+      <div class="pp-print" id="fd-print" aria-hidden="true"></div>
+      <div class="pp-crinkle" aria-hidden="true"></div>
+      <div class="pp-crease c1" aria-hidden="true"></div><div class="pp-crease c2" aria-hidden="true"></div><div class="pp-crease c3" aria-hidden="true"></div><div class="pp-crease c4" aria-hidden="true"></div>
+      <div class="pp-sheen" aria-hidden="true"></div>
+      <form method="dialog"><button class="pp-close" aria-label="Close">×</button></form>
+      <p class="pp-sticker" id="fd-badge" hidden><span>On this week's<br>lineup</span></p>
+      <div class="pp-donut"><img id="fd-img" alt=""></div>
+      <div class="pp-text">
+        <h3 id="fd-name"></h3>
+        <p class="pp-desc" id="fd-desc"></p>
+        <p class="pp-contains" id="fd-contains"></p>
+      </div>
+    </div>
   </div>
 </dialog>
 
