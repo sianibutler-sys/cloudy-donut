@@ -256,6 +256,11 @@
       const q = encodeURIComponent("Cloudy Donut Co, " + l.address);
       return `<li class="loc-card reveal in" data-loc="${l.id}">
         <div class="loc-map" data-lat="${l.lat}" data-lng="${l.lng}" role="img" aria-label="Map of Cloudy Donut ${esc(l.name)}, ${esc(l.address)}"></div>
+        <p class="open-in"><span>Open in</span>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener">Google Maps</a>
+          <a href="https://maps.apple.com/?q=${encodeURIComponent("Cloudy Donut Co")}&daddr=${encodeURIComponent(l.address)}" target="_blank" rel="noopener">Apple Maps</a>
+          <a href="https://waze.com/ul?ll=${l.lat},${l.lng}&navigate=yes" target="_blank" rel="noopener">Waze</a>
+        </p>
         <h3>${esc(l.name)}</h3>
         <p class="loc-city">${esc(l.city)}</p>
         <p class="loc-status"></p>
@@ -263,7 +268,6 @@
         <p class="fine" style="margin:0">${esc(l.hours_label)}</p>
         <p class="loc-note">${esc(l.note || "")}</p>
         <div class="loc-actions">
-          <a href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener">Directions</a>
           <a href="tel:+1${l.phone.replace(/\D/g, "")}">Call</a>
           ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="pop-ups.html">See pop-ups</a>`}
         </div>

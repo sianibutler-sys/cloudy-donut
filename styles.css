@@ -705,3 +705,12 @@ select option { color: var(--ink); }
 @keyframes pin-bob { 50% { transform: translateY(-5px) rotate(12deg); } }
 @keyframes shadow-bob { 50% { transform: scale(.8); opacity: .7; } }
 
+
+/* Open the shop in a maps app */
+.loc-map { margin-bottom: 0; }
+.open-in { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin: 0 -28px 22px; padding: 12px 28px; background: var(--cream); color: var(--char); }
+.open-in span { font: italic 400 .95rem var(--serif); color: #6a665d; }
+.open-in a { font: 800 .7rem var(--sans); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--mint); padding-bottom: 2px; }
+.open-in a:hover { border-bottom-color: var(--char); }
+.open-in { margin-top: -6px; }
+@media (max-width: 520px) { .open-in { gap: 6px 12px; } .open-in a { font-size: .64rem; letter-spacing: .1em; } }
