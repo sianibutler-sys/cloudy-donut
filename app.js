@@ -292,7 +292,7 @@
     $("#loc-grid").innerHTML = data.locations.map((l) => {
       const q = encodeURIComponent("Cloudy Donut Co, " + l.address);
       return `<li class="loc-card reveal in" data-loc="${l.id}">
-        <div class="loc-map" data-lat="${l.lat}" data-lng="${l.lng}" role="img" aria-label="Map of Cloudy Donut ${esc(l.name)}, ${esc(l.address)}"></div>
+        <div class="loc-map" data-lat="${l.lat}" data-lng="${l.lng}" role="group" aria-label="Map of Cloudy Donut ${esc(l.name)}, ${esc(l.address)}"></div>
         <p class="open-in"><span>Open in</span>
           <a href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener">Google Maps</a>
           <a href="https://maps.apple.com/?q=${encodeURIComponent("Cloudy Donut Co")}&daddr=${encodeURIComponent(l.address)}" target="_blank" rel="noopener">Apple Maps</a>
@@ -596,5 +596,12 @@
       if ((e.key === "/" && !typing) || (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey))) { e.preventDefault(); open(); }
     });
   }
+  // Links that open a new tab say so to screen readers
+  const markNewTabs = (root = document) => $$('a[target="_blank"]', root).forEach((a) => {
+    if (a.querySelector(".nt")) return;
+    a.insertAdjacentHTML("beforeend", '<span class="visually-hidden nt"> (opens in a new tab)</span>');
+  });
+  markNewTabs();
+  new MutationObserver(() => markNewTabs()).observe(document.body, { childList: true, subtree: true });
   hydrateImages();
 })();

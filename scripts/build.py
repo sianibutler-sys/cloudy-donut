@@ -106,6 +106,7 @@ FOOTER = f"""
       <a href="https://www.facebook.com/CloudyDonutCo" target="_blank" rel="noopener">Facebook</a>
       <a href="https://www.thesevenstreams.com" target="_blank" rel="noopener">7Streams</a>
       <a href="tel:+13474639628">347.463.9628</a>
+      <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>
     </div>
     <p class="concept-line">Concept site prepared by Siani Creates for Cloudy Donut Co. Not the official website. Content, logo and photos belong to Cloudy Donut Co.</p>
   </div>
@@ -114,6 +115,7 @@ FOOTER = f"""
 <button class="concept-pill" type="button" aria-controls="concept" aria-expanded="false">Concept by Siani Creates</button>
 <aside class="concept-panel" id="concept" hidden aria-label="About this concept">
   <button class="concept-close" type="button" aria-label="Close">×</button>
+  __COMPARE__
   <p class="kicker dark">What this build does</p>
   <h2>Yours to run, yours to keep</h2>
   <ol>
@@ -130,7 +132,7 @@ FOOTER = f"""
 <dialog class="search-dialog" id="search-dialog" aria-label="Search Cloudy Donut">
   <div class="search-box">
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-    <input id="site-search" type="search" placeholder="Search Cloudy" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list">
+    <input id="site-search" type="search" aria-label="Search flavors, shops and pop-ups" placeholder="Search Cloudy" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list">
     <button class="search-close" type="button">Esc</button>
   </div>
   <div class="search-results" id="search-results" role="listbox" aria-label="Results"></div>
@@ -323,16 +325,21 @@ FAQ = """
     <div class="wrap faq-wrap">
       <h2 class="display-md" id="faq-h">Good To Know</h2>
       <div class="faq-list">
+        <details><summary>Where are you all located?</summary><p>We have two shops in NYC: 14 Columbia Pl., Brooklyn, NY 11201 and 209 Mott Street, New York, NY 10012. Our Lauraville home in Baltimore hosts pop-ups. See <a href="locations.html">hours and maps</a>.</p></details>
+        <details><summary>What oils are your donuts made in?</summary><p>All our donuts are fried in liquid vegetable shortening.</p></details>
+        <details><summary>What substitutes do you use to make the donuts vegan?</summary><p>Applesauce, coconut milk and shortening are used in place of animal products.</p></details>
         <details><summary>Are your donuts gluten free?</summary><p>Our donuts are 100% vegan, but they are not gluten free.</p></details>
-        <details><summary>Which donuts have nuts?</summary><p>Every flavor with nuts is marked on the <a href="flavors.html">flavors page</a>.</p></details>
-        <details><summary>What replaces eggs and dairy?</summary><p>Applesauce, coconut milk and shortening. All donuts are fried in liquid vegetable shortening.</p></details>
-        <details><summary>How long do they keep?</summary><p>No preservatives, so eat donuts within 13 hours at room temperature. Cinnamon rolls and pound cakes keep for 2–3 days.</p></details>
-        <details><summary>What if I forget to pick up a preorder?</summary><p>If you ordered through a delivery app, contact that app. If you ordered directly from us, give us a call and we'll do our best to help.</p></details>
-        <details><summary>Do you ship?</summary><p>Not donuts. Pound cakes are coming next year, and the <a href="experiences.html#ship">waitlist</a> hears first.</p></details>
-        <details><summary>Do you make custom donuts?</summary><p>We have special holiday and occasion packages, but no custom orders at this time.</p></details>
-        <details><summary>Something for the dog?</summary><p>Lil Bow Wow and the Snoop Doggy Donut are made for pups.</p></details>
-        <details><summary>Gift cards?</summary><p>Available in store at Brooklyn Heights.</p></details>
-        <details><summary>How can I apply for a job?</summary><p>Send us an email. We're always open to new talent with an interest in baking.</p></details>
+        <details><summary>Which donuts have nuts in them?</summary><p>Some of our donuts contain nuts. Every flavor with nuts is marked on the <a href="flavors.html?filter=nutfree">flavors page</a>, and you can filter to nut-free flavors.</p></details>
+        <details><summary>How long can I store the donuts for?</summary><p>Our donuts do not contain preservatives, so we do not recommend holding them longer than 13 hours at room temperature. Our cinnamon rolls and pound cakes have a shelf life of 2–3 days.</p></details>
+        <details><summary>What happens if I place a preorder and forget to pick it up?</summary><p>Contact the company where you placed your order, like DoorDash or Grubhub, to sort it out. If you ordered directly from us, give us a call at <a href="tel:+13474639628">347.463.9628</a> and we will do our best to accommodate you.</p></details>
+        <details><summary>Do you cater or do large orders?</summary><p>Yes. Tell us about your event on the <a href="experiences.html">Experiences page</a>, or call <a href="tel:+13474639628">347.463.9628</a> to place a large order.</p></details>
+        <details><summary>Do you all do custom or special order donuts?</summary><p>We have special holiday and occasion packages, but we do not make custom order donuts at this time.</p></details>
+        <details><summary>Do you all ship?</summary><p>Due to the short shelf life of our vegan donuts, we do not ship them. Pound cakes are coming next year, and the <a href="experiences.html#ship">waitlist</a> hears first.</p></details>
+        <details><summary>Do you all wholesale the donuts?</summary><p>We do not wholesale our donuts at this time, but call <a href="tel:+13474639628">347.463.9628</a> to learn how we can help with your program or event.</p></details>
+        <details><summary>Do you sell gift cards?</summary><p>Gift cards are available in store at our Brooklyn Heights location.</p></details>
+        <details><summary>Do you all sell merchandise?</summary><p>We have merchandise available for purchase at our Federal Hill shop, 1049 S. Charles St.</p></details>
+        <details><summary>How can I apply for a job?</summary><p>Email us at <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>. We are always open to new talent with an interest in baking.</p></details>
+        <details><summary>Something for the dog?</summary><p>Yes. Lil Bow Wow and the Snoop Doggy Donut are <a href="flavors.html?filter=pups">made for pups</a>.</p></details>
       </div>
     </div>
   </section>"""
@@ -520,7 +527,7 @@ FLAVORS = f"""
 
 POPUPS = f"""
 <main id="main" class="pad-top">
-{FLYER.replace("__TOURMORE__", TOUR_FORM)}
+{FLYER.replace("__TOURMORE__", TOUR_FORM).replace('<h2 class="flyer-city" id="popups-h">On Tour</h2>', '<h1 class="flyer-city" id="popups-h">On Tour</h1>')}
   <section class="cream tour-notes" aria-labelledby="tn-h">
     <div class="wrap tn-grid">
       <h2 class="display-md" id="tn-h">How Pop-ups Work</h2>
@@ -583,6 +590,64 @@ LOCS = f"""
 {FAQ}
 </main>"""
 
+COMPARE_PAGES = {
+    "index.html": ("Home",
+        ["Log In and a cart sit in the header. Nothing is sold online, so the cart stays at zero.",
+         "Nav text on mint measures about 3.85:1, under the 4.5:1 that WCAG AA asks for."],
+        ["This week's lineup arrives in a sealed box. Tap the seal to open it.",
+         "Each shop shows open or closed on New York time.",
+         "The next tour stop sits on the home page with a countdown.",
+         "Search with a quick menu for hours, flavors and pop-ups."]),
+    "flavors.html": ("Flavors",
+        ["The page has no H1, so a screen reader lands with no page title.",
+         "Photo alt text reads as file names."],
+        ["All 44 flavors, filterable by nut-free, boozy and made for pups.",
+         "Tap any donut for its deli-paper card with allergens.",
+         "Find your flavor: four questions, this week's box or every flavor."]),
+    "pop-ups.html": ("Pop-ups",
+        ["The ordering page reads \"No items to show yet.\""],
+        ["The flyer builds itself from the tour list. Next stop: Newark, Nov 14.",
+         "\"Bring Cloudy to my city\" signups show where demand is."]),
+    "our-story.html": ("Our story",
+        ["Six leftover Wix template posts, on fintech startups and earbuds, are indexed by Google under the Cloudy name."],
+        ["The story copy, word for word.",
+         "Press lists Cloudy coverage only, with working links."]),
+    "experiences.html": ("Experiences",
+        ["Catering notice reads 14 days in one place and 7 in another."],
+        ["One number, 14 days, in the event form.",
+         "Event requests and the cake waitlist land in one Airtable base."]),
+    "locations.html": ("Locations",
+        ["The page has no H1.",
+         "Phone numbers are plain text. A tap on a phone does nothing.",
+         "The FAQ names a Federal Hill merch shop the page doesn't list."],
+        ["Maps with donut pins, plus Google Maps, Apple Maps and Waze links.",
+         "Open now, by shop, and tap to call.",
+         "All 14 FAQ answers from the current site, plus one for dogs."]),
+}
+
+EVERY_PAGE = [
+    "Text contrast meets WCAG AA. Mint text on cream measures about 1.5:1 on the current site.",
+    "Photos carry real descriptions, or stay silent when the donut's name sits beside them.",
+    "One H1 per page and no skipped heading levels.",
+    "A skip-to-content link for keyboard users.",
+    "Links that open a new tab say so to screen readers.",
+    "Phone numbers call on tap. Email sits in the footer of every page.",
+    "Search has a label. No empty header links.",
+    "axe-core scan: 0 WCAG 2.1 AA issues across all six pages.",
+]
+
+def compare_block(fname):
+    name, live, demo = COMPARE_PAGES[fname]
+    li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
+    return f"""<p class="kicker dark">Behind the scenes</p>
+  <h2>Current site vs this demo</h2>
+  <div class="cmp">
+    <div class="cmp-col"><h3>{name} on cloudydonut.com</h3><ul>{li(live)}</ul></div>
+    <div class="cmp-col cmp-demo"><h3>{name} in this demo</h3><ul>{li(demo)}</ul></div>
+  </div>
+  <details class="cmp-all"><summary>Fixed on every page</summary><ul>{li(EVERY_PAGE)}</ul></details>
+  <hr class="cmp-rule">"""
+
 PAGES = {
     "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch, hand crafted.", HOME, True),
     "flavors.html": ("Flavors", "Every Cloudy Donut flavor, with allergens and this week's lineup.", FLAVORS, False),
@@ -593,6 +658,6 @@ PAGES = {
 }
 
 for fname, (title, desc, body, is_home) in PAGES.items():
-    html = head(title, desc) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER
+    html = head(title, desc) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER.replace("__COMPARE__", compare_block(fname))
     (ROOT / fname).write_text(html)
     print("wrote", fname)

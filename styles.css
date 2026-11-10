@@ -897,3 +897,27 @@ select option { color: var(--ink); }
 .picker-more[hidden] { display: none; }
 @media (max-width: 520px) { .pq-opts button { font-size: 1.6rem; } .scope { gap: 14px; } }
 button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: pointer; }
+
+/* ===== Accessibility: text contrast at WCAG AA ===== */
+:root { --sage-ink: #466a5b; --mint-ink: #1f5240; }
+.kicker.dark, .bd-num, .page-hero:not(.has-photo) .kicker, .story-side .kicker, .story .firsts .big, .tn-list .big, .sr-group, .lineup-card::before, .loc-city { color: var(--sage-ink); }
+.loc-card .loc-city { color: var(--mint); }
+.nav a[aria-current="page"], .nav a:not(.btn):hover { color: var(--sage-ink); }
+.exp-teaser .kicker.dark, .picker .kicker.dark, .pq-label, .or, .pk-meta, .ship .kicker.dark, .picker-note { color: var(--mint-ink); }
+.cream .fine, .flavors .fine, .faq .fine, .story .fine, .tour-notes .fine { color: #5d5a52; }
+.faq details p a, .story-copy a { font-weight: 700; text-decoration-color: var(--sage); text-decoration-thickness: 2px; }
+.cream .loc-card .fine { color: var(--muted); }
+.pq-opts button { color: rgba(36,35,35,.62); }
+.scope button { color: rgba(36,35,35,.78); }
+
+/* Concept panel: current site vs demo */
+.concept-panel .cmp { display: grid; gap: 10px; margin-bottom: 12px; }
+.concept-panel .cmp-col { border-radius: 14px; padding: 12px 14px; background: rgba(36,35,35,.05); }
+.concept-panel .cmp-demo { background: rgba(171,219,198,.35); }
+.concept-panel .cmp h3 { font: 800 .72rem var(--sans); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+.concept-panel .cmp ul, .concept-panel .cmp-all ul { margin: 0; padding-left: 1.1em; }
+.concept-panel .cmp li, .concept-panel .cmp-all li { font-size: .88rem; color: #4a4741; margin-bottom: 4px; }
+.concept-panel .cmp-all { margin-bottom: 14px; }
+.concept-panel .cmp-all summary { cursor: pointer; font: 800 .8rem var(--sans); padding: 6px 0; }
+.concept-panel .cmp-rule { border: 0; border-top: 1px solid rgba(36,35,35,.15); margin: 6px 0 16px; }
+.concept-panel h2 + .cmp { margin-top: -4px; }
