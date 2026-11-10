@@ -67,23 +67,39 @@
       <div>
         <p class="kicker dark">Not sure?</p>
         <h2 class="display-md" id="picker-h">Find Your Flavor.</h2>
-        <p class="picker-sub">Two taps and we'll pull three for you.</p>
+        <p class="picker-sub">Tell us your mood and we'll pull three for you.</p>
       </div>
       <div class="picker-qs">
-        <div class="pq" role="group" aria-label="Fruity or rich">
+        <div class="pq" role="group" aria-label="Flavor mood">
           <span class="pq-label">I'm in the mood for</span>
-          <div class="pq-opts"><button type="button" data-pick="q1:fruity" aria-pressed="false">Fruity</button><span class="or">or</span><button type="button" data-pick="q1:rich" aria-pressed="false">Rich</button></div>
+          <div class="pq-opts"><button type="button" data-pick="mood:fruity" aria-pressed="false">Fruity</button><button type="button" data-pick="mood:rich" aria-pressed="false">Rich</button><button type="button" data-pick="mood:spiced" aria-pressed="false">Spiced</button><button type="button" data-pick="mood:fresh" aria-pressed="false">Zesty</button></div>
         </div>
-        <div class="pq" role="group" aria-label="A twist or a classic">
-          <span class="pq-label">And I want</span>
-          <div class="pq-opts"><button type="button" data-pick="q2:twist" aria-pressed="false">A twist</button><span class="or">or</span><button type="button" data-pick="q2:classic" aria-pressed="false">A classic</button></div>
+        <div class="pq" role="group" aria-label="Style">
+          <span class="pq-label">Done up</span>
+          <div class="pq-opts"><button type="button" data-pick="style:any" aria-pressed="true">Any way</button><button type="button" data-pick="style:glazed" aria-pressed="false">Glazed</button><button type="button" data-pick="style:sugar" aria-pressed="false">Sugar-tossed</button><button type="button" data-pick="style:filled" aria-pressed="false">Filled</button></div>
         </div>
-        <label class="pq-check"><input type="checkbox" id="pick-nonuts"> No nuts, please</label>
+        <div class="pq" role="group" aria-label="Texture">
+          <span class="pq-label">On top</span>
+          <div class="pq-opts"><button type="button" data-pick="texture:any" aria-pressed="true">Either</button><button type="button" data-pick="texture:crunchy" aria-pressed="false">Crunch</button><button type="button" data-pick="texture:smooth" aria-pressed="false">Smooth</button></div>
+        </div>
+        <div class="pq" role="group" aria-label="Booze">
+          <span class="pq-label">A splash of booze</span>
+          <div class="pq-opts"><button type="button" data-pick="boozy:any" aria-pressed="true">Either</button><button type="button" data-pick="boozy:yes" aria-pressed="false">Yes</button><button type="button" data-pick="boozy:no" aria-pressed="false">No</button></div>
+        </div>
+        <div class="pq-foot">
+          <label class="pq-check"><input type="checkbox" id="pick-nonuts"> No nuts, please</label>
+          <div class="scope" role="radiogroup" aria-label="Which flavors">
+            <button type="button" role="radio" data-scope="week" aria-checked="true">In the case this week</button>
+            <button type="button" role="radio" data-scope="all" aria-checked="false">Any flavor</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="wrap picker-out" id="picker-out" hidden>
       <p class="kicker dark">Your three</p>
+      <p class="picker-note" id="picker-note" aria-live="polite"></p>
       <div class="picker-results" id="picker-results" aria-live="polite"></div>
+      <button class="link-arrow picker-more" id="picker-more" type="button">Show three more</button>
     </div>
   </section>
 
@@ -135,6 +151,7 @@
     <button class="search-close" type="button">Esc</button>
   </div>
   <div class="search-results" id="search-results" role="listbox" aria-label="Results"></div>
+  <button class="sr-more" id="sr-more" type="button" tabindex="-1" aria-hidden="true" hidden><svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>More</span></button>
 </dialog>
 
 <svg class="defs" aria-hidden="true" focusable="false">

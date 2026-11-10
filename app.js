@@ -177,33 +177,50 @@
         <span class="fl-meta">${thisWeek.has(f.id) ? '<span class="fl-now">This week</span>' : ""}${f.contains ? esc(f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
 
-    // Flavor picker
-    const pick = { q1: null, q2: null, nonuts: false };
-    const RICH = ["chocolate", "cookie", "nuts"];
+    // Flavor picker: mood + style + topping + booze, nut-free, this week or the full rotation
+    const pick = { mood: null, style: "any", texture: "any", boozy: "any", nonuts: false, scope: "week", page: 0 };
+    let seed = Math.random();
+    const jitter = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 9973; return ((h * 9301 + seed * 49297) % 233280) / 233280; };
     const runPicker = () => {
-      if (!pick.q1 || !pick.q2) return;
-      const scored = data.flavors.filter((f) => !f.tags.includes("pups") && !(pick.nonuts && f.tags.includes("nuts"))).map((f) => {
-        let s = 0;
-        if (pick.q1 === "fruity") s += f.tags.includes("fruity") ? 3 : 0; else s += RICH.some((g) => f.tags.includes(g)) ? 3 : 0;
-        if (pick.q2 === "twist") s += (f.tags.includes("spirited") ? 2 : 0) + (f.tags.includes("filled") ? 1.5 : 0) + (f.tags.includes("cookie") ? 1 : 0);
-        else s += f.tags.includes("classic") ? 2.5 : f.tags.length <= 1 ? 1 : 0;
-        if (thisWeek.has(f.id)) s += .6;
-        return [f, s];
-      }).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([f]) => f);
-      $("#picker-results").innerHTML = scored.map((f) => `
-        <button class="pk" type="button" data-id="${f.id}">
-          <img src="${wix(f.img, 300)}" alt="" loading="lazy">
-          <span class="pk-name">${esc(f.name)}</span>
-          <span class="pk-meta">${thisWeek.has(f.id) ? "In the case this week" : "In the rotation"}</span>
-        </button>`).join("");
+      if (!pick.mood) return;
+      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
+      const want = [["mood", 3], ["style", 2], ["texture", 1.5], ["boozy", 2]].filter(([k]) => pick[k] !== "any");
+      const hit = (f, k) => k === "mood" ? (f.profile || []).includes(pick.mood) : k === "boozy" ? (pick.boozy === "yes") === !!f.boozy : f[k] === pick[k];
+      const max = want.reduce((s, [, w]) => s + w, 0);
+      const ranked = pool.map((f) => {
+        const s = want.reduce((acc, [k, w]) => acc + (hit(f, k) ? w : 0), 0);
+        return { f, s, perfect: s === max, tie: (pick.scope === "all" && thisWeek.has(f.id) ? .3 : 0) + jitter(f.id) * .25 };
+      }).filter((r) => r.s > 0).sort((a, b) => (b.s + b.tie) - (a.s + a.tie));
+      const perfect = ranked.filter((r) => r.perfect).length;
+      const pages = Math.max(1, Math.ceil(ranked.length / 3));
+      const show = ranked.slice((pick.page % pages) * 3, (pick.page % pages) * 3 + 3);
+      $("#picker-results").innerHTML = show.length ? show.map((r) => `
+        <button class="pk" type="button" data-id="${r.f.id}">
+          <img src="${wix(r.f.img, 300)}" alt="" loading="lazy">
+          <span class="pk-name">${esc(r.f.name)}</span>
+          <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${thisWeek.has(r.f.id) ? "in the case this week" : "in the rotation"}</span>
+        </button>`).join("") : "";
+      const note = !ranked.length
+        ? (pick.scope === "week" ? "Nothing in the case this week fits all of that. Try Any flavor." : "Nothing fits all of that. Loosen one answer.")
+        : pick.scope === "week" && perfect < 3
+          ? `${perfect === 0 ? "No" : perfect === 1 ? "Only one" : "Only two"} perfect ${perfect === 1 ? "match" : "matches"} in the case this week. Switch to Any flavor to see more.`
+          : `${perfect} perfect ${perfect === 1 ? "match" : "matches"}${pick.scope === "all" ? " across the rotation" : " this week"}.`;
+      $("#picker-note").textContent = note;
+      $("#picker-more").hidden = ranked.length <= 3;
       $("#picker-out").hidden = false;
     };
     $$("[data-pick]").forEach((b) => b.addEventListener("click", () => {
-      const [q, v] = b.dataset.pick.split(":"); pick[q] = v;
+      const [q, v] = b.dataset.pick.split(":"); pick[q] = v; pick.page = 0; seed = Math.random();
       $$(`[data-pick^="${q}:"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       runPicker();
     }));
-    $("#pick-nonuts").addEventListener("change", (e) => { pick.nonuts = e.target.checked; runPicker(); });
+    $$("[data-scope]").forEach((b) => b.addEventListener("click", () => {
+      pick.scope = b.dataset.scope; pick.page = 0;
+      $$("[data-scope]").forEach((x) => x.setAttribute("aria-checked", String(x === b)));
+      runPicker();
+    }));
+    $("#picker-more").addEventListener("click", () => { pick.page++; runPicker(); });
+    $("#pick-nonuts").addEventListener("change", (e) => { pick.nonuts = e.target.checked; pick.page = 0; runPicker(); });
     const apply = () => {
       let n = 0;
       $$("#flavor-grid li").forEach((li) => {
@@ -538,6 +555,7 @@
           </button>`;
         }).join("")).join("");
         input.setAttribute("aria-activedescendant", "sr-0");
+        requestAnimationFrame(cue);
         return;
       }
       results = items.map((i) => [i, score(i, q)]).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([i]) => i);
@@ -549,7 +567,12 @@
           <span class="sr-type">${r.type}</span>
         </button>`).join("") : `<p class="sr-empty">Nothing for "${esc(input.value)}". Try a flavor, a city or a question.</p>`;
       input.setAttribute("aria-activedescendant", active >= 0 ? "sr-0" : "");
+      box.scrollTop = 0; requestAnimationFrame(cue);
     };
+    const more = $("#sr-more");
+    const cue = () => { more.hidden = box.scrollHeight - box.scrollTop - box.clientHeight < 12; };
+    box.addEventListener("scroll", cue, { passive: true });
+    more.addEventListener("click", () => box.scrollBy({ top: box.clientHeight * .7, behavior: reduceMotion ? "auto" : "smooth" }));
     const setActive = (n) => {
       if (!results.length) return;
       active = (n + results.length) % results.length;

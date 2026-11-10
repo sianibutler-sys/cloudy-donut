@@ -871,3 +871,29 @@ select option { color: var(--ink); }
 .sr-quick .sr-type { font-size: .9rem; letter-spacing: 0; }
 .sr-quick .sr-icon:empty { background: radial-gradient(circle, var(--cream-2) 0 5px, #c18546 5.5px 6.5px, var(--mint) 7px 12px, #d9a066 12.5px 15px, var(--cream-2) 15.5px); }
 .sr-quick[aria-selected="true"] .sr-icon:empty, .sr-quick:hover .sr-icon:empty { background: radial-gradient(circle, var(--mint) 0 5px, #c18546 5.5px 6.5px, #f3a9b9 7px 12px, #d9a066 12.5px 15px, var(--cream) 15.5px); }
+
+/* Search: "more below" cue */
+.search-dialog { position: relative; }
+.sr-more { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 0; padding: 26px 0 8px; border: 0; cursor: pointer; color: var(--char);
+  background: linear-gradient(180deg, rgba(255,251,237,0), var(--cream) 60%); font: 800 .6rem var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.sr-more[hidden] { display: none; }
+.sr-more svg { animation: nudge 1.4s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(4px); } }
+.search-results { padding-bottom: 14px; }
+
+/* Picker: four questions, compact */
+.picker-grid { align-items: start; }
+.pq { padding: 12px 0; }
+.pq-opts { gap: 4px 20px; }
+.pq-opts button { font-size: clamp(1.7rem, 3.2vw, 2.6rem); border-bottom-width: 3px; }
+.pq-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; margin-top: 16px; }
+.pq-foot .pq-check { margin-top: 0; }
+.scope { display: flex; gap: 18px; }
+.scope button { background: none; border: 0; padding: 4px 0; cursor: pointer; font: 800 .72rem var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(36,35,35,.5); border-bottom: 2px solid transparent; }
+.scope button[aria-checked="true"] { color: var(--char); border-bottom-color: var(--char); }
+.picker-note { font: italic 400 1.05rem var(--serif); margin: -6px 0 18px; }
+.pk-meta { text-align: center; }
+.picker-more { margin-top: 22px; }
+.picker-more[hidden] { display: none; }
+@media (max-width: 520px) { .pq-opts button { font-size: 1.6rem; } .scope { gap: 14px; } }
+button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: pointer; }
