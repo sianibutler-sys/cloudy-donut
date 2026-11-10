@@ -175,7 +175,13 @@ LINEUP = """
         </div>
         <p class="head-note" id="lineup-sub">Six to eight flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
       </div>
-      <ol class="lineup-grid" id="lineup-grid"></ol>
+      <div class="box-wrap">
+        <div class="box">
+          <div class="box-lid" aria-hidden="true"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="300" alt=""></div>
+          <div class="donut-box" id="donut-box" role="tablist" aria-label="This week's flavors"></div>
+        </div>
+        <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite"></div>
+      </div>
       <div class="lineup-foot">
         <p class="lineup-also" id="lineup-also"></p>
         <div class="price-strip" id="price-strip" aria-label="Prices"></div>
@@ -379,7 +385,7 @@ HOME = f"""
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
-{LINEUP.replace("__MORE__", '<a class="btn btn-line-ink" href="flavors.html">See all 44 flavors</a>')}
+{LINEUP.replace("__MORE__", '<div class="more-links"><a class="link-arrow" href="flavors.html#picker">Not sure? Find your flavor</a><a class="link-arrow" href="flavors.html">See all 44 flavors</a></div>')}
 {CAMPAIGN}
 {FLYER.replace("__TOURMORE__", '<a class="btn btn-line" href="pop-ups.html">Full tour</a>')}
 
@@ -413,6 +419,30 @@ HOME = f"""
 FLAVORS = f"""
 <main id="main">
 {page_hero("The full rotation", "Every Flavor<br>We Make.", "Six to eight of these hit the case each weekend. All 100% vegan, small-batched and hand crafted. Tap a donut for the details and allergens.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg")}
+  <section class="picker" id="picker" aria-labelledby="picker-h">
+    <div class="wrap picker-grid">
+      <div>
+        <p class="kicker dark">Not sure?</p>
+        <h2 class="display-md" id="picker-h">Find Your Flavor.</h2>
+        <p class="picker-sub">Two taps and we'll pull three for you.</p>
+      </div>
+      <div class="picker-qs">
+        <div class="pq" role="group" aria-label="Fruity or rich">
+          <span class="pq-label">I'm in the mood for</span>
+          <div class="pq-opts"><button type="button" data-pick="q1:fruity" aria-pressed="false">Fruity</button><span class="or">or</span><button type="button" data-pick="q1:rich" aria-pressed="false">Rich</button></div>
+        </div>
+        <div class="pq" role="group" aria-label="A twist or a classic">
+          <span class="pq-label">And I want</span>
+          <div class="pq-opts"><button type="button" data-pick="q2:twist" aria-pressed="false">A twist</button><span class="or">or</span><button type="button" data-pick="q2:classic" aria-pressed="false">A classic</button></div>
+        </div>
+        <label class="pq-check"><input type="checkbox" id="pick-nonuts"> No nuts, please</label>
+      </div>
+    </div>
+    <div class="wrap picker-out" id="picker-out" hidden>
+      <p class="kicker dark">Your three</p>
+      <div class="picker-results" id="picker-results" aria-live="polite"></div>
+    </div>
+  </section>
   <section class="cream flavors" id="flavors" aria-label="Flavor library">
     <div class="wrap">
       <div class="flavor-tools">

@@ -117,13 +117,31 @@
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
     const thisWeek = new Set(data.lineup.flavors);
 
-    // Lineup
-    $("#lineup-grid").innerHTML = data.lineup.flavors.map((id) => byId[id]).filter(Boolean).map((f) => `
-      <li><button class="lineup-card" type="button" data-id="${f.id}">
+    // Lineup as a donut box (home). Tap a donut to lift it and read about it.
+    const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
+    $("#donut-box").innerHTML = week.map((f, i) => `
+      <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="${i === 0}" aria-controls="box-detail" style="--r:${(i * 47) % 360}deg">
+        <span class="well" aria-hidden="true"></span>
         <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
-        <h3>${esc(f.name)}</h3>
-        <span class="tag">${f.contains ? esc(f.contains) : ""}</span>
-      </button></li>`).join("");
+        <span class="visually-hidden">${esc(f.name)}</span>
+      </button>`).join("");
+    const showBox = (f) => {
+      $$(".slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
+      $("#box-detail").innerHTML = `
+        <p class="bd-num">${String(week.indexOf(f) + 1).padStart(2, "0")} / ${String(week.length).padStart(2, "0")}</p>
+        <h3 class="bd-name">${esc(f.name)}</h3>
+        <p class="bd-desc">${esc(f.desc)}</p>
+        ${f.contains ? `<p class="bd-contains">${esc(f.contains)}</p>` : ""}`;
+    };
+    if (week.length) showBox(week[0]);
+    $("#donut-box").addEventListener("click", (e) => { const s = e.target.closest(".slot"); if (s) showBox(byId[s.dataset.box]); });
+    $("#donut-box").addEventListener("keydown", (e) => {
+      const slots = $$(".slot"); const i = slots.indexOf(document.activeElement);
+      if (i < 0) return;
+      const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 4, ArrowUp: -4 }[e.key];
+      if (step) { e.preventDefault(); const n = slots[(i + step + slots.length) % slots.length]; n.focus(); showBox(byId[n.dataset.box]); }
+    });
+
     $("#lineup-also").textContent = data.lineup.also || "";
     if (data.lineup.week_of) $("#lineup-sub").textContent = `Week of ${data.lineup.week_of}. ` + $("#lineup-sub").textContent;
     $("#price-strip").innerHTML = data.prices.map((p) => `<span>${esc(p.item)} $${p.price}</span>`).join("");
@@ -138,11 +156,40 @@
     $("#chips").innerHTML = FILTERS.map(([k, label]) =>
       `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === "all"}">${label}</button>`).join("");
     $("#flavor-grid").innerHTML = data.flavors.map((f) => `
-      <li><button class="flavor-card" type="button" data-id="${f.id}">
-        ${thisWeek.has(f.id) ? '<span class="now">This week</span>' : ""}
-        <img src="${wix(f.img, 300)}" alt="" loading="lazy" decoding="async">
-        <span><span class="fc-name">${esc(f.name)}</span><br><span class="fc-meta">${f.contains ? esc(f.contains) : f.tags.includes("pups") ? "For dogs" : "Vegan"}</span></span>
+      <li><button class="fl" type="button" data-id="${f.id}">
+        <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
+        <img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">
+        <span class="fl-name">${esc(f.name)}</span>
+        <span class="fl-meta">${thisWeek.has(f.id) ? '<span class="fl-now">This week</span>' : ""}${f.contains ? esc(f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
+
+    // Flavor picker
+    const pick = { q1: null, q2: null, nonuts: false };
+    const RICH = ["chocolate", "cookie", "nuts"];
+    const runPicker = () => {
+      if (!pick.q1 || !pick.q2) return;
+      const scored = data.flavors.filter((f) => !f.tags.includes("pups") && !(pick.nonuts && f.tags.includes("nuts"))).map((f) => {
+        let s = 0;
+        if (pick.q1 === "fruity") s += f.tags.includes("fruity") ? 3 : 0; else s += RICH.some((g) => f.tags.includes(g)) ? 3 : 0;
+        if (pick.q2 === "twist") s += (f.tags.includes("spirited") ? 2 : 0) + (f.tags.includes("filled") ? 1.5 : 0) + (f.tags.includes("cookie") ? 1 : 0);
+        else s += f.tags.includes("classic") ? 2.5 : f.tags.length <= 1 ? 1 : 0;
+        if (thisWeek.has(f.id)) s += .6;
+        return [f, s];
+      }).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([f]) => f);
+      $("#picker-results").innerHTML = scored.map((f) => `
+        <button class="pk" type="button" data-id="${f.id}">
+          <img src="${wix(f.img, 300)}" alt="" loading="lazy">
+          <span class="pk-name">${esc(f.name)}</span>
+          <span class="pk-meta">${thisWeek.has(f.id) ? "In the case this week" : "In the rotation"}</span>
+        </button>`).join("");
+      $("#picker-out").hidden = false;
+    };
+    $$("[data-pick]").forEach((b) => b.addEventListener("click", () => {
+      const [q, v] = b.dataset.pick.split(":"); pick[q] = v;
+      $$(`[data-pick^="${q}:"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      runPicker();
+    }));
+    $("#pick-nonuts").addEventListener("change", (e) => { pick.nonuts = e.target.checked; runPicker(); });
     const apply = () => {
       let n = 0;
       $$("#flavor-grid li").forEach((li) => {
@@ -260,7 +307,7 @@
     hydrateImages();
     observeReveals();
   }).catch(() => {
-    $("#lineup-grid").innerHTML = '<li class="fine">The lineup will be back shortly.</li>';
+    $("#box-detail").innerHTML = '<p class="fine">The lineup will be back shortly.</p>';
   });
 
   /* ---------- Soft inline notice ---------- */
@@ -309,7 +356,7 @@
 
   /* ---------- Reveal on scroll ---------- */
   function observeReveals() {
-    const els = $$(".head-row, .lineup-grid li, .founder, .firsts li, .press-list li, .loc-card, .exp-grid > *, .ship-card > *, .faq details, .display-xl");
+    const els = $$(".head-row, .slot, .fl, .founder, .firsts li, .press-list li, .loc-card, .exp-grid > *, .ship-card > *, .faq details, .display-xl");
     if (reduceMotion || !("IntersectionObserver" in window)) return;
     els.forEach((el) => el.classList.add("reveal"));
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {

@@ -44,6 +44,30 @@
       <p class="page-sub">Six to eight of these hit the case each weekend. All 100% vegan, small-batched and hand crafted. Tap a donut for the details and allergens.</p>
     </div>
   </section>
+  <section class="picker" id="picker" aria-labelledby="picker-h">
+    <div class="wrap picker-grid">
+      <div>
+        <p class="kicker dark">Not sure?</p>
+        <h2 class="display-md" id="picker-h">Find Your Flavor.</h2>
+        <p class="picker-sub">Two taps and we'll pull three for you.</p>
+      </div>
+      <div class="picker-qs">
+        <div class="pq" role="group" aria-label="Fruity or rich">
+          <span class="pq-label">I'm in the mood for</span>
+          <div class="pq-opts"><button type="button" data-pick="q1:fruity" aria-pressed="false">Fruity</button><span class="or">or</span><button type="button" data-pick="q1:rich" aria-pressed="false">Rich</button></div>
+        </div>
+        <div class="pq" role="group" aria-label="A twist or a classic">
+          <span class="pq-label">And I want</span>
+          <div class="pq-opts"><button type="button" data-pick="q2:twist" aria-pressed="false">A twist</button><span class="or">or</span><button type="button" data-pick="q2:classic" aria-pressed="false">A classic</button></div>
+        </div>
+        <label class="pq-check"><input type="checkbox" id="pick-nonuts"> No nuts, please</label>
+      </div>
+    </div>
+    <div class="wrap picker-out" id="picker-out" hidden>
+      <p class="kicker dark">Your three</p>
+      <div class="picker-results" id="picker-results" aria-live="polite"></div>
+    </div>
+  </section>
   <section class="cream flavors" id="flavors" aria-label="Flavor library">
     <div class="wrap">
       <div class="flavor-tools">
