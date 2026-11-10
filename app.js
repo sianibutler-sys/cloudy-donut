@@ -226,6 +226,12 @@
       apply();
     });
     $("#flavor-search").addEventListener("input", (e) => { query = e.target.value.trim().toLowerCase(); apply(); });
+    const preset = new URLSearchParams(location.search).get("filter");
+    if (preset && FILTERS.some(([k]) => k === preset)) {
+      active = preset;
+      $$(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.f === preset)));
+      setTimeout(() => $("#flavors").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }), 250);
+    }
     apply();
 
     // Flavor dialog
@@ -478,6 +484,32 @@
     PAGES.forEach((p) => items.push({ type: "Page", t: p.t, d: p.d, key: [p.t, p.d, p.k].join(" "), go: () => { sd.close(); location.href = p.u; } }));
     FAQS.forEach(([q, k]) => items.push({ type: "Question", t: q, d: "Good to know", key: q + " " + k, go: () => (location.href = "locations.html#faq") }));
 
+    // Quick menu shown before anyone types: the things people come to the site for
+    const go = (u) => () => { sd.close(); location.href = u; };
+    const todayISO = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+    const nextStop = data.tour.stops.filter((s) => s.date && s.date >= todayISO).sort((a, b) => (a.date < b.date ? -1 : 1))[0];
+    const openShop = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
+    const firstShop = data.locations.find((l) => Object.keys(l.hours).length);
+    const weekNames = data.lineup.flavors.map((id) => byId[id] && byId[id].name).filter(Boolean);
+    const QUICK = [
+      ["Right now", [
+        { icon: "◎", t: "This week's lineup", d: weekNames.slice(0, 3).join(", ") + (weekNames.length > 3 ? ` + ${weekNames.length - 3} more` : ""), go: go("index.html#lineup") },
+        { icon: "◷", t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights, NoLita, Baltimore", go: go("locations.html") },
+        nextStop && { icon: "✦", t: `Next pop-up: ${nextStop.city.split(",")[0]}`, d: [new Date(nextStop.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }), nextStop.time].filter(Boolean).join(" · "), go: go("pop-ups.html") },
+        { icon: "↗", t: "Order ahead for pickup", d: "Skip the weekend line", go: go("locations.html") },
+      ].filter(Boolean)],
+      ["Popular", [
+        { icon: "", t: "Nut-free flavors", d: "Every flavor without nuts", go: go("flavors.html?filter=nutfree") },
+        { icon: "", t: "Boozy flavors", d: "Rum, rosé, champagne and more", go: go("flavors.html?filter=spirited") },
+        { icon: "", t: "Something for the dog", d: "Lil Bow Wow and Snoop Doggy Donut", go: go("flavors.html?filter=pups") },
+        { icon: "", t: "Catering & events", d: "Cloudy Donut Minis for your event", go: go("experiences.html") },
+        { icon: "", t: "Ship a pound cake", d: "Join the waitlist", go: go("experiences.html#ship") },
+      ]],
+      ["Questions", [
+        { icon: "?", t: "Are the donuts gluten free?", d: "Good to know", go: go("locations.html#faq") },
+        { icon: "?", t: "How long do they keep?", d: "Good to know", go: go("locations.html#faq") },
+      ]],
+    ];
     const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9& ]/g, " ");
     items.forEach((i) => { i.n = norm(i.t); i.k = norm(i.key); });
     const score = (i, q) => {
@@ -493,7 +525,21 @@
     const render = () => {
       const q = norm(input.value).trim();
       hint.hidden = !!q;
-      if (!q) { box.innerHTML = ""; results = []; return; }
+      if (!q) {
+        results = QUICK.flatMap(([, list]) => list);
+        active = 0;
+        let ix = 0;
+        box.innerHTML = QUICK.map(([group, list]) => `<p class="sr-group">${group}</p>` + list.map((r) => {
+          const i = ix++;
+          return `<button type="button" class="sr sr-quick" role="option" id="sr-${i}" aria-selected="${i === 0}" data-ix="${i}">
+            <span class="sr-icon" aria-hidden="true">${r.icon}</span>
+            <span class="sr-text"><span class="sr-t">${esc(r.t)}</span><span class="sr-d">${esc(r.d)}</span></span>
+            <span class="sr-type" aria-hidden="true">→</span>
+          </button>`;
+        }).join("")).join("");
+        input.setAttribute("aria-activedescendant", "sr-0");
+        return;
+      }
       results = items.map((i) => [i, score(i, q)]).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([i]) => i);
       active = results.length ? 0 : -1;
       box.innerHTML = results.length ? results.map((r, ix) => `
