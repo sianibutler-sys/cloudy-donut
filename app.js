@@ -392,6 +392,19 @@
     const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "assets/leaflet/leaflet.css"; document.head.appendChild(css);
     const js = document.createElement("script"); js.src = "assets/leaflet/leaflet.js"; js.onload = () => res(window.L); js.onerror = rej; document.head.appendChild(js);
   }));
+  // CARTO Voyager tiles need a key (Cloudflare variable CARTO_API_KEY, served by /api/config).
+  // Without one (local preview), fall back to standard OpenStreetMap tiles.
+  let configReady;
+  const getConfig = () => configReady || (configReady = fetch("/api/config").then((r) => (r.ok ? r.json() : {})).catch(() => ({})));
+  const tileLayerFor = (L) => getConfig().then((cfg) => cfg.cartoKey
+    ? L.tileLayer(`https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cfg.cartoKey)}`, {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      })
+    : L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }));
   function setupMaps() {
     const boxes = $$(".loc-map[data-lat]");
     if (!boxes.length) return;
@@ -399,10 +412,7 @@
       if (el._map) return;
       const ll = [+el.dataset.lat, +el.dataset.lng];
       const map = L.map(el, { center: ll, zoom: 16, scrollWheelZoom: false, dragging: !L.Browser.mobile, tap: false, zoomControl: true, attributionControl: true });
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-        maxZoom: 19, subdomains: "abcd",
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      }).addTo(map);
+      tileLayerFor(L).then((layer) => layer.addTo(map));
       const icon = L.divIcon({ className: "donut-pin", iconSize: [56, 62], iconAnchor: [28, 56], html: '<span class="dp-shadow"></span><span class="dp-donut"></span>' });
       L.marker(ll, { icon, keyboard: false }).addTo(map);
       map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');

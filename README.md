@@ -29,7 +29,7 @@ Photos load straight from Cloudy's own Wix media CDN, so nothing of theirs is co
 
 ## Maps
 
-Shop maps use Leaflet (bundled in `assets/leaflet`, BSD license) with CARTO Voyager tiles and a drawn donut as the pin. CARTO's free basemaps are fine for a demo. If Cloudy launches this, switch the tile URL in `app.js` to a keyed provider on their account (Stadia Maps or Mapbox both have free tiers for commercial sites) so usage terms are covered. Shop coordinates live in `data/site.json` (`lat`, `lng`).
+Shop maps use Leaflet (bundled in `assets/leaflet`, BSD license) with CARTO Voyager tiles and a drawn donut as the pin. CARTO requires a free key (5 million tile requests a month): it lives in the Cloudflare Pages variable `CARTO_API_KEY` (Text, not Secret, since browsers send it with every tile) and reaches the page through `/api/config`. The key is restricted in CARTO to the site's domains. Without a key, as in a local preview, the maps fall back to standard OpenStreetMap tiles. If Cloudy takes the site over, they request their own key and replace the variable value; no code changes. Shop coordinates live in `data/site.json` (`lat`, `lng`).
 
 ## Connecting Airtable (only if they sign)
 
