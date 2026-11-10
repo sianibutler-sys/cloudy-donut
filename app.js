@@ -2,7 +2,14 @@
 (() => {
   const TZ = "America/New_York";
   const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const $ = (s, el = document) => el.querySelector(s);
+  // Pages share this script. A missing element returns a no-op stand-in, so each page
+  // only renders the sections it actually contains.
+  const NONE = new Proxy(function () {}, {
+    get: (_, k) => (k === "textContent" || k === "innerHTML" || k === "value" ? "" : k === Symbol.toPrimitive ? () => "" : NONE),
+    set: () => true,
+    apply: () => NONE,
+  });
+  const $ = (s, el = document) => el.querySelector(s) || NONE;
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -230,7 +237,7 @@
       $("#flyer-bottom").innerHTML = `<span>${esc(next.address || next.venue || next.city)}</span><span class="r">${esc(next.time || "")}<br>${esc(flyerDate(next.date))}</span>`;
       const days = Math.round((new Date(next.date + "T12:00:00") - new Date(todayISO + "T12:00:00")) / 864e5);
       $("#flyer-count").textContent = days === 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`;
-      const hp = $("#hero-popup"); if (hp) hp.textContent = `Next pop-up: ${next.city.split(",")[0]}`;
+      $("#hero-popup").textContent = `Next pop-up: ${next.city.split(",")[0]}`;
     } else {
       $("#flyer-bottom").innerHTML = `<span>New cities announced on Instagram</span><span class="r">@cloudydonuts</span>`;
     }
