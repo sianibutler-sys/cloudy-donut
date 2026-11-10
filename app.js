@@ -251,24 +251,31 @@
     setupSearch(data, thisWeek, byId, openFlavor);
 
     // Locations
-    const renderLocs = () => {
-      $("#loc-grid").innerHTML = data.locations.map((l) => {
+    // Locations: cards (with a map) render once; open/closed status refreshes every minute
+    $("#loc-grid").innerHTML = data.locations.map((l) => {
+      const q = encodeURIComponent("Cloudy Donut Co, " + l.address);
+      return `<li class="loc-card reveal in" data-loc="${l.id}">
+        <div class="loc-map">
+          <iframe title="Map of Cloudy Donut ${esc(l.name)}" src="https://www.google.com/maps?q=${q}&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <h3>${esc(l.name)}</h3>
+        <p class="loc-city">${esc(l.city)}</p>
+        <p class="loc-status"></p>
+        <address>${esc(l.address)}</address>
+        <p class="fine" style="margin:0">${esc(l.hours_label)}</p>
+        <p class="loc-note">${esc(l.note || "")}</p>
+        <div class="loc-actions">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener">Directions</a>
+          <a href="tel:+1${l.phone.replace(/\D/g, "")}">Call</a>
+          ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="pop-ups.html">See pop-ups</a>`}
+        </div>
+      </li>`;
+    }).join("");
+    const refreshStatus = () => {
+      data.locations.forEach((l) => {
         const s = status(l);
-        const map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Cloudy Donut " + l.address)}`;
-        return `<li class="loc-card reveal in">
-          <h3>${esc(l.name)}</h3>
-          <p class="loc-city">${esc(l.city)}</p>
-          <p class="loc-status"><span class="dot ${s.open ? "on" : ""}"></span>${esc(s.text)}</p>
-          <address>${esc(l.address)}</address>
-          <p class="fine" style="margin:0">${esc(l.hours_label)}</p>
-          <p class="loc-note">${esc(l.note || "")}</p>
-          <div class="loc-actions">
-            <a href="${map}" target="_blank" rel="noopener">Directions</a>
-            <a href="tel:+1${l.phone.replace(/\D/g, "")}">Call</a>
-            ${Object.keys(l.hours).length ? `<a href="${data.links.order || "#"}" data-order>Order ahead</a>` : `<a href="#popups">See pop-ups</a>`}
-          </div>
-        </li>`;
-      }).join("");
+        $(`[data-loc="${l.id}"] .loc-status`).innerHTML = `<span class="dot ${s.open ? "on" : ""}"></span>${esc(s.text)}`;
+      });
       const openLoc = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
       const hero = $("#hero-status");
       const lc = (t) => t.charAt(0).toLowerCase() + t.slice(1);
@@ -278,8 +285,8 @@
         hero.innerHTML = next ? `<span class="dot"></span>${esc(next[0].name)} ${esc(lc(next[1].text))}` : "";
       }
     };
-    renderLocs();
-    setInterval(renderLocs, 60000);
+    refreshStatus();
+    setInterval(refreshStatus, 60000);
 
     // Order links: placeholder until the real ordering link is confirmed
     document.addEventListener("click", (e) => {
