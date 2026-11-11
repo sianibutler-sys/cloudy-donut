@@ -33,7 +33,7 @@
   try { seen = sessionStorage.getItem("cd-intro") === "1"; } catch (e) {}
   if (seen || reduceMotion) intro.classList.add("done");
   else {
-    setTimeout(endIntro, 3500);
+    setTimeout(endIntro, 5000);
     $(".intro-skip").addEventListener("click", endIntro);
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") endIntro(); }, { once: true });
   }

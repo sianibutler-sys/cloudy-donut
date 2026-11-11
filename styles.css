@@ -1088,3 +1088,41 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .ig-dlg-body { max-height: calc(100dvh - 90px); overflow: auto; border-radius: 14px; background: #fff; min-height: 300px; }
 .ig-dlg-body .instagram-media { margin: 0 !important; min-width: 0 !important; width: 100% !important; max-width: 100% !important; border: 0 !important; }
 .ig-dlg-body blockquote:not(.instagram-media-rendered) { display: grid; place-items: center; min-height: 300px; color: var(--ink); }
+
+/* ===== DONUT stop BELIEVING! (their box and window lockup) ===== */
+.dsb { display: inline-flex; flex-direction: column; align-items: flex-start; font-family: "Montserrat", "Figtree", sans-serif; font-weight: 800; line-height: .9; color: #fff; letter-spacing: .015em; white-space: nowrap; }
+.dsb-l1 { display: flex; align-items: baseline; }
+.dsb-stop { font-size: .64em; margin-left: .3em; letter-spacing: .03em; }
+.dsb-l2 { font-size: 1.24em; font-weight: 900; letter-spacing: .005em; margin-top: .06em; }
+.dsb-o { display: inline-block; width: .8em; height: .8em; margin: 0 .025em; align-self: center; transform: translateY(.02em); }
+.dsb-o svg { display: block; width: 100%; height: 100%; }
+
+/* The box, built from their real one: plain mint lid, white logo, lockup on the front side, thumb notch */
+.cbox { --fh: clamp(58px, 8.4vw, 92px); }
+.lid-pat { display: none; }
+.lid-out { background: linear-gradient(180deg, #b3dfcb, var(--mint) 60%, #a5d5bf); }
+.lid-logo { width: clamp(120px, 22%, 200px); filter: brightness(0) invert(1); opacity: .92; }
+.cbox-front { justify-content: flex-start; padding-left: 4.5%; background: linear-gradient(180deg, #a2d3bd, #aedac6); }
+.cbox-front .dsb { font-size: calc(var(--fh) * .32); }
+.cbox-front .notch { opacity: 1; top: auto; bottom: -1px; width: clamp(30px, 4.4vw, 46px); height: clamp(15px, 2.2vw, 23px); border-radius: 50px 50px 0 0; background: #f6f1e6; box-shadow: inset 0 -3px 5px rgba(36,35,35,.12); }
+.cbox[data-state="opening"] .seal, .cbox[data-state="open"] .seal { left: 92%; }
+@media (max-width: 600px) { .cbox-front { padding-left: 3.5%; } .cbox-front .dsb { font-size: calc(var(--fh) * .27); } }
+
+/* Splash: box mint from the first frame. Clouds, the drawn donut, the logo and the lockup all print in white */
+.intro { background: radial-gradient(120% 90% at 50% 100%, #c6e8d8 0%, var(--mint) 62%); }
+.intro .drift use { stroke: #fff; opacity: .5; }
+.intro .draw .ln { stroke: #fff; }
+.intro .draw .ring { fill: #fff; stroke: none; }
+.intro .draw .glaze { fill: #fff; }
+.intro .draw .hole { fill: var(--mint); stroke: none; }
+.intro .draw .spr path { stroke: var(--mint); }
+.intro .mark-logo { filter: brightness(0) invert(1); }
+.intro-dsb { display: grid; justify-items: center; gap: 16px; margin-top: 20px; }
+.intro-dsb .dsb { font-size: clamp(2.2rem, 7.5vw, 4.4rem); opacity: 0; transform: translateY(18px); animation: intro-rise .7s cubic-bezier(.2,.9,.3,1.1) 2.1s forwards; }
+.intro-dsb .dsb-o { animation: intro-roll .9s cubic-bezier(.3,1.3,.5,1) 2.4s both; }
+.intro-dsb .intro-line { color: #fff; margin: 0; animation: fade-in .6s ease 2.9s forwards; }
+.intro .intro-skip { color: #fff; border-color: rgba(255,255,255,.6); }
+@keyframes intro-rise { to { opacity: 1; transform: none; } }
+@keyframes intro-roll { from { transform: translateX(-3.2em) rotate(-360deg); opacity: 0; } 60% { opacity: 1; } to { transform: translateY(.02em); } }
+/* Returning visitors never see the splash, not even for a frame before the script runs */
+html.intro-seen .intro { display: none; }

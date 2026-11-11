@@ -30,15 +30,29 @@ def head(title, desc):
   <meta name="description" content="{desc}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;700;800;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>"""
 
 
 # Splash: line-drawn clouds in the style of the Cloudy logo. Small clouds drift; the
 # hero cloud draws itself, the donut lands in its top-right bump, then the real logo resolves.
+
+_dsb_n = [0]
+def dsb(extra=""):
+    """Their box and window lockup: DONUT stop BELIEVING!, with a donut for the O."""
+    _dsb_n[0] += 1
+    m = f"dsbm{_dsb_n[0]}"
+    sprinkles = "".join(f'<path d="{d}"/>' for d in ["M30 26l6 3", "M52 18l1 7", "M70 27l-5 4", "M80 47l-7 1", "M72 70l-4-5", "M50 82l1-7", "M28 72l5-4", "M20 50l7 1"])
+    o = (f'<span class="dsb-o" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><mask id="{m}"><rect width="100" height="100" fill="#fff"/>'
+         f'<circle cx="50" cy="50" r="15" fill="#000"/><g stroke="#000" stroke-width="5" stroke-linecap="round">{sprinkles}</g></mask></defs>'
+         f'<circle cx="50" cy="50" r="48" fill="currentColor" mask="url(#{m})"/></svg></span>')
+    return (f'<span class="dsb{extra}" role="img" aria-label="Donut stop believing!"><span class="dsb-l1" aria-hidden="true"><span>D</span>{o}<span>NUT</span>'
+            f'<span class="dsb-stop">STOP</span></span><span class="dsb-l2" aria-hidden="true">BELIEVING!</span></span>')
+
 CLOUD_SMALL = "M18 70 C4 70 2 50 20 47 C18 33 34 25 48 33 C54 15 82 10 94 27 C104 13 128 15 132 33 C146 31 156 44 150 56 C162 58 162 70 150 70 Z"
 SVG_DEFS = f"""
+<script>try{{if(sessionStorage.getItem("cd-intro")==="1"||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro-seen")}}catch(e){{}}</script>
 <div class="intro" id="intro" aria-hidden="true">
   <svg class="drift" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
     <defs><path id="cl" d="{CLOUD_SMALL}"/></defs>
@@ -63,7 +77,7 @@ SVG_DEFS = f"""
       </svg>
       <img class="wix mark-logo" data-wix="{LOGO}" data-w="600" alt="">
     </div>
-    <p class="intro-line">Where Dreams Crumb True</p>
+    <div class="intro-dsb">{dsb()}<p class="intro-line">Where Dreams Crumb True</p></div>
   </div>
   <button class="intro-skip" type="button">Skip</button>
 </div>
@@ -200,11 +214,11 @@ LINEUP = """
               </div>
             </div>
             <div class="cbox-lid" aria-hidden="true">
-              <div class="lid-face lid-out"><div class="lid-pat" id="lid-pat"></div><img class="wix lid-logo" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""></div>
+              <div class="lid-face lid-out"><img class="wix lid-logo" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""></div>
               <div class="lid-face lid-inn"><div class="lid-pat" id="lid-pat-in"></div><div class="lid-inn-mark"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="420" alt=""></div><span class="tuck" aria-hidden="true"></span></div>
             </div>
           </div>
-          <div class="cbox-front" aria-hidden="true"><span class="notch"></span><span class="front-band"><img class="wix" data-wix="d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png" data-w="300" alt=""></span></div>
+          <div class="cbox-front"><span class="notch" aria-hidden="true"></span>__DSB__</div>
           <button class="seal" id="cbox-seal" type="button" aria-controls="cbox-body" aria-expanded="false"><span>Where<br>Dreams<br>Crumb<br>True</span><span class="visually-hidden">Open this week's box</span></button>
         </div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
@@ -229,7 +243,7 @@ LINEUP = """
         __MORE__
       </div>
     </div>
-  </section>"""
+  </section>""".replace("__DSB__", dsb())
 
 FLYER = """
   <section class="popups" id="popups" aria-labelledby="popups-h">
@@ -615,7 +629,7 @@ COMPARE_PAGES = {
          "The pop-up ordering page reads \"No items to show yet.\""],
         ["A tour page with a flyer built from the tour list. Next stop: Newark, Nov 14.",
          "\"Bring Cloudy to my city\" signups show where demand is.",
-         "A swipeable row of the latest @cloudydonuts posts. Once Cloudy connects Instagram, it updates on its own."]),
+         "A swipeable row of the latest @cloudydonuts posts. Once Cloudy connects Instagram, new posts appear on their own and each card shows the post's cover photo."]),
     "our-story.html": ("Our story",
         ["\"Our Story\" in the menu links back to the home page."],
         ["Its own page, with the story copy word for word.",
@@ -661,7 +675,7 @@ LIVE = {  # what cloudydonut.com has for each page, checked Nov 10, 2026
     "locations.html": ("cloudydonut.com/order-online-locations", None),
 }
 SAME = {
-    "index.html": ["Logo, cream, mint and sage, and the Caudex type", "Photos from cloudydonut.com", "This week's lineup"],
+    "index.html": ["Logo, cream, mint and sage, and the Caudex type", "Photos from cloudydonut.com", "This week's lineup", "The box: mint, white logo and DONUT stop BELIEVING! on the side"],
     "flavors.html": ["Flavor names, descriptions and photos", "Nut notes from each description"],
     "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Newark stop, as announced on Instagram"],
     "our-story.html": ["The Our Story copy, word for word"],
