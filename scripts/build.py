@@ -18,7 +18,13 @@ NAV = [
 ]
 
 
-def head(title, desc):
+SITE = "https://cloudy-donut.pages.dev"
+
+def head(title, desc, fname="index.html"):
+    slug = fname[:-5]
+    url = SITE + ("/" if slug == "index" else "/" + slug)
+    og = f"{SITE}/og/{slug}.jpg"
+    full = "Cloudy Donut Co." if slug == "index" else f"{title} | Cloudy Donut Co."
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -28,6 +34,23 @@ def head(title, desc):
   <meta name="theme-color" content="#141312">
   <title>{title} | Cloudy Donut Co. Concept by Siani Creates</title>
   <meta name="description" content="{desc}">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="canonical" href="{url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cloudy Donut Co.">
+  <meta property="og:title" content="{full}">
+  <meta property="og:description" content="{desc}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{og}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cloudy Donut Co. logo with Donut stop believing! and Where Dreams Crumb True">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{full}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{og}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;700;800;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
@@ -765,15 +788,15 @@ def bts_block(fname):
 </aside>"""
 
 PAGES = {
-    "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch, hand crafted.", HOME, True),
-    "flavors.html": ("Flavors", "Every Cloudy Donut flavor, with allergens and this week's lineup.", FLAVORS, False),
-    "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: next stop, dates and city signups.", POPUPS, False),
-    "our-story.html": ("Our story", "The story of Cloudy Donut Co.", STORY, False),
-    "experiences.html": ("Experiences", "Cloudy Donut Minis for events, plus the cake shipping waitlist.", EXPERIENCES, False),
-    "locations.html": ("Locations", "Cloudy Donut shops, hours and FAQ.", LOCS, False),
+    "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch and hand crafted in Brooklyn Heights, NoLita and Baltimore. See this week's lineup.", HOME, True),
+    "flavors.html": ("Flavors", "All 44 Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
+    "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: the next stop, dates, and a signup to bring Cloudy to your city.", POPUPS, False),
+    "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
+    "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events, plus the waitlist for pound cakes by mail.", EXPERIENCES, False),
+    "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights, NoLita and Baltimore, with hours, maps, directions and FAQ.", LOCS, False),
 }
 
 for fname, (title, desc, body, is_home) in PAGES.items():
-    html = head(title, desc) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER.replace("__BTS__", bts_block(fname))
+    html = head(title, desc, fname) + f'\n<body class="page-{fname[:-5]}">\n' + (SVG_DEFS if is_home else "") + header(fname, True) + body + FOOTER.replace("__BTS__", bts_block(fname))
     (ROOT / fname).write_text(html)
     print("wrote", fname)
