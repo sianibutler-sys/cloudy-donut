@@ -1130,3 +1130,18 @@ html.intro-seen .intro { display: none; }
 /* Splash logo: traced from the real logo */
 .mark-wrap { aspect-ratio: 1200 / 581; }
 .trace { overflow: visible; }
+
+/* Email consent + terms */
+.consent { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: .9rem; }
+.consent input { width: 20px; height: 20px; margin: 0; accent-color: var(--char); flex: none; }
+.consent label, .inline-signup .consent label, .stack-form .consent label { display: inline; font: 500 .9rem var(--sans); margin: 0; }
+.terms-link { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.stack-form .consent { margin: 4px 0 8px; }
+.terms-dlg { border: 0; border-radius: 22px; padding: 28px 26px 24px; width: min(460px, calc(100vw - 32px)); background: var(--cream); color: var(--char); }
+.terms-dlg::backdrop { background: rgba(20,19,18,.6); }
+.terms-dlg h2 { font: 400 2rem/1 var(--display); text-transform: uppercase; margin: 0 0 14px; }
+.terms-dlg ul { padding-left: 1.1em; margin: 0 0 12px; display: grid; gap: 10px; }
+.terms-dlg li b { font-weight: 800; }
+.terms-dlg a { color: inherit; font-weight: 700; }
+.terms-dlg form { margin-top: 14px; }
+.terms-dlg .fine { color: #5d5a52; margin: 0; }

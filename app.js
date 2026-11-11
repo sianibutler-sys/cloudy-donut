@@ -188,6 +188,13 @@
     $("#ig-next").addEventListener("click", () => row.scrollBy({ left: step(), behavior: reduceMotion ? "auto" : "smooth" }));
   };
 
+  /* ---------- Email terms ---------- */
+  const termsDlg = document.getElementById("terms-dlg");
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-terms]") && termsDlg) { e.preventDefault(); termsDlg.showModal(); }
+    else if (e.target === termsDlg) termsDlg.close();
+  });
+
   /* ---------- Content ---------- */
   const load = async () => {
     try {
@@ -495,7 +502,7 @@
       msg.classList.remove("err");
       const bad = $$("[required]", form).find((el) => !el.checkValidity());
       if (bad) {
-        msg.textContent = bad.type === "email" ? "Please enter a valid email." : bad.type === "date" && bad.validity.rangeUnderflow ? "Please choose a date at least 14 days out." : "Please fill in the required fields.";
+        msg.textContent = bad.type === "checkbox" ? "Please agree to the email terms to sign up." : bad.type === "email" ? "Please enter a valid email." : bad.type === "date" && bad.validity.rangeUnderflow ? "Please choose a date at least 14 days out." : "Please fill in the required fields.";
         msg.classList.add("err"); bad.focus(); return;
       }
       const btn = $("button[type=submit]", form); btn.disabled = true;

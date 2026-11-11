@@ -55,6 +55,7 @@
           <input name="city" type="text" autocomplete="address-level2" placeholder="City" aria-label="City" required>
           <button class="btn btn-mint" type="submit">Notify me</button>
         </div>
+        <div class="consent"><input id="tour-consent" name="consent" type="checkbox" required><label for="tour-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <p class="form-msg" role="status"></p>
       </form>
     </div>
@@ -65,7 +66,7 @@
       <ol class="tn-list">
         <li><span class="donut-num g1" aria-hidden="true"><b>1</b></span><p>Dates and addresses drop on Instagram first, then here.</p></li>
         <li><span class="donut-num g2" aria-hidden="true"><b>2</b></span><p>Get there early. Quantities are limited and pop-ups sell out.</p></li>
-        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above. Signups show where the tour goes next.</p></li>
+        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above, and you'll hear first if the tour comes your way.</p></li>
       </ol>
     </div>
   </section>
@@ -147,6 +148,17 @@
     </section>
   </div>
 </aside>
+
+<dialog class="terms-dlg" id="terms-dlg" aria-labelledby="terms-h">
+  <h2 id="terms-h">Email terms</h2>
+  <ul>
+    <li>The weekly flavor lineup, pop-up dates and the occasional note from Cloudy Donut Co., about once a week.</li>
+    <li>Your email, and your city or state if you add one, is used only to send these emails. It's never sold or shared.</li>
+    <li>Every email has an unsubscribe link. You can also write to <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>.</li>
+  </ul>
+  <p class="fine">Draft for Cloudy Donut Co. to confirm before launch.</p>
+  <form method="dialog"><button class="btn btn-ink" type="submit">Got it</button></form>
+</dialog>
 
 <dialog class="ig-dlg" id="ig-dlg" aria-label="Instagram post">
   <div class="ig-dlg-bar"><a id="ig-dlg-open" href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Open on Instagram</a><button type="button" class="ig-dlg-x" aria-label="Close">×</button></div>

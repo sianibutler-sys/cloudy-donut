@@ -100,6 +100,7 @@
       <form class="stack-form" data-form="ship_waitlist" novalidate>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
         <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+        <div class="consent"><input id="ship-consent" name="consent" type="checkbox" required><label for="ship-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <button class="btn btn-ink" type="submit">Join the waitlist</button>
         <p class="form-msg" role="status"></p>
       </form>
@@ -168,6 +169,17 @@
     </section>
   </div>
 </aside>
+
+<dialog class="terms-dlg" id="terms-dlg" aria-labelledby="terms-h">
+  <h2 id="terms-h">Email terms</h2>
+  <ul>
+    <li>The weekly flavor lineup, pop-up dates and the occasional note from Cloudy Donut Co., about once a week.</li>
+    <li>Your email, and your city or state if you add one, is used only to send these emails. It's never sold or shared.</li>
+    <li>Every email has an unsubscribe link. You can also write to <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>.</li>
+  </ul>
+  <p class="fine">Draft for Cloudy Donut Co. to confirm before launch.</p>
+  <form method="dialog"><button class="btn btn-ink" type="submit">Got it</button></form>
+</dialog>
 
 <dialog class="ig-dlg" id="ig-dlg" aria-label="Instagram post">
   <div class="ig-dlg-bar"><a id="ig-dlg-open" href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Open on Instagram</a><button type="button" class="ig-dlg-x" aria-label="Close">×</button></div>

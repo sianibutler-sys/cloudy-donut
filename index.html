@@ -145,6 +145,7 @@
             <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="Email" required>
             <button class="btn btn-ink" type="submit">Subscribe</button>
           </div>
+          <div class="consent"><input id="nl-consent" name="consent" type="checkbox" required><label for="nl-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
           <p class="form-msg" role="status"></p>
         </form>
         <div class="more-links"><a class="link-arrow" href="flavors.html#picker">Not sure? Find your flavor</a><a class="link-arrow" href="flavors.html">See all 44 flavors</a></div>
@@ -256,8 +257,8 @@
         <tr><th scope="row">Login and cart</th><td>In the header, nothing to buy</td><td class="good">Gone until there's a store</td></tr>
       </tbody></table>
       <h3>Same as the live site</h3><ul class="samel"><li><span>Logo, cream, mint and sage, and the Caudex type</span></li><li><span>Photos from cloudydonut.com</span></li><li><span>This week's lineup</span></li><li><span>The box: mint, white logo and DONUT stop BELIEVING! on the side</span></li></ul>
-      <h3>New in this demo</h3><ul class="checkl"><li><span>This week's lineup opens on the page, in a sealed box. Tap the seal.</span></li><li><span>Every donut photo is named for the donut.</span></li><li><span>Each shop shows open or closed on New York time, plus the next tour stop with a countdown.</span></li></ul>
-      <h3>On the live site today, fixed here</h3><ul class="issl"><li><span>This week's lineup sits behind a button, inside a pop-up.</span></li><li><span>Lineup photos are described to screen readers by file name, like "raspberry lemonade.png".</span></li><li><span>The page's main heading reads "100% Vegan".</span></li></ul>
+      <h3>New in this demo</h3><ul class="checkl"><li><span>This week's lineup opens on the page, in a sealed box. Tap the seal.</span></li><li><span>Every signup links to short, plain email terms.</span></li><li><span>Every donut photo is named for the donut.</span></li><li><span>Each shop shows open or closed on New York time, plus the next tour stop with a countdown.</span></li></ul>
+      <h3>On the live site today, fixed here</h3><ul class="issl"><li><span>This week's lineup sits behind a button, inside a pop-up.</span></li><li><span>The email signup asks you to accept terms and conditions, but there are no terms to read.</span></li><li><span>Lineup photos are described to screen readers by file name, like "raspberry lemonade.png".</span></li><li><span>The page's main heading reads "100% Vegan".</span></li></ul>
       <h3>Switch the clock</h3>
       <p class="bts-sub">Cloudy opens Friday to Sunday. The button at the bottom left steps the site through a Saturday morning and a Tuesday, so you can watch open and closed update whatever day you visit.</p>
       <div class="bts-note">Live site details come from cloudydonut.com, checked November 10, 2026.</div>
@@ -275,6 +276,17 @@
     </section>
   </div>
 </aside>
+
+<dialog class="terms-dlg" id="terms-dlg" aria-labelledby="terms-h">
+  <h2 id="terms-h">Email terms</h2>
+  <ul>
+    <li>The weekly flavor lineup, pop-up dates and the occasional note from Cloudy Donut Co., about once a week.</li>
+    <li>Your email, and your city or state if you add one, is used only to send these emails. It's never sold or shared.</li>
+    <li>Every email has an unsubscribe link. You can also write to <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>.</li>
+  </ul>
+  <p class="fine">Draft for Cloudy Donut Co. to confirm before launch.</p>
+  <form method="dialog"><button class="btn btn-ink" type="submit">Got it</button></form>
+</dialog>
 
 <dialog class="ig-dlg" id="ig-dlg" aria-label="Instagram post">
   <div class="ig-dlg-bar"><a id="ig-dlg-open" href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Open on Instagram</a><button type="button" class="ig-dlg-x" aria-label="Close">×</button></div>

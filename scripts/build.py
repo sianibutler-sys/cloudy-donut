@@ -132,6 +132,17 @@ FOOTER = f"""
 
 __BTS__
 
+<dialog class="terms-dlg" id="terms-dlg" aria-labelledby="terms-h">
+  <h2 id="terms-h">Email terms</h2>
+  <ul>
+    <li>The weekly flavor lineup, pop-up dates and the occasional note from Cloudy Donut Co., about once a week.</li>
+    <li>Your email, and your city or state if you add one, is used only to send these emails. It's never sold or shared.</li>
+    <li>Every email has an unsubscribe link. You can also write to <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>.</li>
+  </ul>
+  <p class="fine">Draft for Cloudy Donut Co. to confirm before launch.</p>
+  <form method="dialog"><button class="btn btn-ink" type="submit">Got it</button></form>
+</dialog>
+
 <dialog class="ig-dlg" id="ig-dlg" aria-label="Instagram post">
   <div class="ig-dlg-bar"><a id="ig-dlg-open" href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Open on Instagram</a><button type="button" class="ig-dlg-x" aria-label="Close">×</button></div>
   <div class="ig-dlg-body" id="ig-dlg-body"></div>
@@ -242,6 +253,7 @@ LINEUP = """
             <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="Email" required>
             <button class="btn btn-ink" type="submit">Subscribe</button>
           </div>
+          <div class="consent"><input id="nl-consent" name="consent" type="checkbox" required><label for="nl-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
           <p class="form-msg" role="status"></p>
         </form>
         __MORE__
@@ -273,6 +285,7 @@ TOUR_FORM = """
           <input name="city" type="text" autocomplete="address-level2" placeholder="City" aria-label="City" required>
           <button class="btn btn-mint" type="submit">Notify me</button>
         </div>
+        <div class="consent"><input id="tour-consent" name="consent" type="checkbox" required><label for="tour-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <p class="form-msg" role="status"></p>
       </form>"""
 
@@ -398,6 +411,7 @@ SHIP = """
       <form class="stack-form" data-form="ship_waitlist" novalidate>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
         <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+        <div class="consent"><input id="ship-consent" name="consent" type="checkbox" required><label for="ship-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <button class="btn btn-ink" type="submit">Join the waitlist</button>
         <p class="form-msg" role="status"></p>
       </form>
@@ -543,7 +557,7 @@ POPUPS = f"""
       <ol class="tn-list">
         <li><span class="donut-num g1" aria-hidden="true"><b>1</b></span><p>Dates and addresses drop on Instagram first, then here.</p></li>
         <li><span class="donut-num g2" aria-hidden="true"><b>2</b></span><p>Get there early. Quantities are limited and pop-ups sell out.</p></li>
-        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above. Signups show where the tour goes next.</p></li>
+        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above, and you'll hear first if the tour comes your way.</p></li>
       </ol>
     </div>
   </section>
@@ -617,9 +631,11 @@ LOCS = f"""
 COMPARE_PAGES = {
     "index.html": ("Home",
         ["This week's lineup sits behind a button, inside a pop-up.",
+         "The email signup asks you to accept terms and conditions, but there are no terms to read.",
          "Lineup photos are described to screen readers by file name, like \"raspberry lemonade.png\".",
          "The page's main heading reads \"100% Vegan\"."],
         ["This week's lineup opens on the page, in a sealed box. Tap the seal.",
+         "Every signup links to short, plain email terms.",
          "Every donut photo is named for the donut.",
          "Each shop shows open or closed on New York time, plus the next tour stop with a countdown."]),
     "flavors.html": ("Flavors",
