@@ -146,31 +146,25 @@
   const setupIG = async (data) => {
     const row = document.getElementById("ig-row");
     if (!row) return;
-    let live = null;
+    let posts = null;
     try {
       const r = await fetch("/api/instagram");
-      if (r.status === 200) live = (await r.json()).posts;
+      if (r.status === 200) posts = (await r.json()).posts;
     } catch (e) {}
-    if (live && live.length) {
-      row.innerHTML = live.map((p) => `<li class="ig-tile"><a href="${esc(p.url)}" target="_blank" rel="noopener">
-        <img src="${esc(p.img)}" alt="${esc(p.caption || "Instagram post from @cloudydonuts")}" loading="lazy">
-        ${p.kind !== "post" ? `<span class="ig-kind">${p.kind === "reel" ? "Reel" : "Carousel"}</span>` : ""}</a></li>`).join("");
-      return;
-    }
-    const posts = data.instagram_posts || [];
-    row.innerHTML = posts.map((p) => `<li class="ig-embed"><blockquote class="instagram-media" data-instgrm-permalink="${esc(p.url)}?utm_source=ig_embed" data-instgrm-version="14">
-      <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.label)} on Instagram</a></blockquote></li>`).join("");
-    const load = () => {
-      if (window.instgrm) { window.instgrm.Embeds.process(); return; }
-      const sc = document.createElement("script");
-      sc.src = "https://www.instagram.com/embed.js"; sc.async = true;
-      document.body.appendChild(sc);
-    };
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: "600px" });
-      io.observe(row);
-    } else load();
-    const step = () => Math.min(row.clientWidth * 0.9, 680);
+    if (!posts || !posts.length) posts = data.instagram_posts || [];
+    const day = (iso) => new Date(iso.length > 10 ? iso : iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const cloud = wix("d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", 200);
+    row.innerHTML = posts.map((p) => {
+      const kind = p.kind === "reel" ? "Reel" : p.kind === "carousel" ? "Carousel" : "Post";
+      const quote = p.quote || (p.caption || "").split(/(?<=[.!?])\s/)[0];
+      return `<li class="igc${p.img ? " has-img" : ""}"><a href="${esc(p.url)}" target="_blank" rel="noopener">
+        ${p.img ? `<img class="igc-img" src="${esc(p.img)}" alt="" loading="lazy">` : `<img class="igc-mark" src="${cloud}" alt="" loading="lazy">`}
+        <span class="igc-top"><span class="igc-kind">${p.kind === "reel" ? '<i class="igc-play"></i>' : ""}${kind}</span><time datetime="${esc(p.date)}">${esc(day(p.date))}</time></span>
+        <span class="igc-q">${esc(quote)}</span>
+        <span class="igc-foot">${p.note ? `<span class="igc-note">${esc(p.note)}</span>` : ""}<span class="igc-h">${esc(p.handles || "@cloudydonuts")}</span><span class="igc-go">Watch on Instagram <b aria-hidden="true">→</b></span></span>
+      </a></li>`;
+    }).join("");
+    const step = () => (row.querySelector("li") || { offsetWidth: 300 }).offsetWidth + 18;
     $("#ig-prev").addEventListener("click", () => row.scrollBy({ left: -step(), behavior: reduceMotion ? "auto" : "smooth" }));
     $("#ig-next").addEventListener("click", () => row.scrollBy({ left: step(), behavior: reduceMotion ? "auto" : "smooth" }));
   };

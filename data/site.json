@@ -85,7 +85,7 @@
       {
         "city": "Philadelphia, PA",
         "date": "2026-11-07",
-        "time": "Panel 10AM, pop-up after",
+        "time": "Panel 10AM, pop-up 11AM–4PM",
         "address": "",
         "venue": "American Grammar, Fishtown",
         "status": "announced"
@@ -150,31 +150,59 @@
   "instagram_posts": [
     {
       "url": "https://www.instagram.com/reel/DfkO4-_RR9N/",
-      "label": "Derrick on the road, from the 7Streams tour"
+      "kind": "reel",
+      "date": "2026-11-10",
+      "handles": "@_7streams × @cloudydonuts",
+      "quote": "Pick up some hammers and start rebuilding.",
+      "note": "On building together"
     },
     {
       "url": "https://www.instagram.com/reel/DfhnuJ7xt_X/",
-      "label": "New Jersey next"
+      "kind": "reel",
+      "date": "2026-11-09",
+      "handles": "@_7streams × @cloudydonuts",
+      "quote": "The ability to see it and then know that we can be it.",
+      "note": "New Jersey next"
     },
     {
       "url": "https://www.instagram.com/p/DffGPRFEZcU/",
-      "label": "New Jersey next weekend"
+      "kind": "post",
+      "date": "2026-11-08",
+      "handles": "@cloudydonuts × @_7streams",
+      "quote": "Dream and dream big.",
+      "note": "Newark, Nov 14"
     },
     {
       "url": "https://www.instagram.com/reel/DfaEBbMsBHb/",
-      "label": "Talking the Philly pop-up with Qai City"
+      "kind": "reel",
+      "date": "2026-11-06",
+      "handles": "@qaicity × @cloudydonuts",
+      "quote": "I pulled up on my family.",
+      "note": "Qai City previews the Philly pop-up"
     },
     {
       "url": "https://www.instagram.com/reel/DfSG2GNxDJB/",
-      "label": "Philly this weekend: panel, then pop-up"
+      "kind": "reel",
+      "date": "2026-11-03",
+      "handles": "@cloudydonuts × @_7streams",
+      "quote": "Philly im in there this weekend.",
+      "note": "Panel at 10, pop-up at 11"
     },
     {
       "url": "https://www.instagram.com/reel/DfNsfnJA5OW/",
-      "label": "In Philly next week for a panel and pop-up"
+      "kind": "reel",
+      "date": "2026-11-01",
+      "handles": "@_7streams × @cloudydonuts",
+      "quote": "Celebration, inspiration, and collaboration.",
+      "note": "Why the tour"
     },
     {
       "url": "https://www.instagram.com/reel/DfKTDzFR62H/",
-      "label": "Come see us today"
+      "kind": "reel",
+      "date": "2026-10-31",
+      "handles": "@cloudydonuts × @_7streams",
+      "quote": "Come see us today.",
+      "note": "Shop weekend"
     }
   ],
   "_note_instagram": "Latest @cloudydonuts posts, Nov 10, 2026. In production these come from the Instagram API on a schedule; no one edits this list."
