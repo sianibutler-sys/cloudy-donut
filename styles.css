@@ -1159,3 +1159,13 @@ html.intro-seen .intro { display: none; }
 
 /* iOS Safari: keep the scrolling strip and each rolling donut on their own GPU layers so the strip never stalls or flashes */
 .marquee-track { will-change: transform; backface-visibility: hidden; transform: translate3d(0,0,0); }
+
+/* Prices as a small menu: two even columns, dotted leaders, price aligned right */
+.price-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; max-width: 520px; }
+.price-strip .pi { display: flex; align-items: baseline; gap: 8px; border: 0; padding: 0; font: 800 .72rem var(--sans); letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.price-strip .pi::before { content: none !important; }
+.price-strip .pi b { font-weight: 800; }
+.price-strip .pi i { flex: 1; min-width: 12px; border-bottom: 2px dotted var(--sage); transform: translateY(-3px); }
+.price-strip .pi em { font-style: normal; }
+@media (max-width: 380px) { .price-strip { gap: 12px 20px; } .price-strip .pi { letter-spacing: .08em; } }
+.flavor-meta .price-strip { flex: 1 1 300px; max-width: 460px; }

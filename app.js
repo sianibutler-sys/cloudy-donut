@@ -277,7 +277,7 @@
 
     $("#lineup-also").textContent = data.lineup.also || "";
     if (data.lineup.week_of) $("#lineup-sub").textContent = `Week of ${data.lineup.week_of}. ` + $("#lineup-sub").textContent;
-    $("#price-strip").innerHTML = data.prices.map((p) => `<span>${esc(p.item)} $${p.price}</span>`).join("");
+    $$("#price-strip").forEach((el) => { el.innerHTML = data.prices.map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
     const FILTERS = [
