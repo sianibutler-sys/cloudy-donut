@@ -1014,3 +1014,29 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .sheet, .paper { min-width: 0; max-width: 100%; }
 .pp-text h3, .pp-desc { overflow-wrap: anywhere; }
 @media (max-width: 520px) { .paper-dialog { padding: 14px 31px 14px 17px; } }
+
+/* Instagram row (Pop-ups) */
+.ig { background: var(--ink); color: var(--cream); padding: 84px 0 96px; overflow: hidden; }
+.ig .kicker { color: var(--mint); }
+.ig-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 22px; margin-bottom: 30px; }
+.ig-sub { margin: 10px 0 0; color: rgba(255,251,237,.82); }
+.ig-ctrl { display: flex; align-items: center; gap: 10px; }
+.ig-arrow { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255,251,237,.5); background: transparent; color: var(--cream); display: grid; place-items: center; cursor: pointer; }
+.ig-arrow:hover { background: var(--cream); color: var(--ink); }
+.ig-arrow:focus-visible, .ig-row:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+.ig-row { list-style: none; margin: 0; display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: max(24px, calc((100vw - 1200px) / 2 + 24px)); padding: 4px max(24px, calc((100vw - 1200px) / 2 + 24px)) 18px; scrollbar-width: thin; scrollbar-color: rgba(255,251,237,.35) transparent; -webkit-overflow-scrolling: touch; }
+.ig-row > li { flex: 0 0 auto; scroll-snap-align: start; }
+.ig-embed { width: 328px; }
+.ig-embed .instagram-media { margin: 0 !important; min-width: 0 !important; width: 328px !important; max-width: 328px !important; border-radius: 14px !important; }
+.ig-embed blockquote:not(.instagram-media-rendered) { min-height: 420px; display: grid; place-items: center; background: #2e2d2c; border-radius: 14px; padding: 20px; }
+.ig-embed blockquote a { color: var(--cream); font-weight: 700; }
+.ig-tile { width: min(300px, 76vw); }
+.ig-tile a { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 14px; overflow: hidden; }
+.ig-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.ig-tile a:hover img { transform: scale(1.04); }
+.ig-kind { position: absolute; top: 10px; right: 10px; background: rgba(36,35,35,.8); color: #fff; font: 800 .62rem var(--sans); letter-spacing: .12em; text-transform: uppercase; padding: .45em .8em; border-radius: 999px; }
+@media (max-width: 600px) {
+  .ig { padding: 64px 0 76px; }
+  .ig-ctrl .ig-arrow { display: none; }
+  .ig-embed, .ig-embed .instagram-media { width: min(328px, 84vw) !important; max-width: min(328px, 84vw) !important; }
+}

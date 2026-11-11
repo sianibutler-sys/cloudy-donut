@@ -83,6 +83,14 @@
     "_note": "Pop-up stops. Newark is from Cloudy's Instagram flyer (Nov 2026). Other cities are from press about the fall tour; staff add dates in Airtable. date is YYYY-MM-DD.",
     "stops": [
       {
+        "city": "Philadelphia, PA",
+        "date": "2026-11-07",
+        "time": "Panel 10AM, pop-up after",
+        "address": "",
+        "venue": "American Grammar, Fishtown",
+        "status": "announced"
+      },
+      {
         "city": "Newark, NJ",
         "date": "2026-11-14",
         "time": "12PM–6PM",
@@ -138,5 +146,40 @@
     "facebook": "https://www.facebook.com/CloudyDonutCo",
     "sevenstreams": "https://www.thesevenstreams.com",
     "flyer_image": "18f167_1be174111a8643b18f3d76f97d7e2122~mv2.jpg"
-  }
+  },
+  "instagram_posts": [
+    {
+      "url": "https://www.instagram.com/reel/DfkO4-_RR9N/",
+      "label": "Derrick on the road, from the 7Streams tour"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DfhnuJ7xt_X/",
+      "label": "New Jersey next"
+    },
+    {
+      "url": "https://www.instagram.com/p/DffGPRFEZcU/",
+      "label": "New Jersey next weekend"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DfaEBbMsBHb/",
+      "label": "Talking the Philly pop-up with Qai City"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DfSG2GNxDJB/",
+      "label": "Philly this weekend: panel, then pop-up"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DfNsfnJA5OW/",
+      "label": "In Philly next week for a panel and pop-up"
+    },
+    {
+      "url": "https://www.instagram.com/reel/DfKTDzFR62H/",
+      "label": "Come see us today"
+    },
+    {
+      "url": "https://www.instagram.com/p/DfFR53QkWK1/",
+      "label": "To the champions who put in the work"
+    }
+  ],
+  "_note_instagram": "Latest @cloudydonuts posts, Nov 10, 2026. In production these come from the Instagram API on a schedule; no one edits this list."
 }

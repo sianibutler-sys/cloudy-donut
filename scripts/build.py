@@ -524,6 +524,21 @@ POPUPS = f"""
       </ol>
     </div>
   </section>
+  <section class="ig" aria-labelledby="ig-h">
+    <div class="wrap ig-head">
+      <div>
+        <p class="kicker">@cloudydonuts</p>
+        <h2 class="display-md" id="ig-h">Straight From The Feed</h2>
+        <p class="ig-sub">Every stop drops here first. Swipe for the latest.</p>
+      </div>
+      <div class="ig-ctrl">
+        <button type="button" class="ig-arrow" id="ig-prev" aria-label="Previous posts"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="ig-arrow" id="ig-next" aria-label="Next posts"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <a class="btn btn-mint" href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">Follow @cloudydonuts</a>
+      </div>
+    </div>
+    <ul class="ig-row" id="ig-row" role="list" aria-label="Latest Instagram posts"></ul>
+  </section>
 </main>"""
 
 STORY = f"""
@@ -594,7 +609,8 @@ COMPARE_PAGES = {
         ["There's no tour page. Stops are announced on Instagram.",
          "The pop-up ordering page reads \"No items to show yet.\""],
         ["A tour page with a flyer built from the tour list. Next stop: Newark, Nov 14.",
-         "\"Bring Cloudy to my city\" signups show where demand is."]),
+         "\"Bring Cloudy to my city\" signups show where demand is.",
+         "A swipeable row of the latest @cloudydonuts posts. Once Cloudy connects Instagram, it updates on its own."]),
     "our-story.html": ("Our story",
         ["\"Our Story\" in the menu links back to the home page."],
         ["Its own page, with the story copy word for word.",

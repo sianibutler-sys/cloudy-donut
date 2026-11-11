@@ -139,6 +139,42 @@
     return { open: false, text: loc.hours_label };
   };
 
+
+  /* ---------- Instagram row (Pop-ups) ---------- */
+  // With an Instagram token, /api/instagram returns the live feed and the row draws its own tiles.
+  // Without one (this concept), it shows Instagram's official embeds of the latest posts.
+  const setupIG = async (data) => {
+    const row = document.getElementById("ig-row");
+    if (!row) return;
+    let live = null;
+    try {
+      const r = await fetch("/api/instagram");
+      if (r.status === 200) live = (await r.json()).posts;
+    } catch (e) {}
+    if (live && live.length) {
+      row.innerHTML = live.map((p) => `<li class="ig-tile"><a href="${esc(p.url)}" target="_blank" rel="noopener">
+        <img src="${esc(p.img)}" alt="${esc(p.caption || "Instagram post from @cloudydonuts")}" loading="lazy">
+        ${p.kind !== "post" ? `<span class="ig-kind">${p.kind === "reel" ? "Reel" : "Carousel"}</span>` : ""}</a></li>`).join("");
+      return;
+    }
+    const posts = data.instagram_posts || [];
+    row.innerHTML = posts.map((p) => `<li class="ig-embed"><blockquote class="instagram-media" data-instgrm-permalink="${esc(p.url)}?utm_source=ig_embed" data-instgrm-version="14">
+      <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.label)} on Instagram</a></blockquote></li>`).join("");
+    const load = () => {
+      if (window.instgrm) { window.instgrm.Embeds.process(); return; }
+      const sc = document.createElement("script");
+      sc.src = "https://www.instagram.com/embed.js"; sc.async = true;
+      document.body.appendChild(sc);
+    };
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: "600px" });
+      io.observe(row);
+    } else load();
+    const step = () => Math.min(row.clientWidth * 0.9, 680);
+    $("#ig-prev").addEventListener("click", () => row.scrollBy({ left: -step(), behavior: reduceMotion ? "auto" : "smooth" }));
+    $("#ig-next").addEventListener("click", () => row.scrollBy({ left: step(), behavior: reduceMotion ? "auto" : "smooth" }));
+  };
+
   /* ---------- Content ---------- */
   const load = async () => {
     try {
@@ -374,6 +410,7 @@
     window.__cdRefresh = refreshStatus;
     setInterval(refreshStatus, 60000);
     setupMaps();
+    setupIG(data);
 
     // Order links: placeholder until the real ordering link is confirmed
     document.addEventListener("click", (e) => {
