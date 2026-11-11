@@ -1126,3 +1126,7 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 @keyframes intro-roll { from { transform: translateX(-3.2em) rotate(-360deg); opacity: 0; } 60% { opacity: 1; } to { transform: translateY(.02em); } }
 /* Returning visitors never see the splash, not even for a frame before the script runs */
 html.intro-seen .intro { display: none; }
+
+/* Splash logo: traced from the real logo */
+.mark-wrap { aspect-ratio: 1200 / 581; }
+.trace { overflow: visible; }

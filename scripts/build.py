@@ -65,17 +65,21 @@ SVG_DEFS = f"""
   </svg>
   <div class="intro-mark">
     <div class="mark-wrap">
-      <svg class="draw" viewBox="0 0 320 150" aria-hidden="true">
-        <path class="ln l1" pathLength="1" d="M78 128 L34 128 C10 128 8 98 32 95 C29 74 54 63 72 74 C78 48 114 38 134 57 C143 37 172 31 190 46"/>
-        <path class="ln l2" pathLength="1" d="M263 66 C281 66 296 82 288 100 C308 103 309 128 286 128 L250 128"/>
-        <g class="dn">
-          <circle class="ring" cx="228" cy="54" r="34"/>
-          <path class="glaze" d="M228 27 C238 26 246 31 251 37 C257 41 257 49 255 55 C258 62 254 70 248 74 C243 81 234 82 228 81 C220 83 212 79 207 73 C200 69 199 60 201 54 C199 47 203 39 209 35 C214 29 221 27 228 27 Z"/>
-          <g class="spr"><path d="M214 40 l4 -2"/><path d="M226 33 l1 4"/><path d="M240 36 l4 1"/><path d="M247 50 l2 -4"/><path d="M240 68 l-3 2"/><path d="M216 66 l-1 -4"/><path d="M209 54 l3 2"/></g>
-          <circle class="hole" cx="228" cy="54" r="10"/>
-        </g>
+      <!-- The real logo, revealed by a pen that traces its own cloud outline, then the lettering fills in -->
+      <svg class="trace" viewBox="0 0 1200 581" aria-hidden="true">
+        <defs>
+          <filter id="logo-white"><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0"/></filter>
+          <mask id="logo-pen" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="581">
+            <path d="M 245 553 L 30 553 C 0 553 -5 470 40 445 C 70 405 140 400 160 400 L 165 340 C 170 300 200 310 250 305 C 245 250 290 175 380 170 C 420 168 450 175 470 180 C 490 160 510 140 540 130 C 590 50 650 5 760 3 C 860 0 930 60 960 110 C 990 160 990 230 990 310 C 1060 300 1130 330 1165 400 C 1195 460 1190 520 1185 565" fill="none" stroke="#fff" stroke-width="74" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1">
+              <animate attributeName="stroke-dashoffset" from="1" to="0" begin=".3s" dur="1.35s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".55 .05 .3 1"/>
+            </path>
+            <rect width="1200" height="581" fill="#fff" opacity="0">
+              <animate attributeName="opacity" from="0" to="1" begin="1.5s" dur=".5s" fill="freeze"/>
+            </rect>
+          </mask>
+        </defs>
+        <image href="https://static.wixstatic.com/media/{LOGO}/v1/fit/w_900,h_900,q_90,enc_auto/{LOGO}" width="1200" height="581" filter="url(#logo-white)" mask="url(#logo-pen)"/>
       </svg>
-      <img class="wix mark-logo" data-wix="{LOGO}" data-w="600" alt="">
     </div>
     <div class="intro-dsb">{dsb()}<p class="intro-line">Where Dreams Crumb True</p></div>
   </div>
