@@ -1145,3 +1145,14 @@ html.intro-seen .intro { display: none; }
 .terms-dlg a { color: inherit; font-weight: 700; }
 .terms-dlg form { margin-top: 14px; }
 .terms-dlg .fine { color: #5d5a52; margin: 0; }
+
+/* Hero open/closed line: one line where it fits, balanced lines where it doesn't, dot centered on the text */
+.hero-card .open-now { justify-content: center; gap: 10px; }
+.hero-card .open-now .on-txt { text-wrap: balance; text-align: left; }
+@media (max-width: 600px) { .hero-card .open-now { font-size: .68rem; letter-spacing: .06em; gap: 8px; } }
+
+/* Flavor banner: the box's white donut rolls between names, centered on the type */
+.marquee-track span { display: inline-flex; align-items: center; }
+.marquee-track span::after { content: ""; flex: none; width: .9em; height: .9em; margin: 0 .7em; vertical-align: 0; background: center / contain no-repeat url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2248%22%20fill%3D%22%23ffffff%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2215%22%20fill%3D%22%23ABDBC6%22/%3E%3Cg%20stroke%3D%22%23ABDBC6%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M30%2026l6%203%22/%3E%3Cpath%20d%3D%22M52%2018l1%207%22/%3E%3Cpath%20d%3D%22M70%2027l-5%204%22/%3E%3Cpath%20d%3D%22M80%2047l-7%201%22/%3E%3Cpath%20d%3D%22M72%2070l-4-5%22/%3E%3Cpath%20d%3D%22M50%2082l1-7%22/%3E%3Cpath%20d%3D%22M28%2072l5-4%22/%3E%3Cpath%20d%3D%22M20%2050l7%201%22/%3E%3C/g%3E%3C/svg%3E"); filter: drop-shadow(0 1px 0 rgba(36,35,35,.18)); animation: banner-roll 4s linear infinite; transform-origin: 50% 50%; }
+@keyframes banner-roll { to { transform: rotate(-360deg); } }
+@media (prefers-reduced-motion: reduce) { .marquee-track span::after { animation: none; } }

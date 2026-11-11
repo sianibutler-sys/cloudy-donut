@@ -437,10 +437,10 @@
       const openLoc = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
       const hero = $("#hero-status");
       const lc = (t) => t.charAt(0).toLowerCase() + t.slice(1);
-      if (openLoc) hero.innerHTML = `<span class="dot on"></span>${esc(openLoc[0].name)} is ${esc(lc(openLoc[1].text))}`;
+      if (openLoc) hero.innerHTML = `<span class="dot on"></span><span class="on-txt">${esc(openLoc[0].name)} is ${esc(lc(openLoc[1].text))}</span>`;
       else {
         const next = data.locations.map((l) => [l, status(l)]).find(([l]) => Object.keys(l.hours).length);
-        hero.innerHTML = next ? `<span class="dot"></span>${esc(next[0].name)} ${esc(lc(next[1].text))}` : "";
+        hero.innerHTML = next ? `<span class="dot"></span><span class="on-txt">${esc(next[0].name)} ${esc(lc(next[1].text))}</span>` : "";
       }
     };
     refreshStatus();
