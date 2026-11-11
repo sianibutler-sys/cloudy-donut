@@ -1008,3 +1008,9 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .hero-cta .btn svg { transition: transform .25s ease; }
 .hero-cta .btn:hover svg { transform: translateY(3px); }
 #picker { scroll-margin-top: -60px; }
+/* Keep the deli paper inside the screen on phones */
+.paper-dialog { width: min(580px, 100%); max-width: 100%; }
+.paper-dialog[open] { grid-template-columns: minmax(0, 1fr); }
+.sheet, .paper { min-width: 0; max-width: 100%; }
+.pp-text h3, .pp-desc { overflow-wrap: anywhere; }
+@media (max-width: 520px) { .paper-dialog { padding: 14px 31px 14px 17px; } }
