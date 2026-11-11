@@ -457,8 +457,14 @@
 
     // Tour
     // Marquee
-    const names = data.flavors.filter((f) => !f.tags.includes("pups")).map((f) => `<span>${esc(f.name)}</span>`).join("");
-    $("#marquee").innerHTML = names + names;
+    // This week's lineup first, then fan favorites. Kept to 18 names so the strip stays light enough for phones.
+    const lineupIds = new Set((data.lineup && data.lineup.flavors) || []);
+    const pool = data.flavors.filter((f) => !f.tags.includes("pups"));
+    const picked = [...pool.filter((f) => lineupIds.has(f.id)), ...pool.filter((f) => !lineupIds.has(f.id))].slice(0, 18);
+    const names = picked.map((f) => `<span>${esc(f.name)}</span>`).join("");
+    const mq = $("#marquee");
+    mq.innerHTML = names + names;
+    mq.style.animationDuration = Math.round(60 * picked.length / 42) + "s";
 
     // Pop-ups: next dated stop becomes the flyer
     const todayISO = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
