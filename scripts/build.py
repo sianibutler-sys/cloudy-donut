@@ -259,10 +259,13 @@ LINEUP = """
           <div class="cbox-front"><span class="notch" aria-hidden="true"></span>__DSB__</div>
           <button class="seal" id="cbox-seal" type="button" aria-controls="cbox-body" aria-expanded="false"><span>Where<br>Dreams<br>Crumb<br>True</span><span class="visually-hidden">Open this week's box</span></button>
         </div>
+        <div class="bd-wrap">
+        <div class="bd-dots" id="bd-dots" role="group" aria-label="Flavors in this week's box" hidden></div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
           <p class="bd-num">8 flavors inside</p>
           <h3 class="bd-name">Tap The Seal.</h3>
           <p class="bd-desc">This week's box is packed and sealed. Break the seal to see what's inside.</p>
+        </div>
         </div>
       </div>
       <div class="lineup-foot">

@@ -244,10 +244,27 @@
         <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
         <span class="visually-hidden">${esc(f.name)}</span>
       </button>`).join("");
+    // Flavor notes (same traits as Find your flavor), always on one line under the donut dots
+    const notes = (f) => [...(f.profile || []).slice(0, 1), f.style, f.texture && f.texture !== "smooth" ? f.texture : null, f.boozy ? "spirited" : null].filter(Boolean).slice(0, 3).join(" · ");
+    const dotsEl = $("#bd-dots");
+    dotsEl.innerHTML = week.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${week.length}"></button>`).join("");
+    dotsEl.addEventListener("click", (e) => {
+      const d = e.target.closest(".bd-dot"); if (!d) return;
+      const g = week.find((x) => x.id === d.dataset.go); if (g) showBox(g);
+    });
+    dotsEl.addEventListener("keydown", (e) => {
+      const d = e.target.closest(".bd-dot"); if (!d) return;
+      const all = $$(".bd-dot", dotsEl), i = all.indexOf(d);
+      const n = e.key === "ArrowRight" ? i + 1 : e.key === "ArrowLeft" ? i - 1 : e.key === "Home" ? 0 : e.key === "End" ? all.length - 1 : null;
+      if (n === null) return;
+      e.preventDefault(); const t = all[(n + all.length) % all.length]; t.focus(); t.click();
+    });
     const showBox = (f) => {
       $$(".slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
+      dotsEl.hidden = false;
+      $$(".bd-dot", dotsEl).forEach((d) => { const on = d.dataset.go === f.id; d.classList.toggle("on", on); if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
       $("#box-detail").innerHTML = `
-        <p class="bd-num">${String(week.indexOf(f) + 1).padStart(2, "0")} / ${String(week.length).padStart(2, "0")}</p>
+        <p class="bd-num"><span class="visually-hidden">${week.indexOf(f) + 1} of ${week.length}: </span>${esc(notes(f))}</p>
         <h3 class="bd-name">${esc(f.name)}</h3>
         <p class="bd-desc">${esc(f.desc)}</p>
         ${f.contains ? `<p class="bd-contains">${esc(f.contains)}</p>` : ""}`;

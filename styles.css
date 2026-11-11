@@ -1169,3 +1169,13 @@ html.intro-seen .intro { display: none; }
 .price-strip .pi em { font-style: normal; }
 @media (max-width: 380px) { .price-strip { gap: 12px 20px; } .price-strip .pi { letter-spacing: .08em; } }
 .flavor-meta .price-strip { flex: 1 1 300px; max-width: 460px; }
+
+/* Box detail: donut dots, then flavor notes on their own line so they always land in the same spot */
+.bd-dots { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.bd-dot { width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: radial-gradient(circle, var(--cream) 0 4px, transparent 4.5px), #5f9480; transition: transform .2s, background-color .2s; }
+.bd-dot:hover { transform: scale(1.1); }
+.bd-dot.on { background: radial-gradient(circle, var(--cream) 0 4px, transparent 4.5px), var(--char); transform: scale(1.12); }
+.bd-dot:focus-visible { outline: 3px solid var(--sage-ink); outline-offset: 3px; }
+.box-detail .bd-num { text-transform: uppercase; min-height: 1.2em; }
+@media (prefers-reduced-motion: reduce) { .bd-dot { transition: none; } }
+.foot-links a { display: inline-block; min-height: 24px; padding: 4px 0; }
