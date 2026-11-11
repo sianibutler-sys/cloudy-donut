@@ -1040,3 +1040,4 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
   .ig-ctrl .ig-arrow { display: none; }
   .ig-embed, .ig-embed .instagram-media { width: min(328px, 84vw) !important; max-width: min(328px, 84vw) !important; }
 }
+.ig-row { align-items: flex-start; }
