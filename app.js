@@ -188,6 +188,23 @@
     $("#ig-next").addEventListener("click", () => row.scrollBy({ left: step(), behavior: reduceMotion ? "auto" : "smooth" }));
   };
 
+  /* ---------- Deep links (flavors.html#picker): land on the section after content renders ---------- */
+  const landOnHash = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const t = id && document.getElementById(id);
+    if (!t) return;
+    t.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+    if (t.classList.contains("reveal")) t.classList.add("in");
+    let userMoved = false;
+    ["wheel", "touchstart", "keydown"].forEach((ev) => window.addEventListener(ev, () => { userMoved = true; }, { once: true, passive: true }));
+    const go = () => { if (!userMoved) t.scrollIntoView({ block: "start", behavior: "auto" }); };
+    go();
+    requestAnimationFrame(go);
+    window.addEventListener("load", go, { once: true });
+    setTimeout(go, 500);
+    const h = t.querySelector("h2, h1"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  };
+
   /* ---------- Email terms ---------- */
   const termsDlg = document.getElementById("terms-dlg");
   document.addEventListener("click", (e) => {
@@ -472,6 +489,7 @@
 
     hydrateImages();
     observeReveals();
+    landOnHash();
   }).catch(() => {
     $("#box-detail").innerHTML = '<p class="fine">The lineup will be back shortly.</p>';
   });
