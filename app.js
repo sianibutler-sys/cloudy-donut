@@ -157,13 +157,32 @@
     row.innerHTML = posts.map((p) => {
       const kind = p.kind === "reel" ? "Reel" : p.kind === "carousel" ? "Carousel" : "Post";
       const quote = p.quote || (p.caption || "").split(/(?<=[.!?])\s/)[0];
-      return `<li class="igc${p.img ? " has-img" : ""}"><a href="${esc(p.url)}" target="_blank" rel="noopener">
-        ${p.img ? `<img class="igc-img" src="${esc(p.img)}" alt="" loading="lazy">` : `<img class="igc-mark" src="${cloud}" alt="" loading="lazy">`}
+      return `<li class="igc${p.img || p.cover ? " has-img" : ""}"><a href="${esc(p.url)}" target="_blank" rel="noopener">
+        ${p.img || p.cover ? `<img class="igc-img" src="${esc(p.img || p.cover)}" alt="" loading="lazy">` : `<img class="igc-mark" src="${cloud}" alt="" loading="lazy">`}
         <span class="igc-top"><span class="igc-kind">${p.kind === "reel" ? '<i class="igc-play"></i>' : ""}${kind}</span><time datetime="${esc(p.date)}">${esc(day(p.date))}</time></span>
         <span class="igc-q">${esc(quote)}</span>
-        <span class="igc-foot">${p.note ? `<span class="igc-note">${esc(p.note)}</span>` : ""}<span class="igc-h">${esc(p.handles || "@cloudydonuts")}</span><span class="igc-go">Watch on Instagram <b aria-hidden="true">→</b></span></span>
+        <span class="igc-foot">${p.note ? `<span class="igc-note">${esc(p.note)}</span>` : ""}<span class="igc-h">${esc(p.handles || "@cloudydonuts")}</span><span class="igc-go">${p.kind === "reel" ? "Watch the reel" : "See the post"} <b class="igc-playbtn" aria-hidden="true"></b></span></span>
       </a></li>`;
     }).join("");
+    // Tap a card to watch the post right here, in Instagram's own player
+    const dlg = document.getElementById("ig-dlg"), body = document.getElementById("ig-dlg-body");
+    const embedJS = () => new Promise((res) => {
+      if (window.instgrm) return res();
+      const sc = document.createElement("script"); sc.src = "https://www.instagram.com/embed.js"; sc.async = true;
+      sc.onload = res; sc.onerror = res; document.body.appendChild(sc);
+    });
+    row.addEventListener("click", async (e) => {
+      const a = e.target.closest("a"); if (!a || !dlg || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      body.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="${esc(a.href)}?utm_source=ig_embed" data-instgrm-version="14"><a href="${esc(a.href)}" target="_blank" rel="noopener">Loading the post…</a></blockquote>`;
+      $("#ig-dlg-open").href = a.href;
+      dlg.showModal();
+      await embedJS(); if (window.instgrm) window.instgrm.Embeds.process();
+    });
+    $(".ig-dlg-x").addEventListener("click", () => dlg.close());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener("close", () => { body.innerHTML = ""; });
+    row.addEventListener("pointerenter", embedJS, { once: true });
     const step = () => (row.querySelector("li") || { offsetWidth: 300 }).offsetWidth + 18;
     $("#ig-prev").addEventListener("click", () => row.scrollBy({ left: -step(), behavior: reduceMotion ? "auto" : "smooth" }));
     $("#ig-next").addEventListener("click", () => row.scrollBy({ left: step(), behavior: reduceMotion ? "auto" : "smooth" }));

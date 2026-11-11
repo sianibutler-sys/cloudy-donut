@@ -1073,3 +1073,18 @@ button.link-arrow { border: 0; border-bottom: 2px solid currentColor; cursor: po
 .igc a { justify-content: flex-start; }
 .igc-q { margin-top: 10px; }
 .igc-foot { margin-top: auto; }
+
+/* Play button on cards + in-page Instagram player */
+.igc-go { align-items: center; }
+.igc-playbtn { width: 34px; height: 34px; border-radius: 50%; background: currentColor; position: relative; flex: none; transition: transform .3s; }
+.igc-playbtn::after { content: ""; position: absolute; left: 13px; top: 10px; border-style: solid; border-width: 7px 0 7px 11px; border-color: transparent transparent transparent var(--cream); }
+.igc:nth-child(4n+3) .igc-playbtn::after, .igc:nth-child(4n+4) .igc-playbtn::after, .igc.has-img .igc-playbtn::after { border-left-color: var(--ink); }
+.igc a:hover .igc-playbtn { transform: scale(1.12); }
+.ig-dlg { border: 0; padding: 0; background: transparent; width: min(420px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: visible; }
+.ig-dlg::backdrop { background: rgba(20,19,18,.82); backdrop-filter: blur(6px); }
+.ig-dlg-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.ig-dlg-bar a { color: var(--cream); font: 800 .7rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.ig-dlg-x { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--cream); color: var(--ink); font-size: 1.3rem; cursor: pointer; }
+.ig-dlg-body { max-height: calc(100dvh - 90px); overflow: auto; border-radius: 14px; background: #fff; min-height: 300px; }
+.ig-dlg-body .instagram-media { margin: 0 !important; min-width: 0 !important; width: 100% !important; max-width: 100% !important; border: 0 !important; }
+.ig-dlg-body blockquote:not(.instagram-media-rendered) { display: grid; place-items: center; min-height: 300px; color: var(--ink); }
