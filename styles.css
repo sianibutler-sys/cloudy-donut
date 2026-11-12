@@ -1244,28 +1244,42 @@ form[data-form] .lab-txt { display: inline; }
 .nav-toggle, .search-mobile { border: 0 !important; border-radius: 0 !important; }
 .nav-toggle span.nt-word { display: none; }
 
-/* ===== MOCKUP variants (hero card) ===== */
-/* E: the box. Mint, square, like their donut box */
-.hv-e .hero-card { border-radius: 0; background: var(--mint); backdrop-filter: none; box-shadow: 0 30px 70px -40px rgba(36,35,35,.5); }
-.hv-e .hero-card .kicker, .hv-e .hero-card .hero-sub, .hv-e .hero-card .open-now { color: var(--char); }
-/* F: the window band. Full-width mint stripe, donuts spill over it */
-.hv-f .hero-c { padding-left: 0; padding-right: 0; }
-.hv-f .hero-card { border-radius: 0; max-width: none; width: 100%; background: var(--mint); backdrop-filter: none; box-shadow: none; padding: clamp(36px, 5vw, 64px) var(--pad); }
-.hv-f .hero-card > * { max-width: 760px; margin-left: auto; margin-right: auto; }
-.hv-f .hero-card .kicker, .hv-f .hero-card .hero-sub, .hv-f .hero-card .open-now { color: var(--char); }
-.hv-f .hero-c .collage { z-index: 2; pointer-events: none; }
-.hv-f .hero-c .collage .donut:nth-child(even) { z-index: 0; }
-/* G: the box label. Square cream card, the kicker printed on a mint band */
-.hv-g .hero-card { --p: clamp(28px, 4vw, 52px); border-radius: 0; background: var(--cream); backdrop-filter: none; padding-top: 0; box-shadow: 0 30px 70px -40px rgba(36,35,35,.5); border: 2px solid var(--char); }
-.hv-g .hero-card .kicker { margin: 0 calc(var(--p) * -1) clamp(22px, 3vw, 34px); padding: 14px var(--p); background: var(--mint); color: var(--char); border-bottom: 2px solid var(--char); }
-/* H: after dark. Charcoal, square, cream type */
-.hv-h .hero-card { border-radius: 0; background: var(--char); backdrop-filter: none; box-shadow: 0 30px 70px -30px rgba(36,35,35,.6); }
-.hv-h .hero-card .display { color: var(--cream); }
-.hv-h .hero-card .kicker { color: var(--mint); }
-.hv-h .hero-card .hero-sub { color: rgba(255,251,237,.85); }
-.hv-h .hero-card .open-now { color: var(--cream); }
-.hv-h .hero-card .btn-ink { background: var(--mint); color: var(--char); border-color: var(--mint); }
-.hv-h .hero-card .btn-line-ink { color: var(--cream); }
+/* ===== MOCKUP variants: no card ===== */
+.hv-media { display: none; }
+.hv-i .hero-card, .hv-j .hero-card, .hv-k .hero-card { background: none; backdrop-filter: none; box-shadow: none; border-radius: 0; }
+/* I: split. Type left on cream, their chocolate stack standing on the right */
+.hv-i .hero-c { grid-template-columns: 1.15fr .85fr; place-items: center start; gap: clamp(20px, 4vw, 60px); padding-left: max(var(--pad), calc((100vw - var(--max)) / 2 + var(--pad))); }
+.hv-i .collage { display: none; }
+.hv-i .hero-card { text-align: left; padding: 0; max-width: 680px; }
+.hv-i .hero-card .hero-sub { margin-left: 0; }
+.hv-i .hero-card .hero-actions, .hv-i .hero-card .open-now { justify-content: flex-start; }
+.hv-i .hv-stack { display: block; grid-column: 2; grid-row: 1; width: 100%; max-width: 520px; height: auto; justify-self: center; mix-blend-mode: multiply; }
+@media (max-width: 860px) {
+  .hv-i .hero-c { grid-template-columns: 1fr; padding-left: var(--pad); place-items: center; }
+  .hv-i .hv-stack { grid-column: 1; grid-row: 1; max-width: 240px; }
+  .hv-i .hero-card { grid-row: 2; text-align: center; }
+  .hv-i .hero-card .hero-actions, .hv-i .hero-card .open-now { justify-content: center; }
+  .hv-i .hero-card .hero-sub { margin-left: auto; }
+}
+/* J: full-bleed photo, type in cream over it */
+.hv-j .hero-c { background: var(--char); place-items: end start; padding-bottom: clamp(48px, 8vh, 90px); padding-left: max(var(--pad), calc((100vw - var(--max)) / 2 + var(--pad))); }
+.hv-j .collage { display: none; }
+.hv-j .hv-photo { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+.hv-j .hero-c::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,19,18,.1) 30%, rgba(20,19,18,.8) 100%); }
+.hv-j .hero-card { text-align: left; padding: 0; max-width: 720px; z-index: 2; }
+.hv-j .hero-card .display, .hv-j .hero-card .open-now { color: var(--cream); }
+.hv-j .hero-card .kicker { color: var(--mint); }
+.hv-j .hero-card .hero-sub { color: rgba(255,251,237,.88); margin-left: 0; }
+.hv-j .hero-card .hero-actions, .hv-j .hero-card .open-now { justify-content: flex-start; }
+.hv-j .hero-card .btn-ink { background: var(--mint); color: var(--char); border-color: var(--mint); }
+.hv-j .hero-card .btn-line-ink { color: var(--cream); }
+/* K: type as the hero. Headline runs huge and left, a few donuts tucked at the edge */
+.hv-k .hero-c { place-items: center start; padding-left: max(var(--pad), calc((100vw - var(--max)) / 2 + var(--pad))); }
+.hv-k .hero-card { text-align: left; padding: 0; max-width: none; }
+.hv-k .hero-card .display { font-size: clamp(3.4rem, 12.5vw, 12rem); line-height: .86; }
+.hv-k .hero-card .hero-sub { margin-left: 0; }
+.hv-k .hero-card .hero-actions, .hv-k .hero-card .open-now { justify-content: flex-start; }
+.hv-k .c1, .hv-k .c2, .hv-k .c5, .hv-k .c7, .hv-k .c9, .hv-k .c3 { display: none; }
 @media (max-width: 860px) {
   .nv-word .nav-toggle { width: auto; padding: 0 2px; grid-auto-flow: column; }
   .nv-word .nav-toggle span:not(.nt-word):not(.visually-hidden) { display: none; }
