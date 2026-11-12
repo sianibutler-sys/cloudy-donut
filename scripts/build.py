@@ -579,8 +579,6 @@ HOME = f"""
       <img class="wix donut c8" data-wix="d6231e_f4941503cbda409ab0b4afdcdd330e17~mv2.png" data-w="520" alt="">
       <img class="wix donut c9" data-wix="d6231e_6d8ec40113d84019ac84756b68370d22~mv2.png" data-w="520" alt="">
     </div>
-    <img class="wix hv-media hv-stack" data-wix="d6231e_097b0864e2334f8bbd01dcdba05a012e~mv2.jpg" data-w="900" alt="">
-    <img class="wix hv-media hv-photo" data-wix="d6231e_c4aef1bd70ef4c6490281833541a53d2~mv2.jpg" data-w="1600" alt="">
     <div class="hero-card">
       <p class="kicker dark">Luxury Dessert Experiences</p>
       <h1 class="display">Where Dreams<br>Crumb True.</h1>
