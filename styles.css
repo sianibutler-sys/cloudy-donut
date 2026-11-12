@@ -1260,3 +1260,9 @@ form[data-form] .lab-txt { display: inline; }
 .mock-bar a[aria-current] { background: #abdbc6; color: #111; }
 .nv-word .nav-toggle[aria-expanded="true"] span.nt-word { font-size: 0; letter-spacing: 0; }
 .nv-word .nav-toggle[aria-expanded="true"] span.nt-word::after { content: "Close"; font: 700 .78rem var(--sans); letter-spacing: .16em; }
+/* Our Story hero: the photo is square, so wide screens crop it hard.
+   Past 1000px the hero grows with the width and the crop holds on the face. */
+@media (min-width: 1000px) {
+  .ph-story.has-photo { min-height: min(max(62vh, 46vw), 920px); }
+  .ph-story .ph-photo { object-position: 50% 44%; }
+}

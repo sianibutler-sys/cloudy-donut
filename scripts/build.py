@@ -216,10 +216,10 @@ __BTS__
 """
 
 
-def page_hero(kicker, title, sub, img=None, cta=""):
+def page_hero(kicker, title, sub, img=None, cta="", cls=""):
     photo = f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">' if img else ""
     return f"""
-  <section class="page-hero{' has-photo' if img else ''}">
+  <section class="page-hero{' has-photo' if img else ''}{' ' + cls if cls else ''}">
     {photo}
     <div class="wrap">
       <p class="kicker">{kicker}</p>
@@ -726,7 +726,7 @@ POPUPS = f"""
 
 STORY = f"""
 <main id="main">
-{page_hero("Our story", "Everything Is<br>Created With<br>Intention.", "", "d6231e_c89404741c31438ebe480745bb432652~mv2.jpg")}
+{page_hero("Our story", "Everything Is<br>Created With<br>Intention.", "", "d6231e_c89404741c31438ebe480745bb432652~mv2.jpg", cls="ph-story")}
   <section class="story" aria-label="Our story">
     <div class="wrap story-grid">
       <div class="story-copy">{STORY_COPY}
