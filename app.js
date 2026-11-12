@@ -753,12 +753,20 @@
     const openShop = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
     const firstShop = data.locations.find((l) => Object.keys(l.hours).length);
     const weekNames = data.lineup.flavors.map((id) => byId[id] && byId[id].name).filter(Boolean);
+    // Line icons drawn as SVG so each sits dead center in its circle
+    const IC = {
+      lineup: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/></svg>',
+      clock: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+      stop: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21.5s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0c0 5-6.5 11.2-6.5 11.2z"/><circle cx="12" cy="10.3" r="2.4"/></svg>',
+      order: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>',
+      faq: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.2 9.2a2.9 2.9 0 1 1 3.9 2.7c-.7.3-1.1.9-1.1 1.6v.6"/><circle cx="12" cy="17.6" r=".6" fill="currentColor"/></svg>',
+    };
     const QUICK = [
       ["Right now", [
-        { icon: "◎", t: "This week's lineup", d: weekNames.slice(0, 3).join(", ") + (weekNames.length > 3 ? ` + ${weekNames.length - 3} more` : ""), go: go("index.html#lineup") },
-        { icon: "◷", t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights, NoLita, Baltimore", go: go("locations.html") },
-        nextStop && { icon: "✦", t: `Next pop-up: ${nextStop.city.split(",")[0]}`, d: [new Date(nextStop.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }), nextStop.time].filter(Boolean).join(" · "), go: go("pop-ups.html") },
-        { icon: "↗", t: "Order ahead for pickup", d: "Skip the weekend line", go: go("locations.html") },
+        { icon: IC.lineup, t: "This week's lineup", d: weekNames.slice(0, 3).join(", ") + (weekNames.length > 3 ? ` + ${weekNames.length - 3} more` : ""), go: go("index.html#lineup") },
+        { icon: IC.clock, t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights, NoLita, Baltimore", go: go("locations.html") },
+        nextStop && { icon: IC.stop, t: `Next pop-up: ${nextStop.city.split(",")[0]}`, d: [new Date(nextStop.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }), nextStop.time].filter(Boolean).join(" · "), go: go("pop-ups.html") },
+        { icon: IC.order, t: "Order ahead for pickup", d: "Skip the weekend line", go: go("locations.html") },
       ].filter(Boolean)],
       ["Popular", [
         { icon: "", t: "Nut-free flavors", d: "Every flavor without nuts", go: go("flavors.html?filter=nutfree") },
@@ -768,8 +776,8 @@
         { icon: "", t: "Ship a pound cake", d: "Join the waitlist", go: go("experiences.html#ship") },
       ]],
       ["Questions", [
-        { icon: "?", t: "Are the donuts gluten free?", d: "Good to know", go: go("locations.html#faq") },
-        { icon: "?", t: "How long do they keep?", d: "Good to know", go: go("locations.html#faq") },
+        { icon: IC.faq, t: "Are the donuts gluten free?", d: "Good to know", go: go("locations.html#faq") },
+        { icon: IC.faq, t: "How long do they keep?", d: "Good to know", go: go("locations.html#faq") },
       ]],
     ];
     const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9& ]/g, " ");

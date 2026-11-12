@@ -1234,3 +1234,5 @@ fieldset[data-need-one] [aria-invalid="true"] { outline: 2px solid #e8a29a; outl
 .req-txt { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
 .dates .fine { margin: 2px 0 0; }
 form[data-form] .lab-txt { display: inline; }
+.sr-quick .sr-icon { display: grid; place-items: center; flex: none; line-height: 0; }
+.sr-quick .sr-icon svg { display: block; }
