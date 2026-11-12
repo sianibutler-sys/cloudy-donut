@@ -589,11 +589,24 @@
   function star(el, on) {
     const l = el.closest("label"); if (!l || el.type === "checkbox") return;
     const had = $$(".req-star", l)[0];
-    if (!on) { if (had) had.remove(); return; }
+    if (!on) { if (had) { const w = had.parentElement; had.remove(); if (w.classList.contains("lab-txt")) w.replaceWith(...w.childNodes); } return; }
     if (had) return;
     const st = document.createElement("span"); st.className = "req-star"; st.setAttribute("aria-hidden", "true"); st.textContent = "*";
-    const tn = [...l.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim()); if (tn) tn.after(st);
+    const tn = [...l.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!tn) return;
+    // Keep the star on the same line as the label text
+    const wrap = document.createElement("span"); wrap.className = "lab-txt";
+    tn.textContent = tn.textContent.trim(); tn.replaceWith(wrap); wrap.append(tn, st);
   }
+  // "Something else" opens a write-in
+  $$("form[data-form] select").forEach((sel) => {
+    const box = sel.closest("label")?.nextElementSibling;
+    if (!box || !box.classList.contains("other-in")) return;
+    const inp = $("input", box);
+    const sync = () => { const on = sel.value === "Something else"; box.hidden = !on; inp.disabled = !on; inp.required = on; star(inp, on); if (!on) { inp.value = ""; inp.removeAttribute("aria-invalid"); } };
+    sel.addEventListener("change", () => { sync(); if (!box.hidden) inp.focus(); });
+    sel.form.addEventListener("reset", () => setTimeout(sync)); sync();
+  });
   $$("form[data-form] [required]").forEach((el) => star(el, true));
   // Host a stop: three steps, each checked before moving on
   $$(".host-form").forEach((form) => {

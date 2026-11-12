@@ -1233,3 +1233,4 @@ form[data-form] [aria-invalid="true"] { border-color: #e8a29a !important; box-sh
 fieldset[data-need-one] [aria-invalid="true"] { outline: 2px solid #e8a29a; outline-offset: 2px; }
 .req-txt { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
 .dates .fine { margin: 2px 0 0; }
+form[data-form] .lab-txt { display: inline; }

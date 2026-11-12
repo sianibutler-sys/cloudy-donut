@@ -355,6 +355,7 @@ HOST = """
               <option>Something else</option>
             </select>
           </label>
+          <label class="other-in" hidden>Tell us what kind<input name="host_type_other" placeholder="A church, a gallery, a run club" disabled></label>
         </fieldset>
         <fieldset class="step" data-step="2" data-title="The stop" hidden>
           <legend class="visually-hidden">The stop</legend>
