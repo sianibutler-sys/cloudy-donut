@@ -683,7 +683,7 @@ COMPARE_PAGES = {
     "experiences.html": ("Experiences",
         ["Catering notice reads 14 days in one place and 7 in another."],
         ["One number, 14 days, in the event form.",
-         "Event requests and the cake waitlist land in one Airtable base."]),
+         "Event requests and the cake waitlist land in one place, connected to the tools Cloudy already uses or a standard free or low-cost one."]),
     "locations.html": ("Locations",
         ["Hours are listed with no open or closed status, no map and no directions link.",
          "The FAQ sends merch shoppers to a Federal Hill shop this page doesn't list."],
@@ -729,13 +729,45 @@ SAME = {
     "locations.html": ["The three shops, with addresses, hours and phone", "All 14 FAQ answers"],
 }
 BUILD = [
-    ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one Airtable base. Change it there and every page follows."),
+    ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one simple list. Change it there and every page follows. It can run on the tools Cloudy already uses, or a standard free or low-cost one."),
     ("Every pop-up gets a flyer", "Add a city and date, and the site builds the \"Cloudy Donut Presents\" flyer with a live countdown."),
     ("Demand, mapped", "\"Bring Cloudy to my city\" signups show where the next tour stop should go."),
     ("Shipping, ready before launch", "The cake waitlist builds now, so the first day of shipping already has buyers."),
-    ("One inbox for every form", "Experiences, newsletter, tour alerts and the waitlist land in Airtable and email."),
+    ("One inbox for every form", "Experiences, newsletter, tour alerts and the waitlist land in one inbox, connected to what Cloudy uses now or a standard free or low-cost tool."),
     ("Owned by Cloudy", "Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription."),
 ]
+
+WIX_IMG = "https://static.wixstatic.com/media/{0}/v1/fill/w_600,h_315,al_c,q_80,enc_auto/{0}"
+LIVE_SHARE = {  # cloudydonut.com titles, descriptions and share images, checked Nov 12, 2026
+    "index.html": ("cloudydonut.com", "HOME | Cloudy Donut", "Cloudy Donut Co., located in Brooklyn and Manhattan is a vegan gourmet bakery known for its mouthwatering donuts, pound cakes, and cinnamon rolls.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", None),
+    "flavors.html": ("cloudydonut.com › our-flavors", "OUR FLAVORS | Cloudy Donut", None, "d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", "The share image is the logo file on a see-through background, so apps show it on a plain white or black box."),
+    "pop-ups.html": (None, None, None, None, "There's no pop-ups page to share or find in search."),
+    "our-story.html": ("cloudydonut.com", "HOME | Cloudy Donut", "Cloudy Donut Co., located in Brooklyn and Manhattan is a vegan gourmet bakery known for its mouthwatering donuts, pound cakes, and cinnamon rolls.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", "There's no story page. Sharing Our Story shares the home page."),
+    "experiences.html": ("cloudydonut.com › event-packages", "CATERING & EVENTS | Cloudy Donut", "Cloudy Donut is a 100% vegan, small-batched, gourmet donut shop located in Baltimore, MD and Brooklyn Heights, NY.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", "The description leaves out NoLita, and the image is the same one most pages use."),
+    "locations.html": ("cloudydonut.com › order-online-locations", "LOCATIONS | Cloudy Donut", None, "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", None),
+}
+
+def share_block(fname):
+    url, title, desc, img, note = LIVE_SHARE[fname]
+    p_title, p_desc = PAGES[fname][0], PAGES[fname][1]
+    slug = fname[:-5]
+    new_title = "Cloudy Donut Co." if slug == "index" else f"{p_title} | Cloudy Donut Co."
+    new_url = "cloudydonut.com" + ("" if slug == "index" else f" › {slug}")
+    def card(cls, label, im, u, ti, de):
+        img_html = (f'<img class="{"contain" if im and ".png" in im else ""}" src="{im}" alt="" loading="lazy" width="600" height="315">' if im else '<div class="sc-none">No page</div>')
+        lbl = f'<span class="bts-lbl {"old" if cls == "today" else "new"}">{label}</span>'
+        if not ti:
+            return f'<div class="share-card {cls}">{lbl}{img_html}</div>'
+        d = f'<p class="g-desc">{de}</p>' if de else '<p class="g-desc g-miss">No description set, so Google fills this line with whatever text it finds on the page.</p>'
+        return f'<div class="share-card {cls}">{lbl}{img_html}<div class="g-snip"><p class="g-url">{u}</p><p class="g-title">{ti}</p>{d}</div></div>'
+    live_img = None if not img else (f"https://static.wixstatic.com/media/{img}/v1/fit/w_600,h_315,q_80/{img}" if img.endswith(".png") else WIX_IMG.format(img))
+    today = card("today", "Today", live_img, url, title, desc)
+    new = card("new", "New", f"og/{slug}.jpg", new_url, new_title, p_desc)
+    note_html = f'<p class="bts-sub share-note">{note}</p>' if note else ""
+    return f"""<h3>Shared and searched</h3>
+      <p class="bts-sub">The image people see when this page is texted or posted, and how it reads in a Google result.</p>
+      <div class="share-grid">{today}{new}</div>
+      {note_html}"""
 
 def bts_block(fname):
     name, live, demo = COMPARE_PAGES[fname]
@@ -769,6 +801,7 @@ def bts_block(fname):
         <tr><th scope="row">Email link</th><td>Contact page only</td><td class="good">Every page</td></tr>
         <tr><th scope="row">Login and cart</th><td>In the header, nothing to buy</td><td class="good">Gone until there's a store</td></tr>
       </tbody></table>
+      {share_block(fname)}
       <h3>Same as the live site</h3>{ul("samel", SAME[fname])}
       <h3>New in this demo</h3>{ul("checkl", demo)}
       <h3>On the live site today, fixed here</h3>{ul("issl", live)}

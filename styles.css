@@ -1194,3 +1194,16 @@ html.intro-seen .intro { display: none; }
   .tour-line b, .tour-line span:not(.tl-donut):not(.tl-sep), .tour-line a { grid-column: 2; margin: 0; }
   .tour-line a { margin-top: 6px; justify-self: start; }
 }
+
+/* Behind the scenes: shared and searched, today vs new */
+.share-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.share-card { border: 1px solid rgba(36,35,35,.12); border-radius: 14px; padding: 12px; background: #fff; }
+.share-card img, .share-card .sc-none { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; border-radius: 8px; margin: 8px 0 10px; background: #ece8dc; }
+.share-card .sc-none { display: grid; place-items: center; font: italic 400 1rem var(--serif); color: #5d5a52; }
+.g-snip { font-family: Arial, Helvetica, sans-serif; }
+.g-url { margin: 0; font-size: .78rem; color: #3c4043; }
+.g-title { margin: 2px 0; font-size: 1.05rem; line-height: 1.3; color: #1a0dab; }
+.g-desc { margin: 0; font-size: .84rem; line-height: 1.45; color: #4d5156; }
+.g-desc.g-miss { font-style: italic; color: #8a3b2e; }
+.share-note { margin-top: 10px; }
+.share-card img.contain { object-fit: contain; background: #fff; box-shadow: inset 0 0 0 1px rgba(36,35,35,.1); }
