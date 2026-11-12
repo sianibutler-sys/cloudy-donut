@@ -1236,3 +1236,7 @@ fieldset[data-need-one] [aria-invalid="true"] { outline: 2px solid #e8a29a; outl
 form[data-form] .lab-txt { display: inline; }
 .sr-quick .sr-icon { display: grid; place-items: center; flex: none; line-height: 0; }
 .sr-quick .sr-icon svg { display: block; }
+/* Host a stop flows straight into the feed: same background, so one gap instead of two */
+.host + .ig { padding-top: 0; }
+.host { padding-bottom: clamp(72px, 8vw, 96px); }
+.host-form .form-msg:empty { min-height: 0; margin: 0; }
