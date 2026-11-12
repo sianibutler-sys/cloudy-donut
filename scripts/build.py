@@ -594,7 +594,7 @@ HOME = f"""
   <section class="tiles" aria-label="Explore">
     <a class="tile tile-mint" href="flavors.html"><span class="ring" aria-hidden="true"></span><span class="tile-k">100%</span><span class="tile-t">Vegan</span><span class="tile-go">Our flavors →</span></a>
     <a class="tile tile-char" href="pop-ups.html"><span class="ring" aria-hidden="true"></span><span class="tile-k">On</span><span class="tile-t">Tour</span><span class="tile-go">Pop-ups →</span></a>
-    <a class="tile tile-photo" href="experiences.html"><img class="wix" data-wix="d6231e_10e5d550abfb440db5e68d3c37b4679d~mv2.jpg" data-w="900" alt="A Cloudy team member setting out a spread of donuts"><span class="tile-k">Luxury</span><span class="tile-t">Experiences</span><span class="tile-go">Catering &amp; events →</span></a>
+    <a class="tile tile-photo" href="experiences.html"><img class="tile-exp" src="assets/exp-dinner.jpg" srcset="assets/exp-dinner-600.jpg 600w, assets/exp-dinner.jpg 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="1202" loading="lazy" decoding="async" alt="A guest reaching for a berry-topped Cloudy mini at a candlelit dinner table"><span class="tile-k">Luxury</span><span class="tile-t">Experiences</span><span class="tile-go">Catering &amp; events →</span></a>
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>

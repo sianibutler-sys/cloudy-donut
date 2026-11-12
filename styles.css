@@ -1277,7 +1277,7 @@ form[data-form] .lab-txt { display: inline; }
   .ph-story.has-photo { min-height: min(max(62vh, 46vw), 920px); }
   .ph-story .ph-photo { object-position: 50% 44%; }
 }
-.tile-photo img[data-wix^="d6231e_10e5d550"] { object-position: 38% 28%; }
+.tile-photo img.tile-exp { object-position: 50% 68%; }
 @media (min-width: 861px) {
   .hv-m .c1 { left: auto; right: 30%; top: 60%; }
   .hv-m .c5 { left: auto; right: 10%; bottom: 28%; }
