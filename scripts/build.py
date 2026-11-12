@@ -124,7 +124,7 @@ def header(active, overlay):
     <img class="wix" data-wix="{LOGO}" data-w="320" alt="Cloudy Donut Co.">
   </a>
   <button class="search-open search-mobile" type="button" aria-label="Search the site" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav"><span></span><span></span><span class="visually-hidden">Menu</span></button>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav"><span></span><span></span><span class="nt-word" aria-hidden="true">Menu</span><span class="visually-hidden">Menu</span></button>
   <nav id="nav" class="nav" aria-label="Main">
     {links}
     <button class="search-open" type="button" aria-label="Search the site" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="search-label">Search</span></button>
@@ -210,6 +210,7 @@ __BTS__
 
 <script src="data/fallback.js" defer></script>
 <script src="app.js" defer></script>
+<script src="mock-switch.js"></script>
 </body>
 </html>
 """

@@ -1240,3 +1240,23 @@ form[data-form] .lab-txt { display: inline; }
 .host + .ig { padding-top: 0; }
 .host { padding-bottom: clamp(72px, 8vw, 96px); }
 .host-form .form-msg:empty { min-height: 0; margin: 0; }
+/* ===== Header icons: no circles (tap area stays 44px) ===== */
+.nav-toggle, .search-mobile { border: 0 !important; border-radius: 0 !important; }
+.nav-toggle span.nt-word { display: none; }
+
+/* ===== MOCKUP variants (hero card corners, menu label) ===== */
+.hv-a .hero-card, .hv-b .hero-card, .hv-c .hero-card, .hv-d .hero-card { border-radius: 0; }
+.hv-b .hero-card { box-shadow: 14px 14px 0 var(--mint); background: var(--cream); backdrop-filter: none; }
+.hv-c .hero-card { outline: 2px solid var(--char); outline-offset: -14px; background: var(--cream); padding: clamp(40px, 5vw, 64px); }
+.hv-d .hero-card { background: transparent; box-shadow: none; backdrop-filter: none; }
+@media (max-width: 860px) {
+  .nv-word .nav-toggle { width: auto; padding: 0 2px; grid-auto-flow: column; }
+  .nv-word .nav-toggle span:not(.nt-word):not(.visually-hidden) { display: none; }
+  .nv-word .nav-toggle span.nt-word { display: block; width: auto; height: auto; background: none; white-space: nowrap; font: 700 .78rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--char); }
+}
+.mock-bar { position: fixed; bottom: 74px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; align-items: center; background: #111; color: #fff; padding: 6px 12px; font: 600 12px/1.3 system-ui, sans-serif; border-radius: 10px; max-width: 96vw; width: max-content; }
+.mock-bar span { opacity: .6; text-transform: uppercase; letter-spacing: .08em; }
+.mock-bar a { color: #fff; text-decoration: none; padding: 3px 6px; border-radius: 4px; }
+.mock-bar a[aria-current] { background: #abdbc6; color: #111; }
+.nv-word .nav-toggle[aria-expanded="true"] span.nt-word { font-size: 0; letter-spacing: 0; }
+.nv-word .nav-toggle[aria-expanded="true"] span.nt-word::after { content: "Close"; font: 700 .78rem var(--sans); letter-spacing: .16em; }
