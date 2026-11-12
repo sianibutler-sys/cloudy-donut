@@ -1285,3 +1285,7 @@ form[data-form] .lab-txt { display: inline; }
   .hv-m .c7 { left: 44%; }
   .hv-m .c2 { left: 54%; }
 }
+/* N: a third donut up top on phones, mirroring the one at the bottom */
+@media (max-width: 860px) {
+  .hv-n .c2 { display: block; left: 36%; top: -58px; }
+}
