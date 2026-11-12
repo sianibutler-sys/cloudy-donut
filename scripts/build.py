@@ -649,7 +649,7 @@ EXPERIENCES = f"""
 LOCS = f"""
 <main id="main">
 {page_hero("Come early", "Where To<br>Find Us.", "Weekends only. Order ahead for pickup and skip the line.", "d6231e_a9fcfc976a4c48ffaec94304ac9051bb~mv2.jpg")}
-{LOCATIONS.replace('<div class="head-row">', '<div class="head-row visually-hidden">').replace('Where To Find Us</h2>', 'Shops and hours</h2>')}
+{LOCATIONS.replace('<div class="head-row">', '<div class="head-row visually-hidden">').replace('Where To Find Us</h2>', 'Shops and hours</h2>').replace('<ul class="loc-grid" id="loc-grid" role="list"></ul>', '<ul class="loc-grid" id="loc-grid" role="list"></ul>\n      <p class="tour-line" id="tour-line" hidden></p>')}
 {CAMPAIGN}
 {FAQ}
 </main>"""

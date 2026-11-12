@@ -446,6 +446,17 @@
         </div>
       </li>`;
     }).join("");
+    // Locations page: one slim line for the tour, matching "On tour" in the link preview
+    const tourLine = document.getElementById("tour-line");
+    if (tourLine) {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const next = (data.tour.stops || []).filter((s) => s.date && new Date(s.date + "T23:59:00") >= today).sort((x, y) => x.date.localeCompare(y.date))[0];
+      const when = next && new Date(next.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      tourLine.innerHTML = next
+        ? `<span class="tl-donut" aria-hidden="true"></span><b>On tour</b><span class="tl-sep" aria-hidden="true">·</span><span>Next stop ${esc(next.city.split(",")[0])}, ${esc(when)}</span><a href="pop-ups.html">See the tour <span aria-hidden="true">→</span></a>`
+        : `<span class="tl-donut" aria-hidden="true"></span><b>On tour</b><span class="tl-sep" aria-hidden="true">·</span><span>Between stops</span><a href="pop-ups.html#tour-email">Your city next? <span aria-hidden="true">→</span></a>`;
+      tourLine.hidden = false;
+    }
     const refreshStatus = () => {
       data.locations.forEach((l) => {
         const s = status(l);

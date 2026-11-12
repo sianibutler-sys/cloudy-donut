@@ -1179,3 +1179,18 @@ html.intro-seen .intro { display: none; }
 .box-detail .bd-num { text-transform: uppercase; min-height: 1.2em; }
 @media (prefers-reduced-motion: reduce) { .bd-dot { transition: none; } }
 .foot-links a { display: inline-block; min-height: 24px; padding: 4px 0; }
+
+/* Locations: one slim tour line under the shop cards */
+.tour-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 18px 0 0; padding: 16px 20px; border: 1.5px solid var(--line-l, rgba(36,35,35,.15)); border-radius: 18px; font: 600 .95rem var(--sans); }
+.tour-line[hidden] { display: none; }
+.tour-line b { font: 800 .78rem var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+.tour-line .tl-sep { color: var(--sage-ink); }
+.tour-line a { margin-left: auto; font: 800 .74rem var(--sans); letter-spacing: .14em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
+.tl-donut { width: 26px; height: 26px; flex: none; background: center / contain no-repeat url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2248%22%20fill%3D%22%23ABDBC6%22/%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2215%22%20fill%3D%22%23FFFBED%22/%3E%3Cg%20stroke%3D%22%23FFFBED%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M30%2026l6%203%22/%3E%3Cpath%20d%3D%22M52%2018l1%207%22/%3E%3Cpath%20d%3D%22M70%2027l-5%204%22/%3E%3Cpath%20d%3D%22M80%2047l-7%201%22/%3E%3Cpath%20d%3D%22M72%2070l-4-5%22/%3E%3Cpath%20d%3D%22M50%2082l1-7%22/%3E%3Cpath%20d%3D%22M28%2072l5-4%22/%3E%3Cpath%20d%3D%22M20%2050l7%201%22/%3E%3C/g%3E%3C/svg%3E"); }
+@media (max-width: 600px) {
+  .tour-line { display: grid; grid-template-columns: 30px 1fr; column-gap: 12px; row-gap: 4px; align-items: center; }
+  .tour-line .tl-donut { grid-row: 1 / span 3; align-self: start; width: 30px; height: 30px; }
+  .tour-line .tl-sep { display: none; }
+  .tour-line b, .tour-line span:not(.tl-donut):not(.tl-sep), .tour-line a { grid-column: 2; margin: 0; }
+  .tour-line a { margin-top: 6px; justify-self: start; }
+}
