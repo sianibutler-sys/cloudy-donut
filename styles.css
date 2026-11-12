@@ -1244,11 +1244,28 @@ form[data-form] .lab-txt { display: inline; }
 .nav-toggle, .search-mobile { border: 0 !important; border-radius: 0 !important; }
 .nav-toggle span.nt-word { display: none; }
 
-/* ===== MOCKUP variants (hero card corners, menu label) ===== */
-.hv-a .hero-card, .hv-b .hero-card, .hv-c .hero-card, .hv-d .hero-card { border-radius: 0; }
-.hv-b .hero-card { box-shadow: 14px 14px 0 var(--mint); background: var(--cream); backdrop-filter: none; }
-.hv-c .hero-card { outline: 2px solid var(--char); outline-offset: -14px; background: var(--cream); padding: clamp(40px, 5vw, 64px); }
-.hv-d .hero-card { background: transparent; box-shadow: none; backdrop-filter: none; }
+/* ===== MOCKUP variants (hero card) ===== */
+/* E: the box. Mint, square, like their donut box */
+.hv-e .hero-card { border-radius: 0; background: var(--mint); backdrop-filter: none; box-shadow: 0 30px 70px -40px rgba(36,35,35,.5); }
+.hv-e .hero-card .kicker, .hv-e .hero-card .hero-sub, .hv-e .hero-card .open-now { color: var(--char); }
+/* F: the window band. Full-width mint stripe, donuts spill over it */
+.hv-f .hero-c { padding-left: 0; padding-right: 0; }
+.hv-f .hero-card { border-radius: 0; max-width: none; width: 100%; background: var(--mint); backdrop-filter: none; box-shadow: none; padding: clamp(36px, 5vw, 64px) var(--pad); }
+.hv-f .hero-card > * { max-width: 760px; margin-left: auto; margin-right: auto; }
+.hv-f .hero-card .kicker, .hv-f .hero-card .hero-sub, .hv-f .hero-card .open-now { color: var(--char); }
+.hv-f .hero-c .collage { z-index: 2; pointer-events: none; }
+.hv-f .hero-c .collage .donut:nth-child(even) { z-index: 0; }
+/* G: the box label. Square cream card, the kicker printed on a mint band */
+.hv-g .hero-card { --p: clamp(28px, 4vw, 52px); border-radius: 0; background: var(--cream); backdrop-filter: none; padding-top: 0; box-shadow: 0 30px 70px -40px rgba(36,35,35,.5); border: 2px solid var(--char); }
+.hv-g .hero-card .kicker { margin: 0 calc(var(--p) * -1) clamp(22px, 3vw, 34px); padding: 14px var(--p); background: var(--mint); color: var(--char); border-bottom: 2px solid var(--char); }
+/* H: after dark. Charcoal, square, cream type */
+.hv-h .hero-card { border-radius: 0; background: var(--char); backdrop-filter: none; box-shadow: 0 30px 70px -30px rgba(36,35,35,.6); }
+.hv-h .hero-card .display { color: var(--cream); }
+.hv-h .hero-card .kicker { color: var(--mint); }
+.hv-h .hero-card .hero-sub { color: rgba(255,251,237,.85); }
+.hv-h .hero-card .open-now { color: var(--cream); }
+.hv-h .hero-card .btn-ink { background: var(--mint); color: var(--char); border-color: var(--mint); }
+.hv-h .hero-card .btn-line-ink { color: var(--cream); }
 @media (max-width: 860px) {
   .nv-word .nav-toggle { width: auto; padding: 0 2px; grid-auto-flow: column; }
   .nv-word .nav-toggle span:not(.nt-word):not(.visually-hidden) { display: none; }
@@ -1266,3 +1283,4 @@ form[data-form] .lab-txt { display: inline; }
   .ph-story.has-photo { min-height: min(max(62vh, 46vw), 920px); }
   .ph-story .ph-photo { object-position: 50% 44%; }
 }
+.tile-photo img[data-wix^="d6231e_10e5d550"] { object-position: 38% 28%; }
