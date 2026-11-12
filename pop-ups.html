@@ -83,10 +83,122 @@
       <ol class="tn-list">
         <li><span class="donut-num g1" aria-hidden="true"><b>1</b></span><p>Dates and addresses drop on Instagram first, then here.</p></li>
         <li><span class="donut-num g2" aria-hidden="true"><b>2</b></span><p>Get there early. Quantities are limited and pop-ups sell out.</p></li>
-        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above, and you'll hear first if the tour comes your way.</p></li>
+        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above, and you'll hear first if the tour comes your way. Run a venue, business or group? <a href="#host">Host a stop</a>.</p></li>
       </ol>
     </div>
   </section>
+
+  <section class="experiences host" id="host" aria-labelledby="host-h">
+    <div class="wrap exp-grid">
+      <div class="exp-copy">
+        <p class="kicker">For businesses, venues and groups</p>
+        <h2 class="display-md" id="host-h">Host A Stop.</h2>
+        <p>The tour stops where people already gather. Philly's stop at American Grammar opened with a panel on celebration, inspiration and collaboration, then the pop-up ran until 4.</p>
+        <p>Run a venue, a brand, a school or a community group? Tell us about your space and your people.</p>
+        <p class="note">Three short steps. About five minutes.</p>
+      </div>
+      <form class="cat-form host-form" data-form="tour_host" novalidate>
+        <div class="steps" aria-hidden="true"><span class="step-dot on"></span><span class="step-dot"></span><span class="step-dot"></span></div>
+        <h3 class="step-label" tabindex="-1"><span class="step-n">Step 1 of 3:</span> <span class="step-t">About you</span></h3>
+        <fieldset class="step" data-step="1" data-title="About you">
+          <legend class="visually-hidden">About you</legend>
+          <div class="row2">
+            <label>Your name<input name="name" autocomplete="name" required></label>
+            <label>Organization<input name="org" autocomplete="organization" required></label>
+          </div>
+          <div class="row2">
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+          </div>
+          <div class="row2">
+            <label>Your role<input name="role" autocomplete="organization-title" placeholder="Owner, events lead"></label>
+            <label>Website or Instagram<input name="link" placeholder="@yourname or site"></label>
+          </div>
+          <label>You are a
+            <select name="host_type" required>
+              <option value="">Choose one</option>
+              <option>Business or brand</option>
+              <option>Venue, restaurant or bar</option>
+              <option>Community group or nonprofit</option>
+              <option>School or university</option>
+              <option>Festival or market</option>
+              <option>Company or office</option>
+              <option>Something else</option>
+            </select>
+          </label>
+        </fieldset>
+        <fieldset class="step" data-step="2" data-title="The stop" hidden>
+          <legend class="visually-hidden">The stop</legend>
+          <div class="row2">
+            <label>City<input name="city" autocomplete="address-level2" required></label>
+            <label>State<input name="state" autocomplete="address-level1" required></label>
+          </div>
+          <fieldset class="seg">
+            <legend>Space</legend>
+            <label><input type="radio" name="space" value="We have a space" checked> We have a space</label>
+            <label><input type="radio" name="space" value="Need help finding one"> Need help finding one</label>
+          </fieldset>
+          <label>Venue name or address<input name="venue" placeholder="If you have one"></label>
+          <fieldset class="seg">
+            <legend>Setting</legend>
+            <label><input type="radio" name="setting" value="Indoor" checked> Indoor</label>
+            <label><input type="radio" name="setting" value="Outdoor"> Outdoor</label>
+            <label><input type="radio" name="setting" value="Either"> Either</label>
+          </fieldset>
+          <div class="row2">
+            <label>First-choice date<input name="date_1" type="date"></label>
+            <label>Second choice<input name="date_2" type="date"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="flexible" value="yes"> Our dates are flexible</label>
+          <label>Expected crowd
+            <select name="crowd" required>
+              <option value="">Choose one</option>
+              <option>Under 100</option>
+              <option>100 to 250</option>
+              <option>250 to 500</option>
+              <option>500 or more</option>
+            </select>
+          </label>
+        </fieldset>
+        <fieldset class="step" data-step="3" data-title="The details" hidden>
+          <legend class="visually-hidden">The details</legend>
+          <fieldset class="seg ticks">
+            <legend>What you have in mind</legend>
+            <label><input type="checkbox" name="format" value="Pop-up"> Pop-up</label>
+            <label><input type="checkbox" name="format" value="Panel or talk first"> Panel or talk first</label>
+            <label><input type="checkbox" name="format" value="Collab flavor or product"> Collab flavor or product</label>
+            <label><input type="checkbox" name="format" value="Private or ticketed event"> Private or ticketed event</label>
+          </fieldset>
+          <label>How you see it working
+            <select name="arrangement">
+              <option value="">Choose one</option>
+              <option>We host and promote, Cloudy sells</option>
+              <option>We sponsor or cover a minimum order</option>
+              <option>Ticketed event</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+          <label>Who's your community, and why Cloudy?<textarea name="why" rows="4" required placeholder="Who shows up, and what the day would mean to them"></textarea></label>
+          <fieldset class="seg ticks">
+            <legend>How you'll spread the word</legend>
+            <label><input type="checkbox" name="promo" value="Instagram"> Instagram</label>
+            <label><input type="checkbox" name="promo" value="Email list"> Email list</label>
+            <label><input type="checkbox" name="promo" value="Press"> Press</label>
+            <label><input type="checkbox" name="promo" value="Partners"> Partners</label>
+            <label><input type="checkbox" name="promo" value="Foot traffic"> Foot traffic</label>
+          </fieldset>
+          <label>Anything else<textarea name="notes" rows="2"></textarea></label>
+        </fieldset>
+        <div class="step-nav">
+          <button class="btn step-back" type="button" data-step-back hidden>Back</button>
+          <button class="btn btn-mint" type="button" data-step-next>Next</button>
+          <button class="btn btn-mint" type="submit" hidden>Send inquiry</button>
+        </div>
+        <p class="form-msg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
   <section class="ig" aria-labelledby="ig-h">
     <div class="wrap ig-head">
       <div>

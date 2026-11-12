@@ -546,7 +546,32 @@
     tour_alert: "Got it. You'll hear when Cloudy is headed your way.",
     ship_waitlist: "You're on the waitlist. You'll hear first.",
     catering: "Request sent. We'll reply with menu options.",
+    tour_host: "Inquiry sent. Thanks for wanting Cloudy in your community. The team will be in touch.",
   };
+  // Host a stop: three steps, each checked before moving on
+  $$(".host-form").forEach((form) => {
+    const steps = $$(".step", form), dots = $$(".step-dot", form);
+    const label = $(".step-label", form), msg = $(".form-msg", form);
+    const back = $("[data-step-back]", form), next = $("[data-step-next]", form), send = $("button[type=submit]", form);
+    let at = 0;
+    const show = (i, focus) => {
+      at = i;
+      steps.forEach((s, k) => { s.hidden = k !== i; });
+      dots.forEach((d, k) => { d.classList.toggle("on", k <= i); });
+      $(".step-n", label).textContent = `Step ${i + 1} of ${steps.length}:`;
+      $(".step-t", label).textContent = steps[i].dataset.title;
+      back.hidden = i === 0; next.hidden = i === steps.length - 1; send.hidden = i !== steps.length - 1;
+      msg.textContent = ""; msg.classList.remove("err");
+      if (focus) label.focus();
+    };
+    next.addEventListener("click", () => {
+      const bad = $$("[required]", steps[at]).find((el) => !el.checkValidity());
+      if (bad) { msg.textContent = bad.type === "email" ? "Please enter a valid email." : "Please fill in the required fields."; msg.classList.add("err"); bad.focus(); return; }
+      show(at + 1, true);
+    });
+    back.addEventListener("click", () => show(at - 1, true));
+    form.addEventListener("reset", () => setTimeout(() => show(0, false)));
+  });
   $$("form[data-form]").forEach((form) => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -558,7 +583,8 @@
         msg.classList.add("err"); bad.focus(); return;
       }
       const btn = $("button[type=submit]", form); btn.disabled = true;
-      const fields = Object.fromEntries(new FormData(form).entries());
+      const fields = {};
+      for (const [k, v] of new FormData(form).entries()) fields[k] = k in fields ? `${fields[k]}, ${v}` : v;
       let saved = false;
       try {
         const r = await fetch("/api/submit", {
@@ -567,8 +593,8 @@
         });
         saved = r.ok;
       } catch (err) {}
-      msg.textContent = DONE[form.dataset.form] + (saved ? "" : " (Concept preview: nothing was saved.)");
       form.reset(); btn.disabled = false;
+      setTimeout(() => { msg.textContent = DONE[form.dataset.form] + (saved ? "" : " (Concept preview: nothing was saved.)"); }, 0);
     });
   });
 
