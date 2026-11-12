@@ -324,6 +324,7 @@ HOST = """
         <p>The tour stops where people already gather. Philly's stop at American Grammar opened with a panel on celebration, inspiration and collaboration, then the pop-up ran until 4.</p>
         <p>Run a venue, a brand, a school or a community group? Tell us about your space and your people.</p>
         <p class="note">Three short steps. About five minutes.</p>
+        <p class="fine">Fields marked * are required.</p>
       </div>
       <form class="cat-form host-form" data-form="tour_host" novalidate>
         <div class="steps" aria-hidden="true"><span class="step-dot on"></span><span class="step-dot"></span><span class="step-dot"></span></div>
@@ -373,11 +374,14 @@ HOST = """
             <label><input type="radio" name="setting" value="Outdoor"> Outdoor</label>
             <label><input type="radio" name="setting" value="Either"> Either</label>
           </fieldset>
-          <div class="row2">
-            <label>First-choice date<input name="date_1" type="date"></label>
-            <label>Second choice<input name="date_2" type="date"></label>
+          <div class="dates" data-need-one="date_1,flexible" data-need-msg="Please pick a first-choice date, or check that your dates are flexible.">
+            <div class="row2">
+              <label>First-choice date<input name="date_1" type="date" aria-describedby="date-hint"></label>
+              <label>Second choice<input name="date_2" type="date"></label>
+            </div>
+            <label class="check"><input type="checkbox" name="flexible" value="yes"> Our dates are flexible</label>
+            <p class="fine" id="date-hint">A first-choice date, or flexible.</p>
           </div>
-          <label class="check"><input type="checkbox" name="flexible" value="yes"> Our dates are flexible</label>
           <label>Expected crowd
             <select name="crowd" required>
               <option value="">Choose one</option>
@@ -390,8 +394,8 @@ HOST = """
         </fieldset>
         <fieldset class="step" data-step="3" data-title="The details" hidden>
           <legend class="visually-hidden">The details</legend>
-          <fieldset class="seg ticks">
-            <legend>What you have in mind</legend>
+          <fieldset class="seg ticks" data-need-one="format" data-need-msg="Please pick at least one thing you have in mind.">
+            <legend>What you have in mind <span class="req-txt">(pick at least one)</span></legend>
             <label><input type="checkbox" name="format" value="Pop-up"> Pop-up</label>
             <label><input type="checkbox" name="format" value="Panel or talk first"> Panel or talk first</label>
             <label><input type="checkbox" name="format" value="Collab flavor or product"> Collab flavor or product</label>

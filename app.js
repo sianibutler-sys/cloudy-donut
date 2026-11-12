@@ -548,6 +548,53 @@
     catering: "Request sent. We'll reply with menu options.",
     tour_host: "Inquiry sent. Thanks for wanting Cloudy in your community. The team will be in touch.",
   };
+  // One checker for every form: blank or space-only answers, real-looking emails,
+  // agreed terms, date windows, and "pick at least one" groups all have to pass.
+  const EMAIL = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-z]{2,}$/i;
+  function checkForm(scope) {
+    for (const el of $$("input, select, textarea", scope)) {
+      if (el.disabled || el.type === "hidden") continue;
+      const v = (el.value || "").trim();
+      if (el.required) {
+        if (el.type === "checkbox" && !el.checked) return { el, msg: "Please agree to the email terms to continue." };
+        if (el.type !== "checkbox" && el.type !== "radio" && !v) return { el, msg: el.tagName === "SELECT" ? "Please choose an option for every required field." : "Please fill in the required fields." };
+      }
+      if (el.type === "email" && v && !EMAIL.test(v)) return { el, msg: "Please enter a valid email, like name@example.com." };
+      if (el.type === "date" && v && el.min && v < el.min) return { el, msg: "Please choose a date at least 14 days out." };
+      if (el.type === "date" && v && !el.validity.valid) return { el, msg: "Please enter a full date." };
+    }
+    for (const g of $$("[data-need-one]", scope)) {
+      const names = g.dataset.needOne.split(",");
+      const ok = names.some((n) => $$(`[name="${n}"]`, g).some((el) => (el.type === "checkbox" || el.type === "radio") ? el.checked : el.value.trim()));
+      if (!ok) return { el: $(`[name="${names[0]}"]`, g), msg: g.dataset.needMsg };
+    }
+    return null;
+  }
+  function flag(form, bad) {
+    const msg = $(".form-msg", form);
+    msg.textContent = bad.msg; msg.classList.add("err");
+    bad.el.setAttribute("aria-invalid", "true");
+    bad.el.focus();
+  }
+  document.addEventListener("input", (e) => { if (e.target.closest && e.target.closest("form[data-form]")) { e.target.removeAttribute("aria-invalid"); $$("[aria-invalid]", e.target.closest("[data-need-one]") || document.createElement("i")).forEach((x) => x.removeAttribute("aria-invalid")); } });
+  document.addEventListener("change", (e) => { const g = e.target.closest && e.target.closest("[data-need-one]"); if (g) $$("[aria-invalid]", g).forEach((x) => x.removeAttribute("aria-invalid")); });
+  // Catering: an address is only required when it's a delivery
+  $$('form[data-form="catering"]').forEach((form) => {
+    const addr = $('[name="address"]', form);
+    const sync = () => { const del = $('[name="fulfillment"]:checked', form)?.value === "Delivery"; addr.required = del; star(addr, del); addr.placeholder = del ? "Street, city, state, zip" : "Only needed for delivery"; };
+    $$('[name="fulfillment"]', form).forEach((r) => r.addEventListener("change", sync)); sync();
+    form.addEventListener("reset", () => setTimeout(sync));
+  });
+  // Required fields get a visible marker
+  function star(el, on) {
+    const l = el.closest("label"); if (!l || el.type === "checkbox") return;
+    const had = $$(".req-star", l)[0];
+    if (!on) { if (had) had.remove(); return; }
+    if (had) return;
+    const st = document.createElement("span"); st.className = "req-star"; st.setAttribute("aria-hidden", "true"); st.textContent = "*";
+    const tn = [...l.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim()); if (tn) tn.after(st);
+  }
+  $$("form[data-form] [required]").forEach((el) => star(el, true));
   // Host a stop: three steps, each checked before moving on
   $$(".host-form").forEach((form) => {
     const steps = $$(".step", form), dots = $$(".step-dot", form);
@@ -565,10 +612,16 @@
       if (focus) label.focus();
     };
     next.addEventListener("click", () => {
-      const bad = $$("[required]", steps[at]).find((el) => !el.checkValidity());
-      if (bad) { msg.textContent = bad.type === "email" ? "Please enter a valid email." : "Please fill in the required fields."; msg.classList.add("err"); bad.focus(); return; }
+      const bad = checkForm(steps[at]);
+      if (bad) { flag(form, bad); return; }
       show(at + 1, true);
     });
+    // Enter inside a step moves forward instead of submitting early
+    form.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" || at === steps.length - 1 || e.target.matches("textarea, button")) return;
+      e.preventDefault(); next.click();
+    });
+    form._goTo = (el) => { const i = steps.findIndex((s) => s.contains(el)); if (i > -1 && i !== at) show(i, false); };
     back.addEventListener("click", () => show(at - 1, true));
     form.addEventListener("reset", () => setTimeout(() => show(0, false)));
   });
@@ -577,14 +630,11 @@
       e.preventDefault();
       const msg = $(".form-msg", form);
       msg.classList.remove("err");
-      const bad = $$("[required]", form).find((el) => !el.checkValidity());
-      if (bad) {
-        msg.textContent = bad.type === "checkbox" ? "Please agree to the email terms to sign up." : bad.type === "email" ? "Please enter a valid email." : bad.type === "date" && bad.validity.rangeUnderflow ? "Please choose a date at least 14 days out." : "Please fill in the required fields.";
-        msg.classList.add("err"); bad.focus(); return;
-      }
+      const bad = checkForm(form);
+      if (bad) { if (form._goTo) form._goTo(bad.el); flag(form, bad); return; }
       const btn = $("button[type=submit]", form); btn.disabled = true;
       const fields = {};
-      for (const [k, v] of new FormData(form).entries()) fields[k] = k in fields ? `${fields[k]}, ${v}` : v;
+      for (const [k, v] of new FormData(form).entries()) { const t = typeof v === "string" ? v.trim() : v; fields[k] = k in fields ? `${fields[k]}, ${t}` : t; }
       let saved = false;
       try {
         const r = await fetch("/api/submit", {

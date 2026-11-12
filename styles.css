@@ -1227,3 +1227,9 @@ html.intro-seen .intro { display: none; }
 @media (max-width: 600px) { .host-form .row2 { grid-template-columns: 1fr; } }
 .host .note { width: fit-content; max-width: 100%; }
 .host h2:focus:not(:focus-visible), .host [tabindex="-1"]:focus { outline: none; }
+/* Required markers + invalid state */
+form[data-form] .req-star { color: var(--mint, #aed9c5); margin-left: 3px; }
+form[data-form] [aria-invalid="true"] { border-color: #e8a29a !important; box-shadow: 0 0 0 2px rgba(232,162,154,.45); }
+fieldset[data-need-one] [aria-invalid="true"] { outline: 2px solid #e8a29a; outline-offset: 2px; }
+.req-txt { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
+.dates .fine { margin: 2px 0 0; }
