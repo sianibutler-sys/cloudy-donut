@@ -479,7 +479,7 @@ HOME = f"""
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
-{LINEUP.replace("__MORE__", '<div class="more-links"><a class="link-arrow" href="flavors.html#picker">Not sure? Find your flavor</a><a class="link-arrow" href="flavors.html">See all 44 flavors</a></div>')}
+{LINEUP.replace("__MORE__", '<div class="more-links"><a class="link-arrow" href="flavors.html#picker">Not sure? Find your flavor</a><a class="link-arrow" href="flavors.html">See all 40+ flavors</a></div>')}
 {CAMPAIGN}
 {FLYER.replace("__TOURMORE__", '<a class="btn btn-line" href="pop-ups.html">Full tour</a>')}
 
@@ -667,7 +667,7 @@ COMPARE_PAGES = {
     "flavors.html": ("Flavors",
         ["Every flavor sits in one long scroll.",
          "Nut warnings live inside the descriptions, with no way to filter."],
-        ["All 44 flavors, filterable by nut-free, boozy and made for pups.",
+        ["40+ flavors, filterable by nut-free, boozy and made for pups.",
          "Tap any donut for its deli-paper card with allergens.",
          "Find your flavor: four questions, this week's box or every flavor."]),
     "pop-ups.html": ("Pop-ups",
@@ -825,7 +825,7 @@ def bts_block(fname):
 
 PAGES = {
     "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch and hand crafted in Brooklyn Heights, NoLita and Baltimore. See this week's lineup.", HOME, True),
-    "flavors.html": ("Flavors", "All 44 Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
+    "flavors.html": ("Flavors", "40+ Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
     "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: the next stop, dates, and a signup to bring Cloudy to your city.", POPUPS, False),
     "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
     "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events, plus the waitlist for pound cakes by mail.", EXPERIENCES, False),
