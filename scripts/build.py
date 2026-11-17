@@ -136,6 +136,7 @@ def header(active, overlay):
 
 FOOTER = f"""
 <footer class="site-footer">
+  <p class="a11y-bar">We want this site to work for everyone. <a href="accessibility.html">Read the accessibility statement</a></p>
   <div class="wrap foot">
     <img class="wix logo-cream foot-logo" data-wix="{LOGO}" data-w="400" alt="Cloudy Donut Co.">
     <p class="foot-tag">Where Dreams Crumb True</p>
@@ -845,6 +846,10 @@ COMPARE_PAGES = {
         ["Maps with donut pins, plus Google Maps, Apple Maps and Waze links.",
          "Open now, by shop, and tap to call.",
          "Only the three shops on the current site, and all 14 FAQ answers."]),
+    "accessibility.html": ("Accessibility",
+        ["No accessibility statement, and no way to report a problem."],
+        ["A plain-language statement: the standard, what's built in, what's still being worked on, and who to call.",
+         "A one-line link to it at the foot of every page."]),
 }
 
 # Each pair lines up: the live issue, then the demo fix, in the same order.
@@ -868,6 +873,7 @@ EVERY_PAGE = [
 ]
 
 LIVE = {  # what cloudydonut.com has for each page, checked Nov 10, 2026
+    "accessibility.html": ("No accessibility page today", None),
     "index.html": ("cloudydonut.com", "100% Vegan"),
     "flavors.html": ("cloudydonut.com/our-flavors", None),
     "pop-ups.html": ("No tour page today", None),
@@ -882,6 +888,7 @@ SAME = {
     "our-story.html": ["The Our Story copy, word for word"],
     "experiences.html": ["Event and catering packages"],
     "locations.html": ["The three shops, with addresses, hours and phone", "All 14 FAQ answers"],
+    "accessibility.html": ["Phone and email from the Contact page"],
 }
 BUILD = [
     ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one simple list. Change it there and every page follows. It can run on the tools Cloudy already uses, or a standard free or low-cost one."),
@@ -894,6 +901,7 @@ BUILD = [
 
 WIX_IMG = "https://static.wixstatic.com/media/{0}/v1/fill/w_600,h_315,al_c,q_80,enc_auto/{0}"
 LIVE_SHARE = {  # cloudydonut.com titles, descriptions and share images, checked Nov 12, 2026
+    "accessibility.html": (None, None, None, None, "There's no accessibility page to share or find in search."),
     "index.html": ("cloudydonut.com", "HOME | Cloudy Donut", "Cloudy Donut Co., located in Brooklyn and Manhattan is a vegan gourmet bakery known for its mouthwatering donuts, pound cakes, and cinnamon rolls.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", None),
     "flavors.html": ("cloudydonut.com › our-flavors", "OUR FLAVORS | Cloudy Donut", None, "d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", "The share image is the logo file on a see-through background, so apps show it on a plain white or black box."),
     "pop-ups.html": (None, None, None, None, "There's no pop-ups page to share or find in search."),
@@ -978,6 +986,38 @@ def bts_block(fname):
   </div>
 </aside>"""
 
+ACCESS = '\n<main id="main">' + page_hero("Accessibility", "Everyone's Invited.", "Cloudy Donut Co. wants everyone to be able to check the lineup, find a shop and plan an event here, including people who use a screen reader, a keyboard, magnification or voice control.") + """
+  <section class="acc">
+    <div class="wrap acc-grid">
+      <div class="acc-copy">
+        <h2>The standard</h2>
+        <p>This site is built to the Web Content Accessibility Guidelines (WCAG) 2.2, Level AA. Every page is checked with automated testing, then by hand with a keyboard and a screen reader, before changes go live.</p>
+        <h2>What's built in</h2>
+        <ul>
+          <li>A "Skip to content" link at the top of every page.</li>
+          <li>Everything works by keyboard, with a visible outline on whatever you've selected.</li>
+          <li>Screen reader labels on the donut box, the flavor picker, maps and every form field.</li>
+          <li>Text and buttons meet AA color contrast.</li>
+          <li>Animation stops when your device is set to reduce motion.</li>
+          <li>Phone numbers tap to call. Addresses open in your maps app.</li>
+          <li>Forms say exactly what's missing, and nothing sends until it's complete.</li>
+        </ul>
+        <h2>Still being worked on</h2>
+        <ul>
+          <li>Instagram posts, maps and online ordering come from other companies. Cloudy picks accessible tools where it can, but can't control everything those services show.</li>
+          <li>New flavors sometimes go up before their photos do. Each one is labeled by name until the photo arrives.</li>
+        </ul>
+      </div>
+      <aside class="acc-side" aria-labelledby="acc-help-h">
+        <h2 id="acc-help-h">Something not working?</h2>
+        <p>Tell us what happened and where. We'll fix it, and help you get what you came for another way in the meantime.</p>
+        <p class="acc-contact"><a href="mailto:info@cloudydonut.com?subject=Website%20accessibility">info@cloudydonut.com</a><br><a href="tel:+13474639628">347.463.9628</a></p>
+        <p class="fine">Last reviewed November 2026. Draft for Cloudy Donut Co. to confirm before launch.</p>
+      </aside>
+    </div>
+  </section>
+</main>"""
+
 PAGES = {
     "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch and hand crafted in Brooklyn Heights, NoLita and Baltimore. See this week's lineup.", HOME, True),
     "flavors.html": ("Flavors", "40+ Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
@@ -985,6 +1025,7 @@ PAGES = {
     "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
     "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events, plus the waitlist for pound cakes by mail.", EXPERIENCES, False),
     "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights, NoLita and Baltimore, with hours, maps, directions and FAQ.", LOCS, False),
+    "accessibility.html": ("Accessibility", "How the Cloudy Donut Co. site is built to work for everyone, and who to contact if something doesn't.", ACCESS, False),
 }
 
 for fname, (title, desc, body, is_home) in PAGES.items():
