@@ -492,6 +492,15 @@ FIRSTS = """
         <li><span class="fb-seal"><b>1st</b><small>Nolita</small></span><span>Black Owned food and beverage business</span></li>
         <li><span class="fb-seal mint"><b>50+</b><small>flavors</small></span><span>Small-batched and hand crafted</span></li>
       </ul>
+      <div class="fv fv-d">
+        <p class="kicker">A brand of firsts</p>
+        <ul class="fd-lines" role="list">
+          <li>NYC's <em>first</em> 100% vegan donut store.</li>
+          <li>The <em>first</em> Black Owned food and beverage business in Brooklyn Heights.</li>
+          <li>And the <em>first</em> in Nolita.</li>
+        </ul>
+        <p class="fc-foot"><b>50+</b> flavors created since, every one small-batched and hand crafted.</p>
+      </div>
       <div class="fv fv-c">
         <p class="fc-line">NYC's <em>first</em> 100% vegan donut store. The <em>first</em> Black Owned food and beverage business in Brooklyn Heights. And the <em>first</em> in Nolita.</p>
         <p class="fc-foot"><b>50+</b> flavors since, every one small-batched and hand crafted.</p>

@@ -1,7 +1,7 @@
 {
   "_note": "Everything staff would change week to week. In production these are Airtable tables (Lineup, Locations, Tour) read by /functions/api/content.js. This file is the fallback and the demo's seed data.",
   "lineup": {
-    "_note": "Sample lineup for the demo: a full box of six from flavors pictured on cloudydonut.com. Staff set the real one each week.",
+    "_note": "Sample lineup for the demo: a full box of six from flavors pictured on cloudydonut.com. Staff set the real one each week. Pound cake flavors are from their pop-up menu; Apple Pie cinnamon rolls are named in their story copy.",
     "week_of": "",
     "ends": "",
     "flavors": [
@@ -15,11 +15,18 @@
     "extras": [
       {
         "name": "Pound cakes",
-        "item": "Pound cake"
+        "item": "Pound cake",
+        "flavors": [
+          "Lemon Blueberry",
+          "Brûléed Sweet Potato"
+        ]
       },
       {
         "name": "Cinnamon rolls",
-        "item": "Cinnamon roll"
+        "item": "Cinnamon roll",
+        "flavors": [
+          "Apple Pie"
+        ]
       }
     ]
   },

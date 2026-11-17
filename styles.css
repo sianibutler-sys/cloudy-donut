@@ -1364,3 +1364,10 @@ form[data-form] .lab-txt { display: inline; }
 .fc-foot { margin: 20px 0 0; color: #55524b; }
 .fc-foot b { font: 400 1.6rem/1 var(--display); color: #3f6f5c; margin-right: 4px; }
 @media (max-width: 600px) { .fv-on-a .fv-a { grid-template-columns: 1fr; } .fa-big { font-size: 7.5rem; margin-bottom: 8px; } }
+.tent-flavors { font: italic 400 .92rem/1.25 var(--serif); color: #55524b; text-align: center; max-width: 22ch; margin-top: 2px; }
+/* D: C's voice, A's structure. One claim per line, ruled like a list */
+.fv-on-d .fv-d { display: block; }
+.fv-d .kicker { color: #3f6f5c; margin: 0 0 6px; }
+.fd-lines { list-style: none; margin: 0; padding: 0; }
+.fd-lines li { font: 400 clamp(1.7rem, 4.2vw, 3.3rem)/1.02 var(--display); text-transform: uppercase; color: var(--char); padding: clamp(12px, 1.6vw, 20px) 0; border-bottom: 1px solid var(--line-l); }
+.fd-lines em { font-style: normal; color: #3f6f5c; }

@@ -315,7 +315,7 @@
     const priceOf = (item) => (data.prices.find((x) => x.item === item) || {}).price;
     const xs = data.lineup.extras || [];
     $("#counter").hidden = !xs.length;
-    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><span class="tent-name">${esc(x.name)}</span>${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}${x.note ? `<span class="tent-note">${esc(x.note)}</span>` : ""}</li>`).join("");
+    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><span class="tent-name">${esc(x.name)}</span>${x.flavors && x.flavors.length ? `<span class="tent-flavors">${x.flavors.map(esc).join(" · ")}</span>` : ""}${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}${x.note ? `<span class="tent-note">${esc(x.note)}</span>` : ""}</li>`).join("");
     const shown = new Set(xs.map((x) => x.item));
     $$("#lineup #price-strip").forEach((el) => el.dataset.skip = [...shown].join("|"));
     if (data.lineup.week_of) {
