@@ -244,7 +244,7 @@
     $("#donut-box").innerHTML = packed.map((f, i) => `
       <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
         <span class="well" aria-hidden="true"></span>
-        <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
+        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : `<span class="slot-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>New</small></span>`}
         <span class="visually-hidden">${esc(f.name)}</span>
       </button>`).join("");
     // Flavor notes (same traits as Find your flavor), always on one line under the donut dots
