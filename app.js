@@ -235,18 +235,29 @@
 
   load().then((data) => {
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
+    // MOCKUP ONLY: ?lineup=N previews the box with N flavors. Remove before main.
+    const mockN = new URLSearchParams(location.search).get("lineup");
+    if (mockN !== null) { const n = +mockN, pool = data.flavors.filter((f) => f.img && !f.tags.includes("pups")).map((f) => f.id); data.lineup.flavors = n <= data.lineup.flavors.length ? data.lineup.flavors.slice(0, n) : [...data.lineup.flavors, ...pool.filter((id) => !data.lineup.flavors.includes(id))].slice(0, n); }
     const thisWeek = new Set(data.lineup.flavors);
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    // A short lineup still fills the box: doubles of each, the way a real box gets packed
-    const packed = week.length && week.length < 8 ? Array.from({ length: 8 }, (_, i) => i < week.length ? week[i] : week[(i + Math.ceil(week.length / 2)) % week.length]) : week;
-    $("#donut-box").innerHTML = packed.map((f, i) => `
+    // The box matches what Cloudy packs: a 4 or a 6. One of each flavor, never doubles.
+    // Spare wells hold the weekend's extras (pound cakes, cinnamon rolls), then a "mix your own" tag.
+    // Past 6 flavors it becomes a dozen. No flavors: the box stays sealed.
+    const size = week.length === 0 ? 0 : week.length <= 4 ? 4 : week.length <= 6 ? 6 : 12;
+    $("#cbox").dataset.size = String(size);
+    const extras = (data.lineup.extras || []).slice();
+    const spare = Math.max(0, size - week.length);
+    const fillers = Array.from({ length: spare }, (_, i) => i < extras.length ? ["Also", extras[i]] : ["Your pick", "Mix and match"]);
+    const tag = (small, name) => `<span class="slot-tag" aria-hidden="true"><b>${esc(name)}</b><small>${esc(small)}</small></span>`;
+    $("#donut-box").innerHTML = week.slice(0, size).map((f, i) => `
       <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
         <span class="well" aria-hidden="true"></span>
-        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : `<span class="slot-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>New</small></span>`}
+        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag("New", f.name)}
         <span class="visually-hidden">${esc(f.name)}</span>
-      </button>`).join("");
+      </button>`).join("") + fillers.map(([small, name], i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag(small, name)}</span>`).join("");
+    if (spare) $("#donut-box").insertAdjacentHTML("afterend", `<p class="visually-hidden">${extras.length ? "Also this weekend: " + extras.map(esc).join(", ") + "." : ""} Mix and match any amount.</p>`);
     // Flavor notes (same traits as Find your flavor), always on one line under the donut dots
     const notes = (f) => [...(f.profile || []).slice(0, 1), f.style, f.texture && f.texture !== "smooth" ? f.texture : null, f.boozy ? "spirited" : null].filter(Boolean).slice(0, 3).join(" · ");
     const dotsEl = $("#bd-dots");
@@ -263,7 +274,7 @@
       e.preventDefault(); const t = all[(n + all.length) % all.length]; t.focus(); t.click();
     });
     const showBox = (f) => {
-      $$(".slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
+      $$("button.slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
       dotsEl.hidden = false;
       $$(".bd-dot", dotsEl).forEach((d) => { const on = d.dataset.go === f.id; d.classList.toggle("on", on); if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
       $("#box-detail").innerHTML = `
@@ -277,7 +288,16 @@
     const logo = wix("d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", 200);
     const tiles = (n) => Array.from({ length: n }, () => `<img src="${logo}" alt="">`).join("");
     $("#cbox-print").innerHTML = tiles(70); $("#lid-pat").innerHTML = tiles(70); $("#lid-pat-in").innerHTML = tiles(70);
+    const cols = size === 4 ? 2 : size === 6 ? 3 : 4;
+    // Nothing on the menu yet: the seal says so instead of opening an empty box
+    if (!week.length) {
+      $("#cbox-seal").setAttribute("aria-expanded", "false");
+      $("#box-detail").innerHTML = `<p class="bd-num">Menu coming soon</p><h3 class="bd-name">The box is still sealed</h3><p class="bd-desc">This weekend's flavors post before the weekend. <a href="#lineup-signup">Get the lineup by email</a> and you'll see it first.</p>`;
+    } else {
+      $("#box-detail .bd-num").textContent = `${week.length} ${week.length === 1 ? "flavor" : "flavors"} inside`;
+    }
     const openBox = (instant) => {
+      if (!week.length) { $("#box-detail").classList.add("nudge"); setTimeout(() => $("#box-detail").classList.remove("nudge"), 600); return; }
       if (cbox.dataset.state !== "closed") return;
       cbox.dataset.state = instant ? "open" : "opening";
       $("#cbox-seal").setAttribute("aria-expanded", "true");
@@ -287,16 +307,20 @@
     };
     $("#cbox-seal").addEventListener("click", () => openBox(reduceMotion));
     if (reduceMotion && week.length) openBox(true);
-    $("#donut-box").addEventListener("click", (e) => { const s = e.target.closest(".slot"); if (s) showBox(byId[s.dataset.box]); });
+    $("#donut-box").addEventListener("click", (e) => { const s = e.target.closest("button.slot"); if (s) showBox(byId[s.dataset.box]); });
     $("#donut-box").addEventListener("keydown", (e) => {
-      const slots = $$(".slot"); const i = slots.indexOf(document.activeElement);
+      const slots = $$("button.slot"); const i = slots.indexOf(document.activeElement);
       if (i < 0) return;
-      const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 4, ArrowUp: -4 }[e.key];
+      const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols }[e.key];
       if (step) { e.preventDefault(); const n = slots[(i + step + slots.length) % slots.length]; n.focus(); showBox(byId[n.dataset.box]); }
     });
 
     $("#lineup-also").textContent = data.lineup.also || "";
-    if (data.lineup.week_of) $("#lineup-sub").textContent = `Weekend of ${data.lineup.week_of}. ` + $("#lineup-sub").textContent;
+    if (data.lineup.week_of) {
+      // After the weekend ends, the dates come off so the page never shows a menu that's over
+      const over = data.lineup.ends && new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date()) > data.lineup.ends;
+      $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : `Weekend of ${data.lineup.week_of}. `) + $("#lineup-sub").textContent;
+    }
     $$("#price-strip").forEach((el) => { el.innerHTML = data.prices.map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library

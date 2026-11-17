@@ -9,7 +9,12 @@
       "brown-butter-chocolate-chip",
       "maple-butter-pecan"
     ],
-    "also": "Plus pound cakes and cinnamon rolls"
+    "also": "Plus pound cakes and cinnamon rolls",
+    "extras": [
+      "Pound cakes",
+      "Cinnamon rolls"
+    ],
+    "ends": "2026-11-22"
   },
   "locations": [
     {

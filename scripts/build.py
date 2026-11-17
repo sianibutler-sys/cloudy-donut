@@ -274,7 +274,7 @@ LINEUP = """
         <div class="price-strip" id="price-strip" aria-label="Prices"></div>
       </div>
       <div class="lineup-actions">
-        <form class="inline-signup light" data-form="newsletter" novalidate>
+        <form class="inline-signup light" id="lineup-signup" data-form="newsletter" novalidate>
           <label for="nl-email">Get the lineup every week</label>
           <div class="inline-row">
             <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="Email" required>
