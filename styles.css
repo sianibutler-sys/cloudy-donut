@@ -1292,3 +1292,11 @@ form[data-form] .lab-txt { display: inline; }
 .tour-note, .tour-menu { grid-column: 1 / -1; font-size: .9rem; }
 .tour-note a { color: inherit; font-weight: 700; text-underline-offset: 3px; }
 .tour-menu { color: var(--muted); font-style: italic; }
+/* Mobile menu: links start under the header instead of floating mid-screen; the two lines turn into an X */
+@media (max-width: 860px) {
+  .nav { justify-content: flex-start; padding-top: clamp(112px, 16vh, 150px); overflow-y: auto; }
+  .nav-toggle span:nth-child(1), .nav-toggle span:nth-child(2) { transition: transform .25s ease; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) { .nav-toggle span { transition: none; } }
