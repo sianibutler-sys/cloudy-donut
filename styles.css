@@ -1371,3 +1371,6 @@ form[data-form] .lab-txt { display: inline; }
 .fd-lines { list-style: none; margin: 0; padding: 0; }
 .fd-lines li { font: 400 clamp(1.7rem, 4.2vw, 3.3rem)/1.02 var(--display); text-transform: uppercase; color: var(--char); padding: clamp(12px, 1.6vw, 20px) 0; border-bottom: 1px solid var(--line-l); }
 .fd-lines em { font-style: normal; color: #3f6f5c; }
+/* Box of six lines up with the heading's left edge */
+.cbox[data-size="6"] { justify-self: start; margin-inline: 0; }
+@media (max-width: 860px) { .cbox[data-size="6"] { width: 100%; } }
