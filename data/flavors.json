@@ -717,6 +717,40 @@
       "style": "glazed",
       "texture": "smooth",
       "boozy": false
+    },
+    {
+      "id": "blackberry-basil",
+      "name": "Blackberry Basil",
+      "desc": "Blackberry and basil, on this weekend's NYC menu.",
+      "img": "",
+      "tags": [
+        "fruity"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity"
+      ],
+      "style": "glazed",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "New on the live menu. Photo and full description to come from the team."
+    },
+    {
+      "id": "vanilla-bean-sugar",
+      "name": "Vanilla Bean Sugar",
+      "desc": "Our cloudy donut tossed in vanilla bean sugar.",
+      "img": "",
+      "tags": [
+        "classic"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "sweet"
+      ],
+      "style": "sugar",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "New on the live menu. Photo to come from the team."
     }
   ]
 }

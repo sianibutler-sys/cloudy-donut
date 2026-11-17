@@ -1,19 +1,15 @@
 {
   "_note": "Everything staff would change week to week. In production these are Airtable tables (Lineup, Locations, Tour) read by /functions/api/content.js. This file is the fallback and the demo's seed data.",
   "lineup": {
-    "_note": "SAMPLE lineup for the demo, chosen from flavors pictured on cloudydonut.com. Staff set the real one each week.",
-    "week_of": "",
+    "_note": "From cloudydonut.com, This Weekend's NYC Menu 11.20–11.22. Staff set this each week.",
+    "week_of": "Nov 20–22",
     "flavors": [
-      "strawberry-lemonade",
-      "cookie-monster",
-      "cherry-pie",
-      "maple-butter-pecan",
-      "blackberry-mint-mojito",
-      "powdered-jelly",
-      "mint-chocolate-chip",
-      "sugarberry"
+      "blackberry-basil",
+      "vanilla-bean-sugar",
+      "brown-butter-chocolate-chip",
+      "maple-butter-pecan"
     ],
-    "also": "Plus cinnamon rolls and pound cakes"
+    "also": "Plus pound cakes and cinnamon rolls"
   },
   "locations": [
     {
@@ -80,7 +76,7 @@
     }
   ],
   "tour": {
-    "_note": "Pop-up stops. Newark is from Cloudy's Instagram flyer (Nov 2026). Other cities are from press about the fall tour; staff add dates in Airtable. date is YYYY-MM-DD.",
+    "_note": "Pop-up stops. Baltimore (Nov 21) and Richmond (Nov 22) are from cloudydonut.com; Newark and Philly from Instagram. Other cities are from press about the fall tour. Past stops hide themselves. date is YYYY-MM-DD.",
     "stops": [
       {
         "city": "Philadelphia, PA",
@@ -97,6 +93,38 @@
         "address": "33 Washington St, Newark 07102",
         "venue": "",
         "status": "announced"
+      },
+      {
+        "city": "Baltimore, MD",
+        "date": "2026-11-21",
+        "time": "12PM–5PM",
+        "address": "1049 S. Charles St, Baltimore",
+        "venue": "",
+        "status": "announced",
+        "note": "Preorders recommended: call 347.463.9628",
+        "menu": [
+          "Lemon Blueberry Poundcake",
+          "Brûléed Sweet Potato Pound Cake",
+          "Brown Sugar Pineapple Upside Down Cake",
+          "Orange Saffron Cake",
+          "Basil Olive Oil Cake"
+        ]
+      },
+      {
+        "city": "Richmond, VA",
+        "date": "2026-11-22",
+        "time": "12PM–5PM",
+        "address": "109 E. Broad St, Richmond",
+        "venue": "Le Cache Dulcet",
+        "status": "announced",
+        "note": "Preorders recommended: call 347.463.9628",
+        "menu": [
+          "Lemon Blueberry Poundcake",
+          "Brûléed Sweet Potato Pound Cake",
+          "Brown Sugar Pineapple Upside Down Cake",
+          "Orange Saffron Cake",
+          "Basil Olive Oil Cake"
+        ]
       },
       {
         "city": "Delaware",

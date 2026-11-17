@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Photo coming soon">
+  <defs>
+    <radialGradient id="dough" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#f1c98f"/><stop offset="1" stop-color="#c98f4e"/></radialGradient>
+    <radialGradient id="glaze" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f3eee2"/></radialGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#3a2a17" flood-opacity=".22"/></filter>
+  </defs>
+  <g filter="url(#sh)">
+    <path fill="url(#dough)" fill-rule="evenodd" d="M200 40a160 160 0 1 1 0 320a160 160 0 1 1 0-320zm0 112a48 48 0 1 0 0 96a48 48 0 1 0 0-96z"/>
+    <path fill="url(#glaze)" fill-rule="evenodd" d="M200 58c70 0 134 52 138 128c3 50-22 66-34 92c-10 22-24 52-58 56c-22 3-28-16-46-14c-20 2-30 22-58 14c-30-9-30-40-54-58C66 260 60 236 62 196C66 112 130 58 200 58zm0 92a50 50 0 1 0 0 100a50 50 0 1 0 0-100z"/>
+  </g>
+  <g stroke-linecap="round" stroke-width="9">
+    <path stroke="#abdbc6" d="M128 120l18 8M232 92l4 18M292 150l-16 10M300 236l-18-2M142 268l14-12M108 196l18 2M250 288l-6-16"/>
+    <path stroke="#242323" d="M178 98l14 6M276 112l-6 14M314 196l-16 4M206 300l2-16M120 236l16-6M160 140l-10 14M262 250l14 10"/>
+  </g>
+</svg>

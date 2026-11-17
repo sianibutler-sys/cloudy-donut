@@ -14,8 +14,9 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Wix-hosted images, resized on their CDN
-  const wix = (id, w = 600) =>
-    `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${w},q_90,enc_auto/${id}`;
+  // New flavors without a photo yet show a drawn donut until the team adds one
+  const wix = (id, w = 600) => id ?
+    `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${w},q_90,enc_auto/${id}` : "assets/photo-soon.svg";
   const hydrateImages = (root = document) =>
     $$("img.wix[data-wix]", root).forEach((img) => {
       if (!img.src) img.src = wix(img.dataset.wix, img.dataset.w || 600);
@@ -238,7 +239,9 @@
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    $("#donut-box").innerHTML = week.map((f, i) => `
+    // A short lineup still fills the box: doubles of each, the way a real box gets packed
+    const packed = week.length && week.length < 8 ? Array.from({ length: 8 }, (_, i) => i < week.length ? week[i] : week[(i + Math.ceil(week.length / 2)) % week.length]) : week;
+    $("#donut-box").innerHTML = packed.map((f, i) => `
       <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
         <span class="well" aria-hidden="true"></span>
         <img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">
@@ -293,7 +296,7 @@
     });
 
     $("#lineup-also").textContent = data.lineup.also || "";
-    if (data.lineup.week_of) $("#lineup-sub").textContent = `Week of ${data.lineup.week_of}. ` + $("#lineup-sub").textContent;
+    if (data.lineup.week_of) $("#lineup-sub").textContent = `Weekend of ${data.lineup.week_of}. ` + $("#lineup-sub").textContent;
     $$("#price-strip").forEach((el) => { el.innerHTML = data.prices.map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
@@ -516,9 +519,12 @@
       const isNext = next && s === next;
       const past = s.date && s.date < todayISO;
       if (past) return "";
-      const when = s.date ? [fmtDate(s.date), s.time, s.address].filter(Boolean).map(esc).join(" · ") : "Date and venue announced on Instagram";
+      const when = s.date ? [fmtDate(s.date), s.time, [s.venue, s.address].filter(Boolean).join(", ")].filter(Boolean).map(esc).join(" · ") : "Date and venue announced on Instagram";
       const badge = s.status === "sold_out" ? ["sold", "Sold out"] : isNext ? ["next", "Next up"] : s.date ? ["", "Announced"] : ["", "Coming soon"];
-      return `<li><span class="tour-city">${esc(s.city)}</span><span class="tour-badge ${badge[0]}">${badge[1]}</span><span class="tour-when">${when}</span></li>`;
+      // A phone number in the note becomes a tap-to-call link
+      const note = s.note ? esc(s.note).replace(/(\d{3})[.\s-]?(\d{3})[.\s-]?(\d{4})/, (m, a, b, c) => `<a href="tel:+1${a}${b}${c}">${m}</a>`) : "";
+      const menu = s.menu && s.menu.length ? `<span class="tour-menu"><span class="visually-hidden">On the menu: </span>${s.menu.map(esc).join(" · ")}</span>` : "";
+      return `<li><span class="tour-city">${esc(s.city)}</span><span class="tour-badge ${badge[0]}">${badge[1]}</span><span class="tour-when">${when}</span>${note ? `<span class="tour-note">${note}</span>` : ""}${menu}</li>`;
     }).join("");
 
     hydrateImages();
@@ -738,7 +744,7 @@
     const items = [];
     data.flavors.forEach((f) => items.push({
       type: "Flavor", t: f.name, d: f.contains ? f.contains : thisWeek.has(f.id) ? "On this week's lineup" : "Vegan",
-      img: wix(f.img, 120), key: [f.name, f.desc, ...f.tags.map((g) => TAG_WORDS[g] || g), f.tags.includes("nuts") ? "" : "nut free nutfree", thisWeek.has(f.id) ? "this week" : ""].join(" "),
+      img: wix(f.img, 120), key: [f.name, f.desc, ...f.tags.map((g) => TAG_WORDS[g] || g), f.tags.includes("nuts") || f.contains ? "" : "nut free nutfree", thisWeek.has(f.id) ? "this week" : ""].join(" "),
       go: () => { if (document.body.classList.contains("page-flavors") || document.body.classList.contains("page-index")) { sd.close(); openFlavor(f); } else location.href = `flavors.html?f=${f.id}`; },
     }));
     data.locations.forEach((l) => items.push({ type: "Shop", t: l.name, d: `${l.address} · ${l.hours_label}`, key: [l.name, l.city, l.address, "shop location hours"].join(" "), go: () => (location.href = "locations.html") }));

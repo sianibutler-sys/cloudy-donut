@@ -1289,3 +1289,6 @@ form[data-form] .lab-txt { display: inline; }
 @media (max-width: 860px) {
   .hv-n .c2 { display: block; left: 36%; top: -58px; }
 }
+.tour-note, .tour-menu { grid-column: 1 / -1; font-size: .9rem; }
+.tour-note a { color: inherit; font-weight: 700; text-underline-offset: 3px; }
+.tour-menu { color: var(--muted); font-style: italic; }

@@ -240,7 +240,7 @@ LINEUP = """
           <p class="kicker dark">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
         </div>
-        <p class="head-note" id="lineup-sub">Six to eight flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
+        <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
       </div>
       <div class="box-wrap">
         <div class="cbox" id="cbox" data-state="closed">
@@ -794,7 +794,7 @@ COMPARE_PAGES = {
     "pop-ups.html": ("Pop-ups",
         ["There's no tour page. Stops are announced on Instagram.",
          "The pop-up ordering page reads \"No items to show yet.\""],
-        ["A tour page with a flyer built from the tour list. Next stop: Newark, Nov 14.",
+        ["A tour page with a flyer built from the tour list. Past stops drop off and the next one moves up with its own countdown.",
          "\"Bring Cloudy to my city\" signups show where demand is.",
          "A swipeable row of the latest @cloudydonuts posts. Once Cloudy connects Instagram, new posts appear on their own and each card shows the post's cover photo."]),
     "our-story.html": ("Our story",
@@ -844,7 +844,7 @@ LIVE = {  # what cloudydonut.com has for each page, checked Nov 10, 2026
 SAME = {
     "index.html": ["Logo, cream, mint and sage, and the Caudex type", "Photos from cloudydonut.com", "This week's lineup", "The box: mint, white logo and DONUT stop BELIEVING! on the side"],
     "flavors.html": ["Flavor names, descriptions and photos", "Nut notes from each description"],
-    "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Newark stop, as announced on Instagram"],
+    "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Baltimore and Richmond stops, with the pre-order line, as listed on cloudydonut.com"],
     "our-story.html": ["The Our Story copy, word for word"],
     "experiences.html": ["Event and catering packages"],
     "locations.html": ["The three shops, with addresses, hours and phone", "All 14 FAQ answers"],
