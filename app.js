@@ -335,7 +335,7 @@
     $("#flavor-grid").innerHTML = data.flavors.map((f) => `
       <li><button class="fl" type="button" data-id="${f.id}">
         <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
-        <img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">
+        ${f.img ? `<img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">` : `<span class="fl-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>Photo soon</small></span>`}
         <span class="fl-name">${esc(f.name)}</span>
         <span class="fl-meta">${thisWeek.has(f.id) ? '<span class="fl-now">This week</span>' : ""}${f.contains ? esc(f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
@@ -359,7 +359,7 @@
       const show = ranked.slice((pick.page % pages) * 3, (pick.page % pages) * 3 + 3);
       $("#picker-results").innerHTML = show.length ? show.map((r) => `
         <button class="pk" type="button" data-id="${r.f.id}">
-          <img src="${wix(r.f.img, 300)}" alt="" loading="lazy">
+          ${r.f.img ? `<img src="${wix(r.f.img, 300)}" alt="" loading="lazy">` : `<span class="fl-tag sm" aria-hidden="true"><b>${esc(r.f.name)}</b></span>`}
           <span class="pk-name">${esc(r.f.name)}</span>
           <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${thisWeek.has(r.f.id) ? "in the case this week" : "in the rotation"}</span>
         </button>`).join("") : "";
@@ -431,7 +431,7 @@
         printed = true;
       }
       $("#fd-paper").style.clipPath = `polygon(0% .3%, ${tear(.15, 1).join(",")}, 100% 99.7%, ${tear(99.85, -1).reverse().join(",")}, 0% 99.7%)`;
-      $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name;
+      $("#fd-img").hidden = !f.img; if (f.img) { $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name; }
       $("#fd-name").textContent = f.name;
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
@@ -768,7 +768,7 @@
     const items = [];
     data.flavors.forEach((f) => items.push({
       type: "Flavor", t: f.name, d: f.contains ? f.contains : thisWeek.has(f.id) ? "On this week's lineup" : "Vegan",
-      img: wix(f.img, 120), key: [f.name, f.desc, ...f.tags.map((g) => TAG_WORDS[g] || g), f.tags.includes("nuts") || f.contains ? "" : "nut free nutfree", thisWeek.has(f.id) ? "this week" : ""].join(" "),
+      img: f.img ? wix(f.img, 120) : "", key: [f.name, f.desc, ...f.tags.map((g) => TAG_WORDS[g] || g), f.tags.includes("nuts") || f.contains ? "" : "nut free nutfree", thisWeek.has(f.id) ? "this week" : ""].join(" "),
       go: () => { if (document.body.classList.contains("page-flavors") || document.body.classList.contains("page-index")) { sd.close(); openFlavor(f); } else location.href = `flavors.html?f=${f.id}`; },
     }));
     data.locations.forEach((l) => items.push({ type: "Shop", t: l.name, d: `${l.address} · ${l.hours_label}`, key: [l.name, l.city, l.address, "shop location hours"].join(" "), go: () => (location.href = "locations.html") }));

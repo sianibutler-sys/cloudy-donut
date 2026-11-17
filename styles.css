@@ -1321,3 +1321,7 @@ form[data-form] .lab-txt { display: inline; }
 .box-detail.nudge { animation: bd-nudge .5s ease; }
 @keyframes bd-nudge { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 @media (prefers-reduced-motion: reduce) { .box-detail.nudge { animation: none; } }
+.fl-tag { display: grid; place-content: center; gap: 6px; aspect-ratio: 1; width: 78%; margin: 6% auto; text-align: center; padding: 10px; background: #fffdf6; border: 1.5px dashed rgba(36,35,35,.35); transform: rotate(-3deg); box-shadow: 2px 4px 8px rgba(36,35,35,.12); }
+.fl-tag b { font: 400 clamp(1rem, 2.4vw, 1.5rem)/.95 var(--display); text-transform: uppercase; color: var(--char); }
+.fl-tag small { font: 700 .62rem/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #3f6f5c; }
+.fl-tag.sm { width: 70%; } .fl-tag.sm b { font-size: .95rem; }
