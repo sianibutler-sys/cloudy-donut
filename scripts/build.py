@@ -263,15 +263,18 @@ LINEUP = """
         <div class="bd-wrap">
         <div class="bd-dots" id="bd-dots" role="group" aria-label="Flavors in this week's box" hidden></div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
-          <p class="bd-num">8 flavors inside</p>
+          <p class="bd-num">6 flavors inside</p>
           <h3 class="bd-name">Tap The Seal.</h3>
           <p class="bd-desc">This week's box is packed and sealed. Break the seal to see what's inside.</p>
         </div>
         </div>
       </div>
       <div class="lineup-foot">
-        <p class="lineup-also" id="lineup-also"></p>
-        <div class="price-strip" id="price-strip" aria-label="Prices"></div>
+        <div class="counter" id="counter" aria-labelledby="counter-h" role="group" hidden>
+          <p class="kicker dark" id="counter-h">Also on the counter</p>
+          <ul class="tents" id="tents"></ul>
+        </div>
+        <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
       </div>
       <div class="lineup-actions">
         <form class="inline-signup light" id="lineup-signup" data-form="newsletter" novalidate>

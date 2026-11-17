@@ -235,19 +235,15 @@
 
   load().then((data) => {
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
-    // MOCKUP ONLY: ?lineup=N previews the box with N flavors. Remove before main.
-    const mockN = new URLSearchParams(location.search).get("lineup");
-    if (mockN !== null) { const n = +mockN, pool = data.flavors.filter((f) => f.img && !f.tags.includes("pups")).map((f) => f.id); data.lineup.flavors = n <= data.lineup.flavors.length ? data.lineup.flavors.slice(0, n) : [...data.lineup.flavors, ...pool.filter((id) => !data.lineup.flavors.includes(id))].slice(0, n); }
     const thisWeek = new Set(data.lineup.flavors);
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    // The box matches what Cloudy packs: a 4 or a 6. One of each flavor, never doubles.
-    // Spare wells hold the weekend's extras (pound cakes, cinnamon rolls), then a "mix your own" tag.
-    // Past 6 flavors it becomes a dozen. No flavors: the box stays sealed.
-    const size = week.length === 0 ? 0 : week.length <= 4 ? 4 : week.length <= 6 ? 6 : 12;
+    // A box of six, one of each. A short week fills spare wells with a "mix and match" tag.
+    // No flavors: the box stays sealed.
+    const size = week.length === 0 ? 0 : 6;
     $("#cbox").dataset.size = String(size);
-    const extras = (data.lineup.extras || []).slice();
+    const extras = [];
     const spare = Math.max(0, size - week.length);
     const fillers = Array.from({ length: spare }, (_, i) => i < extras.length ? ["Also", extras[i]] : ["Your pick", "Mix and match"]);
     const tag = (small, name) => `<span class="slot-tag" aria-hidden="true"><b>${esc(name)}</b><small>${esc(small)}</small></span>`;
@@ -315,13 +311,19 @@
       if (step) { e.preventDefault(); const n = slots[(i + step + slots.length) % slots.length]; n.focus(); showBox(byId[n.dataset.box]); }
     });
 
-    $("#lineup-also").textContent = data.lineup.also || "";
+    // Pound cakes and cinnamon rolls: tent cards beside the box, priced from the price list
+    const priceOf = (item) => (data.prices.find((x) => x.item === item) || {}).price;
+    const xs = data.lineup.extras || [];
+    $("#counter").hidden = !xs.length;
+    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><span class="tent-name">${esc(x.name)}</span>${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}${x.note ? `<span class="tent-note">${esc(x.note)}</span>` : ""}</li>`).join("");
+    const shown = new Set(xs.map((x) => x.item));
+    $$("#lineup #price-strip").forEach((el) => el.dataset.skip = [...shown].join("|"));
     if (data.lineup.week_of) {
       // After the weekend ends, the dates come off so the page never shows a menu that's over
       const over = data.lineup.ends && new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date()) > data.lineup.ends;
       $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : `Weekend of ${data.lineup.week_of}. `) + $("#lineup-sub").textContent;
     }
-    $$("#price-strip").forEach((el) => { el.innerHTML = data.prices.map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
+    $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
     const FILTERS = [

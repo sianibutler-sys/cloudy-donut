@@ -1325,3 +1325,13 @@ form[data-form] .lab-txt { display: inline; }
 .fl-tag b { font: 400 clamp(1rem, 2.4vw, 1.5rem)/.95 var(--display); text-transform: uppercase; color: var(--char); }
 .fl-tag small { font: 700 .62rem/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #3f6f5c; }
 .fl-tag.sm { width: 70%; } .fl-tag.sm b { font-size: .95rem; }
+/* Also on the counter: folded tent cards, like the labels in a bakery case */
+.counter { display: flex; align-items: center; gap: 14px 22px; flex-wrap: wrap; }
+.counter .kicker { margin: 0; }
+.tents { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
+.tent { position: relative; display: grid; justify-items: center; gap: 2px; min-width: 150px; padding: 18px 20px 12px; background: #fffdf6; border: 1.5px solid var(--char); box-shadow: 0 10px 0 -4px #e9e1cf, 0 14px 18px -10px rgba(36,35,35,.35); transform: perspective(500px) rotateX(8deg); }
+.tent::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 7px; background: var(--mint); border-bottom: 1.5px solid var(--char); }
+.tent:nth-child(2) { transform: perspective(500px) rotateX(8deg) rotate(-1.5deg); }
+.tent-name { font: 400 1.35rem/1 var(--display); text-transform: uppercase; color: var(--char); }
+.tent-price { font: italic 700 1.05rem var(--serif); color: #3f6f5c; }
+@media (max-width: 600px) { .counter { width: 100%; justify-content: center; text-align: center; margin-bottom: 10px; } .tents { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; } .tent { min-width: 0; padding: 16px 10px 10px; } .tent-name { font-size: 1.05rem; } }
