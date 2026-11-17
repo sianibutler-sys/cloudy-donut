@@ -1343,24 +1343,24 @@ form[data-form] .lab-txt { display: inline; }
 .fv { margin-top: clamp(56px, 8vw, 110px); border-top: 1px solid var(--line-l); padding-top: clamp(26px, 4vw, 44px); color: var(--char); }
 /* A: one big 1st, the three firsts listed beside it */
 .fv-on-a .fv-a { display: grid; grid-template-columns: auto 1fr; gap: 0 clamp(20px, 4vw, 56px); align-items: center; }
-.fa-big { margin: 0; font: 400 clamp(7rem, 22vw, 15rem)/.8 var(--display); color: var(--sage); }
-.fa-list .kicker { color: var(--sage); margin: 0 0 10px; }
+.fa-big { margin: 0; font: 400 clamp(7rem, 22vw, 15rem)/.8 var(--display); color: #3f6f5c; }
+.fa-list .kicker { color: #3f6f5c; margin: 0 0 10px; }
 .fa-list ul { list-style: none; margin: 0; padding: 0; }
 .fa-list li { font: 400 clamp(1.05rem, 2vw, 1.35rem)/1.35 var(--serif); padding: 10px 0; border-bottom: 1px solid var(--line-l); }
 .fa-list li:last-child { border-bottom: 0; }
 .fa-foot { grid-column: 1 / -1; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line-l); color: #55524b; }
-.fa-foot b { font: 400 1.8rem/1 var(--display); color: var(--sage); margin-right: 6px; vertical-align: -3px; }
+.fa-foot b { font: 400 1.8rem/1 var(--display); color: #3f6f5c; margin-right: 6px; vertical-align: -3px; }
 /* B: round seals, like the one on the box */
 .fv-on-b .fv-b { list-style: none; padding-left: 0; padding-right: 0; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .fv-b li { display: grid; justify-items: center; text-align: center; gap: 12px; font-size: .95rem; color: #55524b; }
-.fb-seal { width: clamp(110px, 13vw, 150px); aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; text-align: center; background: var(--cream); border: 2px solid var(--sage); box-shadow: inset 0 0 0 6px var(--cream), inset 0 0 0 7.5px var(--sage); color: var(--sage); }
+.fb-seal { width: clamp(110px, 13vw, 150px); aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; text-align: center; background: var(--cream); border: 2px solid var(--sage); box-shadow: inset 0 0 0 6px var(--cream), inset 0 0 0 7.5px var(--sage); color: #3f6f5c; }
 .fb-seal.mint { background: var(--mint); color: var(--char); border-color: var(--char); box-shadow: inset 0 0 0 6px var(--mint), inset 0 0 0 7.5px var(--char); }
 .fb-seal b { font: 400 clamp(2.4rem, 4vw, 3.2rem)/.85 var(--display); }
 .fb-seal small { font: 700 .62rem/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; max-width: 9ch; margin: 4px auto 0; }
 @media (max-width: 860px) { .fv-on-b .fv-b { grid-template-columns: 1fr 1fr; gap: 28px 16px; } }
 /* C: one sentence, "first" picked out */
 .fc-line { margin: 0; font: 400 clamp(1.9rem, 4.6vw, 3.6rem)/1.02 var(--display); text-transform: uppercase; color: var(--char); }
-.fc-line em { font-style: normal; color: var(--sage); }
+.fc-line em { font-style: normal; color: #3f6f5c; }
 .fc-foot { margin: 20px 0 0; color: #55524b; }
-.fc-foot b { font: 400 1.6rem/1 var(--display); color: var(--sage); margin-right: 4px; }
+.fc-foot b { font: 400 1.6rem/1 var(--display); color: #3f6f5c; margin-right: 4px; }
 @media (max-width: 600px) { .fv-on-a .fv-a { grid-template-columns: 1fr; } .fa-big { font-size: 7.5rem; margin-bottom: 8px; } }
