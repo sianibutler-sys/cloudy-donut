@@ -1393,3 +1393,15 @@ form[data-form] .lab-txt { display: inline; }
 @media (max-width: 860px) { .acc-grid { grid-template-columns: 1fr; } .acc-side { position: static; } }
 .site-footer:has(> .a11y-bar) { padding-top: 0; }
 .site-footer > .a11y-bar + .foot { padding-top: clamp(56px, 7vw, 96px); }
+/* Right column: the counter and prices sit up top, the flavor details at the foot */
+.box-side { display: flex; flex-direction: column; justify-content: space-between; gap: 36px; align-self: stretch; padding-top: 6%; }
+.box-side .lineup-foot { margin: 0; display: grid; gap: 22px; justify-items: start; }
+.box-side .counter { display: grid; gap: 12px; }
+.box-side .counter[hidden] { display: none; }
+.box-side .tents { flex-wrap: nowrap; }
+.box-side .tent { min-width: 0; flex: 1 1 0; }
+@media (max-width: 860px) {
+  .box-side { padding-top: 0; gap: 26px; }
+  .box-side .lineup-foot { order: 2; justify-items: center; }
+  .box-side .bd-wrap { order: 1; }
+}

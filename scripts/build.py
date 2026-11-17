@@ -261,6 +261,14 @@ LINEUP = """
           <div class="cbox-front"><span class="notch" aria-hidden="true"></span>__DSB__</div>
           <button class="seal" id="cbox-seal" type="button" aria-controls="cbox-body" aria-expanded="false"><span>Where<br>Dreams<br>Crumb<br>True</span><span class="visually-hidden">Open this week's box</span></button>
         </div>
+        <div class="box-side">
+        <div class="lineup-foot">
+          <div class="counter" id="counter" aria-labelledby="counter-h" role="group" hidden>
+            <p class="kicker dark" id="counter-h">Also on the counter</p>
+            <ul class="tents" id="tents"></ul>
+          </div>
+          <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
+        </div>
         <div class="bd-wrap">
         <div class="bd-dots" id="bd-dots" role="group" aria-label="Flavors in this week's box" hidden></div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
@@ -269,13 +277,7 @@ LINEUP = """
           <p class="bd-desc">This week's box is packed and sealed. Break the seal to see what's inside.</p>
         </div>
         </div>
-      </div>
-      <div class="lineup-foot">
-        <div class="counter" id="counter" aria-labelledby="counter-h" role="group" hidden>
-          <p class="kicker dark" id="counter-h">Also on the counter</p>
-          <ul class="tents" id="tents"></ul>
         </div>
-        <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
       </div>
       <div class="lineup-actions">
         <form class="inline-signup light" id="lineup-signup" data-form="newsletter" novalidate>
