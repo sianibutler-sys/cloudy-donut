@@ -1405,3 +1405,6 @@ form[data-form] .lab-txt { display: inline; }
   .box-side .lineup-foot { order: 2; justify-items: center; }
   .box-side .bd-wrap { order: 1; }
 }
+/* Next steps sit under the flavor description, where the browsing happens */
+.bd-wrap .more-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 26px; }
+.lineup-actions { justify-content: flex-start; }

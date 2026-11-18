@@ -276,6 +276,7 @@ LINEUP = """
           <h3 class="bd-name">Tap The Seal.</h3>
           <p class="bd-desc">This week's box is packed and sealed. Break the seal to see what's inside.</p>
         </div>
+        __MORE__
         </div>
         </div>
       </div>
@@ -289,7 +290,6 @@ LINEUP = """
           <div class="consent"><input id="nl-consent" name="consent" type="checkbox" required><label for="nl-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
           <p class="form-msg" role="status"></p>
         </form>
-        __MORE__
       </div>
     </div>
   </section>""".replace("__DSB__", dsb())
