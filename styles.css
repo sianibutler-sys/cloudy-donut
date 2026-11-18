@@ -1242,35 +1242,12 @@ form[data-form] .lab-txt { display: inline; }
 .host-form .form-msg:empty { min-height: 0; margin: 0; }
 /* ===== Header icons: no circles (tap area stays 44px) ===== */
 .nav-toggle, .search-mobile { border: 0 !important; border-radius: 0 !important; }
-.nav-toggle span.nt-word { display: none; }
 
-/* ===== MOCKUP variants: no card, full donut collage kept ===== */
-.hv-media { display: none; }
-.hv-l .hero-card, .hv-m .hero-card, .hv-n .hero-card { background: none; backdrop-filter: none; box-shadow: none; border-radius: 0; }
-/* L: centered, bigger type, the donuts float freely around it */
-.hv-l .hero-card { max-width: 1000px; }
-.hv-l .hero-card .display { font-size: clamp(3.4rem, 10.5vw, 9.5rem); line-height: .88; }
-/* M: same collage, type set big and left */
-.hv-m .hero-c { place-items: center start; padding-left: max(var(--pad), calc((100vw - var(--max)) / 2 + var(--pad))); }
-.hv-m .hero-card { text-align: left; padding: 0; max-width: 900px; }
-.hv-m .hero-card .display { font-size: clamp(3.4rem, 11vw, 10.5rem); line-height: .86; }
-.hv-m .hero-card .hero-sub { margin-left: 0; }
-.hv-m .hero-card .hero-actions, .hv-m .hero-card .open-now { justify-content: flex-start; }
-/* N: centered, a soft cream glow behind the words in place of a card's edge */
-.hv-n .hero-card { max-width: 900px; }
-.hv-n .hero-card::before { content: ""; position: absolute; inset: -14% -18%; z-index: -1; background: radial-gradient(closest-side, var(--cream) 62%, rgba(255,251,237,.85) 78%, rgba(255,251,237,0) 100%); }
-.hv-n .hero-card .display { font-size: clamp(3.2rem, 9.6vw, 8.6rem); line-height: .9; }
-@media (max-width: 860px) {
-  .nv-word .nav-toggle { width: auto; padding: 0 2px; grid-auto-flow: column; }
-  .nv-word .nav-toggle span:not(.nt-word):not(.visually-hidden) { display: none; }
-  .nv-word .nav-toggle span.nt-word { display: block; width: auto; height: auto; background: none; white-space: nowrap; font: 700 .78rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--char); }
-}
-.mock-bar { position: fixed; bottom: 74px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; align-items: center; background: #111; color: #fff; padding: 6px 12px; font: 600 12px/1.3 system-ui, sans-serif; border-radius: 10px; max-width: 96vw; width: max-content; }
-.mock-bar span { opacity: .6; text-transform: uppercase; letter-spacing: .08em; }
-.mock-bar a { color: #fff; text-decoration: none; padding: 3px 6px; border-radius: 4px; }
-.mock-bar a[aria-current] { background: #abdbc6; color: #111; }
-.nv-word .nav-toggle[aria-expanded="true"] span.nt-word { font-size: 0; letter-spacing: 0; }
-.nv-word .nav-toggle[aria-expanded="true"] span.nt-word::after { content: "Close"; font: 700 .78rem var(--sans); letter-spacing: .16em; }
+/* Home hero: no card. A soft cream glow sits behind the words and the donut collage floats around it */
+.hero-card { max-width: 900px; background: none; backdrop-filter: none; box-shadow: none; border-radius: 0; }
+.hero-card::before { content: ""; position: absolute; inset: -14% -18%; z-index: -1; background: radial-gradient(closest-side, var(--cream) 62%, rgba(255,251,237,.85) 78%, rgba(255,251,237,0) 100%); }
+.hero-card .display { font-size: clamp(3.2rem, 9.6vw, 8.6rem); line-height: .9; }
+
 /* Our Story hero: the photo is square, so wide screens crop it hard.
    Past 1000px the hero grows with the width and the crop holds on the face. */
 @media (min-width: 1000px) {
@@ -1278,16 +1255,10 @@ form[data-form] .lab-txt { display: inline; }
   .ph-story .ph-photo { object-position: 50% 44%; }
 }
 .tile-photo img.tile-exp { object-position: 50% 68%; }
-@media (min-width: 861px) {
-  .hv-m .c1 { left: auto; right: 30%; top: 60%; }
-  .hv-m .c5 { left: auto; right: 10%; bottom: 28%; }
-  .hv-m .c9 { left: auto; right: 28%; top: 20%; }
-  .hv-m .c7 { left: 44%; }
-  .hv-m .c2 { left: 54%; }
-}
-/* N: a third donut up top on phones, mirroring the one at the bottom */
+
+/* A third donut up top on phones, mirroring the one at the bottom */
 @media (max-width: 860px) {
-  .hv-n .c2 { display: block; left: 36%; top: -58px; }
+  .collage .c2 { display: block; left: 36%; top: -58px; }
 }
 .tour-note, .tour-menu { grid-column: 1 / -1; font-size: .9rem; }
 .tour-note a { color: inherit; font-weight: 700; text-underline-offset: 3px; }
@@ -1335,38 +1306,15 @@ form[data-form] .lab-txt { display: inline; }
 .tent-name { font: 400 1.35rem/1 var(--display); text-transform: uppercase; color: var(--char); }
 .tent-price { font: italic 700 1.05rem var(--serif); color: #3f6f5c; }
 @media (max-width: 600px) { .counter { width: 100%; justify-content: center; text-align: center; margin-bottom: 10px; } .tents { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; } .tent { min-width: 0; padding: 16px 10px 10px; } .tent-name { font-size: 1.05rem; } }
-/* ===== MOCKUP: "firsts" layouts ===== */
-.fv, .fv-x { display: none; }
-.fv-on-x .fv-x { display: grid; }
-.fv-on-a .fv-a, .fv-on-c .fv-c { display: block; }
-.fv-on-b .fv-b { display: grid; }
+/* Our Story firsts: one claim per line, "first" picked out in green */
 .fv { margin-top: clamp(56px, 8vw, 110px); border-top: 1px solid var(--line-l); padding-top: clamp(26px, 4vw, 44px); color: var(--char); }
 /* A: one big 1st, the three firsts listed beside it */
-.fv-on-a .fv-a { display: grid; grid-template-columns: auto 1fr; gap: 0 clamp(20px, 4vw, 56px); align-items: center; }
-.fa-big { margin: 0; font: 400 clamp(7rem, 22vw, 15rem)/.8 var(--display); color: #3f6f5c; }
-.fa-list .kicker { color: #3f6f5c; margin: 0 0 10px; }
-.fa-list ul { list-style: none; margin: 0; padding: 0; }
-.fa-list li { font: 400 clamp(1.05rem, 2vw, 1.35rem)/1.35 var(--serif); padding: 10px 0; border-bottom: 1px solid var(--line-l); }
-.fa-list li:last-child { border-bottom: 0; }
-.fa-foot { grid-column: 1 / -1; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line-l); color: #55524b; }
-.fa-foot b { font: 400 1.8rem/1 var(--display); color: #3f6f5c; margin-right: 6px; vertical-align: -3px; }
 /* B: round seals, like the one on the box */
-.fv-on-b .fv-b { list-style: none; padding-left: 0; padding-right: 0; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.fv-b li { display: grid; justify-items: center; text-align: center; gap: 12px; font-size: .95rem; color: #55524b; }
-.fb-seal { width: clamp(110px, 13vw, 150px); aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; text-align: center; background: var(--cream); border: 2px solid var(--sage); box-shadow: inset 0 0 0 6px var(--cream), inset 0 0 0 7.5px var(--sage); color: #3f6f5c; }
-.fb-seal.mint { background: var(--mint); color: var(--char); border-color: var(--char); box-shadow: inset 0 0 0 6px var(--mint), inset 0 0 0 7.5px var(--char); }
-.fb-seal b { font: 400 clamp(2.4rem, 4vw, 3.2rem)/.85 var(--display); }
-.fb-seal small { font: 700 .62rem/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; max-width: 9ch; margin: 4px auto 0; }
-@media (max-width: 860px) { .fv-on-b .fv-b { grid-template-columns: 1fr 1fr; gap: 28px 16px; } }
 /* C: one sentence, "first" picked out */
-.fc-line { margin: 0; font: 400 clamp(1.9rem, 4.6vw, 3.6rem)/1.02 var(--display); text-transform: uppercase; color: var(--char); }
-.fc-line em { font-style: normal; color: #3f6f5c; }
 .fc-foot { margin: 20px 0 0; color: #55524b; }
 .fc-foot b { font: 400 1.6rem/1 var(--display); color: #3f6f5c; margin-right: 4px; }
-@media (max-width: 600px) { .fv-on-a .fv-a { grid-template-columns: 1fr; } .fa-big { font-size: 7.5rem; margin-bottom: 8px; } }
 .tent-flavors { font: italic 400 .92rem/1.25 var(--serif); color: #55524b; text-align: center; max-width: 22ch; margin-top: 2px; }
-/* D: C's voice, A's structure. One claim per line, ruled like a list */
-.fv-on-d .fv-d { display: block; }
+
 .fv-d .kicker { color: #3f6f5c; margin: 0 0 6px; }
 .fd-lines { list-style: none; margin: 0; padding: 0; }
 .fd-lines li { font: 400 clamp(1.7rem, 4.2vw, 3.3rem)/1.02 var(--display); text-transform: uppercase; color: var(--char); padding: clamp(12px, 1.6vw, 20px) 0; border-bottom: 1px solid var(--line-l); }

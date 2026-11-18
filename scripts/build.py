@@ -124,7 +124,7 @@ def header(active, overlay):
     <img class="wix" data-wix="{LOGO}" data-w="320" alt="Cloudy Donut Co.">
   </a>
   <button class="search-open search-mobile" type="button" aria-label="Search the site" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav"><span></span><span></span><span class="nt-word" aria-hidden="true">Menu</span><span class="visually-hidden">Menu</span></button>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav"><span></span><span></span><span class="visually-hidden">Menu</span></button>
   <nav id="nav" class="nav" aria-label="Main">
     {links}
     <button class="search-open" type="button" aria-label="Search the site" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="search-label">Search</span></button>
@@ -211,7 +211,6 @@ __BTS__
 
 <script src="data/fallback.js" defer></script>
 <script src="app.js" defer></script>
-<script src="mock-switch.js"></script>
 </body>
 </html>
 """
@@ -471,30 +470,6 @@ STORY_COPY = """
         <p>These experiences provide the consumer with a boutique feel, curated by Founder, Derrick Faulcon, along with Zewiditu Jewel, Leaders of The Brown Collective, which builds each space in a luxurious and harmonious way. Collectively, the two have created Worlds of Black luxury, which can only be told in a way that Black people themselves can articulate.</p>"""
 
 FIRSTS = """
-      <ul class="firsts fv-x" role="list">
-        <li><span class="big">1st</span><span>100% vegan donut store in NYC</span></li>
-        <li><span class="big">1st</span><span>Black Owned food and beverage business in Brooklyn Heights</span></li>
-        <li><span class="big">1st</span><span>Black Owned food and beverage business in Nolita</span></li>
-        <li><span class="big">50+</span><span>Flavors, small-batched and hand crafted</span></li>
-      </ul>
-      <div class="fv fv-a" role="group" aria-label="A brand of firsts">
-        <p class="fa-big" aria-hidden="true">1st</p>
-        <div class="fa-list">
-          <p class="kicker">A brand of firsts</p>
-          <ul role="list">
-            <li>100% vegan donut store in NYC</li>
-            <li>Black Owned food and beverage business in Brooklyn Heights</li>
-            <li>Black Owned food and beverage business in Nolita</li>
-          </ul>
-        </div>
-        <p class="fa-foot"><b>50+</b> flavors, small-batched and hand crafted</p>
-      </div>
-      <ul class="fv fv-b" role="list" aria-label="A brand of firsts">
-        <li><span class="fb-seal"><b>1st</b><small>in NYC</small></span><span>100% vegan donut store</span></li>
-        <li><span class="fb-seal"><b>1st</b><small>Brooklyn Heights</small></span><span>Black Owned food and beverage business</span></li>
-        <li><span class="fb-seal"><b>1st</b><small>Nolita</small></span><span>Black Owned food and beverage business</span></li>
-        <li><span class="fb-seal mint"><b>50+</b><small>flavors</small></span><span>Small-batched and hand crafted</span></li>
-      </ul>
       <div class="fv fv-d">
         <p class="kicker">A brand of firsts</p>
         <ul class="fd-lines" role="list">
@@ -503,10 +478,6 @@ FIRSTS = """
           <li>And the <em>first</em> in Nolita.</li>
         </ul>
         <p class="fc-foot"><b>50+</b> flavors created since, every one small-batched and hand crafted.</p>
-      </div>
-      <div class="fv fv-c">
-        <p class="fc-line">NYC's <em>first</em> 100% vegan donut store. The <em>first</em> Black Owned food and beverage business in Brooklyn Heights. And the <em>first</em> in Nolita.</p>
-        <p class="fc-foot"><b>50+</b> flavors since, every one small-batched and hand crafted.</p>
       </div>"""
 
 PRESS = """
