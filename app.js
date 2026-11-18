@@ -751,7 +751,7 @@
     { t: "Our story", d: "Firsts, intention and Worlds of Black luxury", u: "our-story.html", k: "story about founders history black owned derrick zewiditu brown collective 7streams" },
     { t: "Experiences", d: "Cloudy Donut Minis for events and catering", u: "experiences.html", k: "catering events party wedding minis order large" },
     { t: "Cake shipping waitlist", d: "Pound cakes, shipped, coming next year", u: "experiences.html#ship", k: "ship shipping delivery mail cake pound waitlist" },
-    { t: "Locations & hours", d: "Brooklyn Heights, NoLita and Baltimore", u: "locations.html", k: "locations hours address directions open shop store" },
+    { t: "Locations & hours", d: "Brooklyn Heights and NoLita", u: "locations.html", k: "locations hours address directions open shop store" },
   ];
   const FAQS = [
     ["Are your donuts gluten free?", "gluten celiac wheat"],
@@ -798,7 +798,7 @@
     const QUICK = [
       ["Right now", [
         { icon: IC.lineup, t: "This week's lineup", d: weekNames.slice(0, 3).join(", ") + (weekNames.length > 3 ? ` + ${weekNames.length - 3} more` : ""), go: go("index.html#lineup") },
-        { icon: IC.clock, t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights, NoLita, Baltimore", go: go("locations.html") },
+        { icon: IC.clock, t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights and NoLita", go: go("locations.html") },
         nextStop && { icon: IC.stop, t: `Next pop-up: ${nextStop.city.split(",")[0]}`, d: [new Date(nextStop.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }), nextStop.time].filter(Boolean).join(" · "), go: go("pop-ups.html") },
         { icon: IC.order, t: "Order ahead for pickup", d: "Skip the weekend line", go: go("locations.html") },
       ].filter(Boolean)],

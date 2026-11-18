@@ -1,0 +1,22 @@
+name: og-images
+on:
+  workflow_dispatch:
+  push:
+    branches: [mockups]
+    paths: [og-mockups.html, scripts/og_shoot.py, .github/workflows/og-images.yml]
+permissions:
+  contents: write
+jobs:
+  shoot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: mkdir -p og && python scripts/og_shoot.py "$PWD"
+      - uses: actions/upload-artifact@v4
+        with: { name: og-images, path: og/*.jpg }
+      - run: |
+          git config user.name "og-bot"; git config user.email "og-bot@users.noreply.github.com"
+          git add og/*.jpg && git commit -m "Render editorial link previews" && git push || echo "nothing to commit"

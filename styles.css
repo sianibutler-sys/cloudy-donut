@@ -1357,3 +1357,5 @@ form[data-form] .lab-txt { display: inline; }
 .bd-wrap .more-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 26px; }
 .lineup-actions { justify-content: flex-start; }
 .lw-date { display: inline-block; margin-left: 10px; padding: 3px 10px; background: var(--char); color: var(--cream); letter-spacing: .14em; }
+/* Shop cards fill the row whatever the count: two shops sit side by side at full width */
+@media (min-width: 861px) { .loc-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
