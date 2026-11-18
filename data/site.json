@@ -1,7 +1,7 @@
 {
   "_note": "Everything staff would change week to week. In production these are Airtable tables (Lineup, Locations, Tour) read by /functions/api/content.js. This file is the fallback and the demo's seed data.",
   "lineup": {
-    "_note": "From cloudydonut.com, This Weekend's NYC Menu 11.20–11.22. Staff set this each week. After 'ends' the dates come off on their own.",
+    "_note": "From cloudydonut.com, This Weekend's NYC Menu 11.20–11.22. Pound cake flavors are from the same weekend's pop-up menu; the NYC menu doesn't list cinnamon roll flavors. Staff set this each week. After 'ends' the dates come off on their own.",
     "week_of": "Nov 20–22",
     "ends": "2026-11-22",
     "flavors": [
@@ -13,7 +13,15 @@
     "extras": [
       {
         "name": "Pound cakes",
-        "item": "Pound cake"
+        "item": "Pound cake",
+        "flavors": [
+          "Lemon Blueberry Poundcake",
+          "Brûléed Sweet Potato Pound Cake",
+          "Brown Sugar Pineapple Upside Down Cake",
+          "Orange Saffron Cake",
+          "Basil Olive Oil Cake"
+        ],
+        "flavors_note": "This weekend's cakes, from the pop-up menu:"
       },
       {
         "name": "Cinnamon rolls",
