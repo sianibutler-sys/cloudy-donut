@@ -237,7 +237,7 @@ LINEUP = """
     <div class="wrap">
       <div class="head-row">
         <div>
-          <p class="kicker dark">Fri · Sat · Sun</p>
+          <p class="kicker dark" id="lineup-when">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
         </div>
         <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
@@ -480,6 +480,17 @@ FIRSTS = """
         <p class="fc-foot"><b>50+</b> flavors created since, every one small-batched and hand crafted.</p>
       </div>"""
 
+FOUNDERS = """
+    <div class="wrap">
+      <div class="founders" role="group" aria-labelledby="founders-h">
+        <h2 class="kicker" id="founders-h">Follow the founders' journey</h2>
+        <ul class="founder-links" role="list">
+          <li><a href="https://www.instagram.com/_7streams/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span><b>Derrick Faulcon</b> @_7streams</span></a></li>
+          <li><a href="https://www.instagram.com/zewiditu/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span><b>Zewiditu Jewel</b> @zewiditu</span></a></li>
+        </ul>
+      </div>
+    </div>"""
+
 PRESS = """
   <section class="press" aria-labelledby="press-h">
     <div class="wrap">
@@ -500,7 +511,7 @@ FAQ = """
     <div class="wrap faq-wrap">
       <h2 class="display-md" id="faq-h">Good To Know</h2>
       <div class="faq-list">
-        <details><summary>Where are you all located?</summary><p>We have two shops in NYC: 14 Columbia Pl., Brooklyn, NY 11201 and 209 Mott Street, New York, NY 10012. Our Lauraville home in Baltimore hosts pop-ups. See <a href="locations.html">hours and maps</a>.</p></details>
+        <details><summary>Where are you all located?</summary><p>We have two shops in NYC: 14 Columbia Pl., Brooklyn, NY 11201 and 209 Mott Street, New York, NY 10012. Baltimore and other cities get pop-ups, with dates on the <a href="pop-ups.html">Pop-ups page</a>. See <a href="locations.html">shop hours and maps</a>.</p></details>
         <details><summary>What oils are your donuts made in?</summary><p>All our donuts are fried in liquid vegetable shortening.</p></details>
         <details><summary>What substitutes do you use to make the donuts vegan?</summary><p>Applesauce, coconut milk and shortening are used in place of animal products.</p></details>
         <details><summary>Are your donuts gluten free?</summary><p>Our donuts are 100% vegan, but they are not gluten free.</p></details>
@@ -590,7 +601,7 @@ HOME = f"""
     <div class="hero-card">
       <p class="kicker dark">Luxury Dessert Experiences</p>
       <h1 class="display">Where Dreams<br>Crumb True.</h1>
-      <p class="hero-sub">100% vegan. Small batch. Hand crafted in Brooklyn Heights, NoLita and Baltimore, and on the road.</p>
+      <p class="hero-sub">100% vegan. Small batch. Hand crafted in Brooklyn Heights and NoLita, and on the road.</p>
       <div class="hero-actions">
         <a class="btn btn-ink" href="#lineup">This week's lineup</a>
         <a class="btn btn-line-ink" href="pop-ups.html" id="hero-popup">Pop-up tour</a>
@@ -748,6 +759,7 @@ STORY = f"""
     </div>
     <div class="wrap">{FIRSTS}
     </div>
+{FOUNDERS}
   </section>
   <section class="photo-pair" aria-label="Cloudy Donut photos">
     <img class="wix" data-wix="d6231e_a9fcfc976a4c48ffaec94304ac9051bb~mv2.jpg" data-w="1100" alt="The Cloudy Donut display case">
@@ -818,7 +830,7 @@ COMPARE_PAGES = {
          "The FAQ sends merch shoppers to a Federal Hill shop this page doesn't list."],
         ["Maps with donut pins, plus Google Maps, Apple Maps and Waze links.",
          "Open now, by shop, and tap to call.",
-         "Only the three shops on the current site, and all 14 FAQ answers."]),
+         "The two NYC shops, with Baltimore treated as a pop-up that shows on the tour when it's on, and all 14 FAQ answers."]),
     "accessibility.html": ("Accessibility",
         ["No accessibility statement, and no way to report a problem."],
         ["A plain-language statement: the standard, what's built in, what's still being worked on, and who to call.",
@@ -860,7 +872,7 @@ SAME = {
     "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Baltimore and Richmond stops, with the pre-order line, as listed on cloudydonut.com"],
     "our-story.html": ["The Our Story copy, word for word"],
     "experiences.html": ["Event and catering packages"],
-    "locations.html": ["The three shops, with addresses, hours and phone", "All 14 FAQ answers"],
+    "locations.html": ["The two NYC shops, with addresses, hours and phone", "All 14 FAQ answers"],
     "accessibility.html": ["Phone and email from the Contact page"],
 }
 BUILD = [
@@ -992,12 +1004,12 @@ ACCESS = '\n<main id="main">' + page_hero("Accessibility", "Everyone's Invited."
 </main>"""
 
 PAGES = {
-    "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch and hand crafted in Brooklyn Heights, NoLita and Baltimore. See this week's lineup.", HOME, True),
+    "index.html": ("Home", "Luxury dessert experiences. 100% vegan, small batch and hand crafted in Brooklyn Heights and NoLita, and on tour. See this week's lineup.", HOME, True),
     "flavors.html": ("Flavors", "40+ Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
     "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: the next stop, dates, and a signup to bring Cloudy to your city.", POPUPS, False),
     "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
     "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events, plus the waitlist for pound cakes by mail.", EXPERIENCES, False),
-    "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights, NoLita and Baltimore, with hours, maps, directions and FAQ.", LOCS, False),
+    "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights and NoLita, with hours, maps, directions and FAQ, plus where the tour stops next.", LOCS, False),
     "accessibility.html": ("Accessibility", "How the Cloudy Donut Co. site is built to work for everyone, and who to contact if something doesn't.", ACCESS, False),
 }
 

@@ -239,28 +239,30 @@
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    // A box of six, one of each. A short week fills spare wells with a "mix and match" tag.
-    // No flavors: the box stays sealed.
+    // A box of six, one of each. A short week fills spare wells with the weekend's extras
+    // (pound cakes, cinnamon rolls), which open like a donut to show their flavors. No flavors: the box stays sealed.
+    const priceFor = (item) => (data.prices.find((x) => x.item === item) || {}).price;
+    const extraItems = (data.lineup.extras || []).map((x) => ({ id: "x-" + x.name.toLowerCase().replace(/[^a-z]+/g, "-"), name: x.name, extra: true, flavors: x.flavors || [], flavors_note: x.flavors_note || "", price: priceFor(x.item) }));
+    extraItems.forEach((x) => { byId[x.id] = x; });
     const size = week.length === 0 ? 0 : 6;
     $("#cbox").dataset.size = String(size);
-    const extras = [];
-    const spare = Math.max(0, size - week.length);
-    const fillers = Array.from({ length: spare }, (_, i) => i < extras.length ? ["Also", extras[i]] : ["Your pick", "Mix and match"]);
+    const boxItems = size ? [...week, ...extraItems].slice(0, size) : [];
+    const spare = Math.max(0, size - boxItems.length);
     const tag = (small, name) => `<span class="slot-tag" aria-hidden="true"><b>${esc(name)}</b><small>${esc(small)}</small></span>`;
-    $("#donut-box").innerHTML = week.slice(0, size).map((f, i) => `
-      <button class="slot" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
+    $("#donut-box").innerHTML = boxItems.map((f, i) => `
+      <button class="slot${f.extra ? " slot-extra" : ""}" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
         <span class="well" aria-hidden="true"></span>
-        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag("New", f.name)}
+        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag(f.extra ? "Also" : "New", f.name)}
         <span class="visually-hidden">${esc(f.name)}</span>
-      </button>`).join("") + fillers.map(([small, name], i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag(small, name)}</span>`).join("");
-    if (spare) $("#donut-box").insertAdjacentHTML("afterend", `<p class="visually-hidden">${extras.length ? "Also this weekend: " + extras.map(esc).join(", ") + "." : ""} Mix and match any amount.</p>`);
+      </button>`).join("") + Array.from({ length: spare }, (_, i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag("Your pick", "Mix and match")}</span>`).join("");
+    if (spare) $("#donut-box").insertAdjacentHTML("afterend", `<p class="visually-hidden">Mix and match any amount.</p>`);
     // Flavor notes (same traits as Find your flavor), always on one line under the donut dots
     const notes = (f) => [...(f.profile || []).slice(0, 1), f.style, f.texture && f.texture !== "smooth" ? f.texture : null, f.boozy ? "spirited" : null].filter(Boolean).slice(0, 3).join(" · ");
     const dotsEl = $("#bd-dots");
-    dotsEl.innerHTML = week.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${week.length}"></button>`).join("");
+    dotsEl.innerHTML = boxItems.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${boxItems.length}"></button>`).join("");
     dotsEl.addEventListener("click", (e) => {
       const d = e.target.closest(".bd-dot"); if (!d) return;
-      const g = week.find((x) => x.id === d.dataset.go); if (g) showBox(g);
+      const g = boxItems.find((x) => x.id === d.dataset.go); if (g) showBox(g);
     });
     dotsEl.addEventListener("keydown", (e) => {
       const d = e.target.closest(".bd-dot"); if (!d) return;
@@ -273,8 +275,16 @@
       $$("button.slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
       dotsEl.hidden = false;
       $$(".bd-dot", dotsEl).forEach((d) => { const on = d.dataset.go === f.id; d.classList.toggle("on", on); if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
+      const pos = `<span class="visually-hidden">${boxItems.indexOf(f) + 1} of ${boxItems.length}: </span>`;
+      if (f.extra) {
+        $("#box-detail").innerHTML = `
+        <p class="bd-num">${pos}On the counter${f.price ? ` · $${f.price}` : ""}</p>
+        <h3 class="bd-name">${esc(f.name)}</h3>
+        ${f.flavors.length ? `${f.flavors_note ? `<p class="bd-desc">${esc(f.flavors_note)}</p>` : ""}<ul class="bd-flavors">${f.flavors.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="bd-desc">This weekend's flavors are at the counter. Ask when you come in.</p>`}`;
+        return;
+      }
       $("#box-detail").innerHTML = `
-        <p class="bd-num"><span class="visually-hidden">${week.indexOf(f) + 1} of ${week.length}: </span>${esc(notes(f))}</p>
+        <p class="bd-num">${pos}${esc(notes(f))}</p>
         <h3 class="bd-name">${esc(f.name)}</h3>
         <p class="bd-desc">${esc(f.desc)}</p>
         ${f.contains ? `<p class="bd-contains">${esc(f.contains)}</p>` : ""}`;
@@ -290,7 +300,7 @@
       $("#cbox-seal").setAttribute("aria-expanded", "false");
       $("#box-detail").innerHTML = `<p class="bd-num">Menu coming soon</p><h3 class="bd-name">The box is still sealed</h3><p class="bd-desc">This weekend's flavors post before the weekend. <a href="#lineup-signup">Get the lineup by email</a> and you'll see it first.</p>`;
     } else {
-      $("#box-detail .bd-num").textContent = `${week.length} ${week.length === 1 ? "flavor" : "flavors"} inside`;
+      $("#box-detail .bd-num").textContent = `${boxItems.length} inside`;
     }
     const openBox = (instant) => {
       if (!week.length) { $("#box-detail").classList.add("nudge"); setTimeout(() => $("#box-detail").classList.remove("nudge"), 600); return; }
@@ -298,7 +308,7 @@
       cbox.dataset.state = instant ? "open" : "opening";
       $("#cbox-seal").setAttribute("aria-expanded", "true");
       $("#cbox-body").removeAttribute("inert");
-      const done = () => { cbox.dataset.state = "open"; if (week.length) showBox(week[0]); };
+      const done = () => { cbox.dataset.state = "open"; if (boxItems.length) showBox(boxItems[0]); };
       instant ? done() : setTimeout(done, 1100);
     };
     $("#cbox-seal").addEventListener("click", () => openBox(reduceMotion));
@@ -315,13 +325,22 @@
     const priceOf = (item) => (data.prices.find((x) => x.item === item) || {}).price;
     const xs = data.lineup.extras || [];
     $("#counter").hidden = !xs.length;
-    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><span class="tent-name">${esc(x.name)}</span>${x.flavors && x.flavors.length ? `<span class="tent-flavors">${x.flavors.map(esc).join(" · ")}</span>` : ""}${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}${x.note ? `<span class="tent-note">${esc(x.note)}</span>` : ""}</li>`).join("");
+    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><button type="button" class="tent-btn" data-open="x-${x.name.toLowerCase().replace(/[^a-z]+/g, "-")}" aria-controls="box-detail"><span class="tent-name">${esc(x.name)}</span>${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}<span class="tent-more">See flavors <span aria-hidden="true">→</span></span></button></li>`).join("");
+    // A tent card opens the box (if it's still sealed) and shows that item's flavors
+    $("#tents").addEventListener("click", (e) => {
+      const b = e.target.closest(".tent-btn"); if (!b || !byId[b.dataset.open]) return;
+      if (cbox.dataset.state !== "open") { cbox.dataset.state = "open"; $("#cbox-seal").setAttribute("aria-expanded", "true"); $("#cbox-body").removeAttribute("inert"); }
+      showBox(byId[b.dataset.open]);
+      $("#box-detail").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+    });
     const shown = new Set(xs.map((x) => x.item));
     $$("#lineup #price-strip").forEach((el) => el.dataset.skip = [...shown].join("|"));
     if (data.lineup.week_of) {
       // After the weekend ends, the dates come off so the page never shows a menu that's over
       const over = data.lineup.ends && new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date()) > data.lineup.ends;
-      $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : `Weekend of ${data.lineup.week_of}. `) + $("#lineup-sub").textContent;
+      // The dates ride in the kicker above the heading, the way their site dates each weekend's menu
+      if (over) $("#lineup-sub").textContent = "Last weekend's menu. The new one posts before the weekend. " + $("#lineup-sub").textContent;
+      else $("#lineup-when").innerHTML = `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
     }
     $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
@@ -749,7 +768,7 @@
     { t: "Our story", d: "Firsts, intention and Worlds of Black luxury", u: "our-story.html", k: "story about founders history black owned derrick zewiditu brown collective 7streams" },
     { t: "Experiences", d: "Cloudy Donut Minis for events and catering", u: "experiences.html", k: "catering events party wedding minis order large" },
     { t: "Cake shipping waitlist", d: "Pound cakes, shipped, coming next year", u: "experiences.html#ship", k: "ship shipping delivery mail cake pound waitlist" },
-    { t: "Locations & hours", d: "Brooklyn Heights, NoLita and Baltimore", u: "locations.html", k: "locations hours address directions open shop store" },
+    { t: "Locations & hours", d: "Brooklyn Heights and NoLita", u: "locations.html", k: "locations hours address directions open shop store" },
   ];
   const FAQS = [
     ["Are your donuts gluten free?", "gluten celiac wheat"],
@@ -796,7 +815,7 @@
     const QUICK = [
       ["Right now", [
         { icon: IC.lineup, t: "This week's lineup", d: weekNames.slice(0, 3).join(", ") + (weekNames.length > 3 ? ` + ${weekNames.length - 3} more` : ""), go: go("index.html#lineup") },
-        { icon: IC.clock, t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights, NoLita, Baltimore", go: go("locations.html") },
+        { icon: IC.clock, t: "Hours & locations", d: openShop ? `${openShop[0].name} is open now` : firstShop ? `${firstShop.name}: ${status(firstShop).text}` : "Brooklyn Heights and NoLita", go: go("locations.html") },
         nextStop && { icon: IC.stop, t: `Next pop-up: ${nextStop.city.split(",")[0]}`, d: [new Date(nextStop.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }), nextStop.time].filter(Boolean).join(" · "), go: go("pop-ups.html") },
         { icon: IC.order, t: "Order ahead for pickup", d: "Skip the weekend line", go: go("locations.html") },
       ].filter(Boolean)],

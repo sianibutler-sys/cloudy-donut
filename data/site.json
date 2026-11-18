@@ -1,32 +1,31 @@
 {
   "_note": "Everything staff would change week to week. In production these are Airtable tables (Lineup, Locations, Tour) read by /functions/api/content.js. This file is the fallback and the demo's seed data.",
   "lineup": {
-    "_note": "Sample lineup for the demo: a full box of six from flavors pictured on cloudydonut.com. Staff set the real one each week. Pound cake flavors are from their pop-up menu; Apple Pie cinnamon rolls are named in their story copy.",
-    "week_of": "",
-    "ends": "",
+    "_note": "From cloudydonut.com, This Weekend's NYC Menu 11.20–11.22. Pound cake flavors are from the same weekend's pop-up menu; the NYC menu doesn't list cinnamon roll flavors. Staff set this each week. After 'ends' the dates come off on their own.",
+    "week_of": "Nov 20–22",
+    "ends": "2026-11-22",
     "flavors": [
-      "strawberry-lemonade",
-      "cookie-monster",
-      "cherry-pie",
-      "maple-butter-pecan",
-      "blackberry-mint-mojito",
-      "powdered-jelly"
+      "blackberry-basil",
+      "vanilla-bean-sugar",
+      "brown-butter-chocolate-chip",
+      "maple-butter-pecan"
     ],
     "extras": [
       {
         "name": "Pound cakes",
         "item": "Pound cake",
         "flavors": [
-          "Lemon Blueberry",
-          "Brûléed Sweet Potato"
-        ]
+          "Lemon Blueberry Poundcake",
+          "Brûléed Sweet Potato Pound Cake",
+          "Brown Sugar Pineapple Upside Down Cake",
+          "Orange Saffron Cake",
+          "Basil Olive Oil Cake"
+        ],
+        "flavors_note": "This weekend's cakes, from the pop-up menu:"
       },
       {
         "name": "Cinnamon rolls",
-        "item": "Cinnamon roll",
-        "flavors": [
-          "Apple Pie"
-        ]
+        "item": "Cinnamon roll"
       }
     ]
   },
@@ -80,18 +79,6 @@
       "note": "",
       "lat": 40.7218637,
       "lng": -73.995478
-    },
-    {
-      "id": "lauraville",
-      "name": "Lauraville",
-      "city": "Baltimore, MD",
-      "address": "4311 Harford Rd, Baltimore, MD 21214",
-      "phone": "347.463.9628",
-      "hours": {},
-      "hours_label": "Pop-ups only",
-      "note": "",
-      "lat": 39.3387919,
-      "lng": -76.5731214
     }
   ],
   "tour": {
