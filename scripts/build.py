@@ -480,6 +480,26 @@ FIRSTS = """
         <p class="fc-foot"><b>50+</b> flavors created since, every one small-batched and hand crafted.</p>
       </div>"""
 
+FOUNDERS = """
+    <div class="wrap founders" role="group" aria-labelledby="founders-h">
+      <p class="kicker">On Instagram</p>
+      <h2 class="display founders-h" id="founders-h">Follow The Founders' Journey.</h2>
+      <ul class="founder-cards" role="list">
+        <li><a href="https://www.instagram.com/_7streams/" target="_blank" rel="noopener">
+          <span class="fc-name">Derrick Faulcon</span>
+          <span class="fc-role">Founder</span>
+          <span class="fc-handle"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>@_7streams</span>
+          <span class="fc-go">Follow <span aria-hidden="true">↗</span></span>
+        </a></li>
+        <li><a href="https://www.instagram.com/zewiditu/" target="_blank" rel="noopener">
+          <span class="fc-name">Zewiditu Jewel</span>
+          <span class="fc-role">Leader, The Brown Collective</span>
+          <span class="fc-handle"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>@zewiditu</span>
+          <span class="fc-go">Follow <span aria-hidden="true">↗</span></span>
+        </a></li>
+      </ul>
+    </div>"""
+
 PRESS = """
   <section class="press" aria-labelledby="press-h">
     <div class="wrap">
@@ -748,6 +768,7 @@ STORY = f"""
     </div>
     <div class="wrap">{FIRSTS}
     </div>
+{FOUNDERS}
   </section>
   <section class="photo-pair" aria-label="Cloudy Donut photos">
     <img class="wix" data-wix="d6231e_a9fcfc976a4c48ffaec94304ac9051bb~mv2.jpg" data-w="1100" alt="The Cloudy Donut display case">
