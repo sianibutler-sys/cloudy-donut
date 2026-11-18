@@ -1356,3 +1356,4 @@ form[data-form] .lab-txt { display: inline; }
 /* Next steps sit under the flavor description, where the browsing happens */
 .bd-wrap .more-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 26px; }
 .lineup-actions { justify-content: flex-start; }
+.lw-date { display: inline-block; margin-left: 10px; padding: 3px 10px; background: var(--char); color: var(--cream); letter-spacing: .14em; }

@@ -237,7 +237,7 @@ LINEUP = """
     <div class="wrap">
       <div class="head-row">
         <div>
-          <p class="kicker dark">Fri · Sat · Sun</p>
+          <p class="kicker dark" id="lineup-when">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
         </div>
         <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>

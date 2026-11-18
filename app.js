@@ -239,11 +239,11 @@
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    // A box of six, one of each. A short week fills spare wells with a "mix and match" tag.
+    // A box of six, one of each. A short week fills spare wells with the weekend's extras, then a "mix and match" tag.
     // No flavors: the box stays sealed.
     const size = week.length === 0 ? 0 : 6;
     $("#cbox").dataset.size = String(size);
-    const extras = [];
+    const extras = (data.lineup.extras || []).map((x) => x.name);
     const spare = Math.max(0, size - week.length);
     const fillers = Array.from({ length: spare }, (_, i) => i < extras.length ? ["Also", extras[i]] : ["Your pick", "Mix and match"]);
     const tag = (small, name) => `<span class="slot-tag" aria-hidden="true"><b>${esc(name)}</b><small>${esc(small)}</small></span>`;
@@ -321,7 +321,9 @@
     if (data.lineup.week_of) {
       // After the weekend ends, the dates come off so the page never shows a menu that's over
       const over = data.lineup.ends && new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date()) > data.lineup.ends;
-      $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : `Weekend of ${data.lineup.week_of}. `) + $("#lineup-sub").textContent;
+      // The dates ride in the kicker above the heading, the way their site dates each weekend's menu
+      if (over) $("#lineup-sub").textContent = "Last weekend's menu. The new one posts before the weekend. " + $("#lineup-sub").textContent;
+      else $("#lineup-when").innerHTML = `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
     }
     $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
