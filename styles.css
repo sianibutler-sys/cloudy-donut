@@ -1393,3 +1393,8 @@ form[data-form] .lab-txt { display: inline; }
 @media (max-width: 420px) { .costs td { white-space: normal; max-width: 9.5em; } }
 .opt { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: .75; }
 .ship-card .fine { color: #2c3a33; margin: -4px 0 0; }
+.cost-total { display: grid; gap: 2px; }
+.cost-total span { font: 700 .66rem var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.cost-total b { font-size: 1.35rem; }
+.cost-total small { font-size: .84rem; }
+.costs td { white-space: normal; max-width: 9.5em; }

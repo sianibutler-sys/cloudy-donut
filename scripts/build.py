@@ -891,10 +891,10 @@ COSTS = [  # running costs, checked Nov 19, 2026
     ("Forms and live updates", "Inquiries, signups, the lineup and tour dates.", "$0 at Cloudy's volume"),
     ("Email from the forms", "Every inquiry lands in your inbox.", "$0 up to 3,000 a month"),
     ("Instagram feed", "Your latest posts on the Pop-ups page.", "$0"),
-    ("Domain", "cloudydonut.com, moved to Cloudflare, which charges cost with no markup.", "About $11 a year"),
-    ("Online ordering, when you want it", "Square's free plan, no monthly fee.", "3.3% + 30¢ per order"),
+    ("Domain", "cloudydonut.com, moved to a domain registrar that charges the base price with no markup.", "$11.17 a year"),
+    ("Online ordering, when you want it", "No monthly fee. Card fees per order vary by the payment types you accept.", "Varies per order"),
     ("Updates", "Your team changes the lineup, hours and tour stops. I'll show you how.", "$0"),
-    ("Bigger changes", "New pages or features, whenever you want them.", "$110 an hour"),
+    ("Bigger changes", "New pages or features, quoted by scope before any work starts.", "$110 an hour"),
 ]
 
 WIX_IMG = "https://static.wixstatic.com/media/{0}/v1/fill/w_600,h_315,al_c,q_80,enc_auto/{0}"
@@ -981,7 +981,7 @@ def bts_block(fname):
       <ol class="buildl">{build}</ol>
       <h3>What it costs to run</h3>
       <table class="costs"><thead><tr><th scope="col">What</th><th scope="col">Cost</th></tr></thead><tbody>{costs}</tbody></table>
-      <p class="cost-total"><b>About $11 a year</b>, plus card fees on online orders.</p>
+      <p class="cost-total"><span>Total to run</span><b>$11.17 a year</b><small>Card fees on online orders and any bigger changes only come in if you use them.</small></p>
       <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved. Costs checked November 19, 2026.</div>
       <p class="bts-cta">Like what you see? Reply to Siani's message and let's talk.</p>
       <a class="bts-by" href="https://sianicreates.com" target="_blank" rel="noopener">Built by Siani Creates <span aria-hidden="true">↗</span></a>
