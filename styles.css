@@ -1391,3 +1391,5 @@ form[data-form] .lab-txt { display: inline; }
 .cost-total { margin: 12px 0 0; padding: 12px 14px; background: var(--mint); border-radius: 10px; }
 .bts-by { display: inline-flex; gap: 6px; margin-top: 14px; font-weight: 700; color: var(--ink); text-underline-offset: 3px; min-height: 24px; align-items: center; }
 @media (max-width: 420px) { .costs td { white-space: normal; max-width: 9.5em; } }
+.opt { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: .75; }
+.ship-card .fine { color: #2c3a33; margin: -4px 0 0; }

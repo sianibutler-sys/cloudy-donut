@@ -117,7 +117,8 @@
       </div>
       <form class="stack-form" data-form="ship_waitlist" novalidate>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
-        <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+        <label>ZIP code <span class="opt">(optional)</span><input name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="ship-zip-hint"></label>
+        <p class="fine" id="ship-zip-hint">Tells us where to ship first.</p>
         <div class="consent"><input id="ship-consent" name="consent" type="checkbox" required><label for="ship-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <button class="btn btn-ink" type="submit">Join the waitlist</button>
         <p class="form-msg" role="status"></p>
