@@ -611,6 +611,7 @@
         if (el.type !== "checkbox" && el.type !== "radio" && !v) return { el, msg: el.tagName === "SELECT" ? "Please choose an option for every required field." : "Please fill in the required fields." };
       }
       if (el.type === "email" && v && !EMAIL.test(v)) return { el, msg: "Please enter a valid email, like name@example.com." };
+      if (el.name === "zip" && v && !/^\d{5}$/.test(v)) return { el, msg: "Please enter a 5-digit ZIP code, or leave it blank." };
       if (el.type === "date" && v && el.min && v < el.min) return { el, msg: "Please choose a date at least 14 days out." };
       if (el.type === "date" && v && !el.validity.valid) return { el, msg: "Please enter a full date." };
     }
