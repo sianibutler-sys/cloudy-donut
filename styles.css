@@ -1381,3 +1381,13 @@ form[data-form] .lab-txt { display: inline; }
 .founder-links a span { border-bottom: 1.5px solid var(--mint); }
 .founder-links a:hover span { border-color: var(--char); }
 .founder-links a:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+/* The build: running costs */
+.costs { width: 100%; border-collapse: collapse; margin: 6px 0 0; font-size: .92rem; }
+.costs thead th { font: 700 .66rem var(--sans); letter-spacing: .14em; text-transform: uppercase; text-align: left; padding: 0 0 6px; border-bottom: 1.5px solid var(--ink); }
+.costs thead th:last-child, .costs td { text-align: right; }
+.costs tbody th { text-align: left; font-weight: 700; padding: 10px 12px 10px 0; border-bottom: 1px solid rgba(36,35,35,.14); vertical-align: top; }
+.costs tbody th span { display: block; font-weight: 400; color: #55524b; font-size: .84rem; margin-top: 2px; }
+.costs td { padding: 10px 0; border-bottom: 1px solid rgba(36,35,35,.14); white-space: nowrap; vertical-align: top; font-weight: 700; color: #2f5a49; }
+.cost-total { margin: 12px 0 0; padding: 12px 14px; background: var(--mint); border-radius: 10px; }
+.bts-by { display: inline-flex; gap: 6px; margin-top: 14px; font-weight: 700; color: var(--ink); text-underline-offset: 3px; min-height: 24px; align-items: center; }
+@media (max-width: 420px) { .costs td { white-space: normal; max-width: 9.5em; } }

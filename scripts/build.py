@@ -884,6 +884,17 @@ BUILD = [
     ("Owned by Cloudy", "Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription."),
 ]
 
+COSTS = [  # running costs, checked Nov 19, 2026
+    ("Hosting", "The site itself, on a global network. Unlimited visitors.", "$0"),
+    ("Forms and live updates", "Inquiries, signups, the lineup and tour dates.", "$0 at Cloudy's volume"),
+    ("Email from the forms", "Every inquiry lands in your inbox.", "$0 up to 3,000 a month"),
+    ("Instagram feed", "Your latest posts on the Pop-ups page.", "$0"),
+    ("Domain", "cloudydonut.com, moved to Cloudflare, which charges cost with no markup.", "About $11 a year"),
+    ("Online ordering, when you want it", "Square's free plan, no monthly fee.", "3.3% + 30¢ per order"),
+    ("Updates", "Your team changes the lineup, hours and tour stops. I'll show you how.", "$0"),
+    ("Bigger changes", "New pages or features, whenever you want them.", "$110 an hour"),
+]
+
 WIX_IMG = "https://static.wixstatic.com/media/{0}/v1/fill/w_600,h_315,al_c,q_80,enc_auto/{0}"
 LIVE_SHARE = {  # cloudydonut.com titles, descriptions and share images, checked Nov 12, 2026
     "accessibility.html": (None, None, None, None, "There's no accessibility page to share or find in search."),
@@ -925,6 +936,7 @@ def bts_block(fname):
     tel_live = '<span class="bad">0</span>'
     pairs = "".join(f'<li><span class="bts-lbl old">Today</span><p>{a}</p><span class="bts-lbl new">New</span><p>{b}</p></li>' for a, b in EVERY_PAGE)
     build = "".join(f"<li><h4>{t}</h4><p>{d}</p></li>" for t, d in BUILD)
+    costs = "".join(f'<tr><th scope="row">{a}<span>{b}</span></th><td>{c}</td></tr>' for a, b, c in COSTS)
     return f"""<aside class="badge" aria-label="Demo controls">
   <img class="badge-logo" src="assets/siani-creates-logo.png" alt="Demo by Siani Creates" width="265" height="130">
   <button type="button" id="mode-btn"></button>
@@ -960,13 +972,17 @@ def bts_block(fname):
     <section role="tabpanel" id="bp-a11y" aria-labelledby="bt-a11y" tabindex="0" hidden>
       <p class="bts-sub">What changes for people using screen readers, keyboards or a phone, on every page.</p>
       <ol class="pairs">{pairs}</ol>
-      <div class="bts-note">Automated scan with axe-core against WCAG 2.1 AA, the standard used in ADA website claims: 0 issues on all six pages, with search, the flavor cards and this panel open.</div>
+      <div class="bts-note">Automated scan with axe-core against WCAG 2.2 AA: 0 issues on all seven pages, with search, the flavor cards and this panel open.</div>
     </section>
     <section role="tabpanel" id="bp-build" aria-labelledby="bt-build" tabindex="0" hidden>
       <h3>Yours to run, yours to keep</h3>
       <ol class="buildl">{build}</ol>
-      <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved.</div>
-      <p class="bts-cta">Like what you see? Reply to Siani's message with the best email, and the full proposal follows.</p>
+      <h3>What it costs to run</h3>
+      <table class="costs"><thead><tr><th scope="col">What</th><th scope="col">Cost</th></tr></thead><tbody>{costs}</tbody></table>
+      <p class="cost-total"><b>About $11 a year</b>, plus card fees on online orders.</p>
+      <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved. Costs checked November 19, 2026.</div>
+      <p class="bts-cta">Like what you see? Reply to Siani's message and let's talk.</p>
+      <a class="bts-by" href="https://sianicreates.com" target="_blank" rel="noopener">Built by Siani Creates <span aria-hidden="true">↗</span></a>
     </section>
   </div>
 </aside>"""
