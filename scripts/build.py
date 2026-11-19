@@ -889,7 +889,7 @@ COSTS = [  # running costs, checked Nov 19, 2026
     ("Forms and live updates", "Inquiries, signups, the lineup and tour dates.", "$0 at Cloudy's volume"),
     ("Email from the forms", "Every inquiry lands in your inbox.", "$0 up to 3,000 a month"),
     ("Instagram feed", "Your latest posts on the Pop-ups page.", "$0"),
-    ("Domain", "cloudydonut.com, which you already own.", "About $23 a year"),
+    ("Domain", "cloudydonut.com, moved to Cloudflare, which charges cost with no markup.", "About $11 a year"),
     ("Online ordering, when you want it", "Square's free plan, no monthly fee.", "3.3% + 30¢ per order"),
     ("Updates", "Your team changes the lineup, hours and tour stops. I'll show you how.", "$0"),
     ("Bigger changes", "New pages or features, whenever you want them.", "$110 an hour"),
@@ -979,7 +979,7 @@ def bts_block(fname):
       <ol class="buildl">{build}</ol>
       <h3>What it costs to run</h3>
       <table class="costs"><thead><tr><th scope="col">What</th><th scope="col">Cost</th></tr></thead><tbody>{costs}</tbody></table>
-      <p class="cost-total"><b>About $23 a year</b>, plus card fees on online orders.</p>
+      <p class="cost-total"><b>About $11 a year</b>, plus card fees on online orders.</p>
       <div class="bts-note">Forms in this demo are not connected. Nothing you type is saved. Costs checked November 19, 2026.</div>
       <p class="bts-cta">Like what you see? Reply to Siani's message and let's talk.</p>
       <a class="bts-by" href="https://sianicreates.com" target="_blank" rel="noopener">Built by Siani Creates <span aria-hidden="true">↗</span></a>
