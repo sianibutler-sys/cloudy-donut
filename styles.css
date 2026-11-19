@@ -568,7 +568,6 @@ select option { color: var(--ink); }
 .fl:hover .fl-ghost, .fl:focus-visible .fl-ghost { opacity: .9; transform: translate(-50%, -50%) scale(1); }
 .fl-name { position: relative; z-index: 1; font: 400 1.3rem/1.05 var(--display); text-transform: uppercase; margin-top: 12px; }
 .fl-meta { position: relative; z-index: 1; font: 700 .68rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #8a3a2c; margin-top: 6px; min-height: 1.1em; display: flex; gap: 8px; justify-content: center; }
-.fl-now { color: #2f6b55; }
 
 /* ===== Flavor picker ===== */
 .picker { background: var(--mint); color: var(--char); padding: clamp(60px, 8vw, 110px) 0; }
@@ -1404,35 +1403,6 @@ form[data-form] .lab-txt { display: inline; }
 .cost-total small { font-size: .84rem; }
 .costs td { white-space: normal; max-width: 9.5em; }
 
-/* Flavor card meta: base keeps today's look; variants via body[data-meta] for review */
-.fl-stk { display: none; }
-.fl-al-s, .fl-ic { display: none; }
-/* A: sticker on the tag, one quiet allergen line */
-body[data-meta="a"] .fl-stk { display: grid; place-items: center; position: absolute; z-index: 2; top: 4px; right: 2%; width: 48px; height: 48px; border-radius: 50%; background: var(--mint); color: var(--ink); font: 800 .5rem/1.1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(10deg); padding: 5px; box-shadow: 0 2px 6px rgba(36,35,35,.15); }
-body[data-meta="a"] .fl-now { display: none; }
-body[data-meta="a"] .fl-meta { font: 500 .78rem/1.3 var(--sans); letter-spacing: 0; text-transform: none; color: #8a3a2c; }
-body[data-meta="a"] .fl-al-t { display: none; } body[data-meta="a"] .fl-al-s { display: inline; }
-/* B: dot and icon, with a key above the grid */
-body[data-meta="b"] .fl-meta { gap: 10px; align-items: center; min-height: 18px; }
-body[data-meta="b"] .fl-now, body[data-meta="b"] .fl-al-t, body[data-meta="b"] .fl-al-s { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-body[data-meta="b"] .fl-meta:has(.fl-now)::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #2f6b55; }
-body[data-meta="b"] .fl-ic { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #8a3a2c; position: relative; }
-body[data-meta="b"] .fl-ic::after { content: "!"; position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62rem/1 var(--sans); color: #8a3a2c; }
-body[data-meta="b"] .fl-al:not(.ask) .fl-ic { background: #8a3a2c; } body[data-meta="b"] .fl-al:not(.ask) .fl-ic::after { color: #fff; }
-.meta-key { display: none; }
-body[data-meta="b"] .meta-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 500 .82rem/1.3 var(--sans); color: var(--muted, #555); margin: 0 0 10px; }
-.meta-key span { display: inline-flex; align-items: center; gap: 7px; }
-.meta-key .k-dot { width: 10px; height: 10px; border-radius: 50%; background: #2f6b55; }
-.meta-key .k-ask { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #8a3a2c; display: grid; place-items: center; font: 800 .55rem/1 var(--sans); color: #8a3a2c; }
-.meta-key .k-has { width: 14px; height: 14px; border-radius: 50%; background: #8a3a2c; display: grid; place-items: center; font: 800 .55rem/1 var(--sans); color: #fff; }
-/* C: sticker on the tag, allergens live in the tapped card */
-body[data-meta="c"] .fl-stk { display: grid; place-items: center; position: absolute; z-index: 2; top: 4px; right: 2%; width: 48px; height: 48px; border-radius: 50%; background: var(--mint); color: var(--ink); font: 800 .5rem/1.1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(10deg); padding: 5px; box-shadow: 0 2px 6px rgba(36,35,35,.15); }
-body[data-meta="c"] .fl-meta { display: none; }
-body[data-meta="c"] .meta-key-c { display: block; font: 500 .82rem/1.3 var(--sans); margin: 0 0 10px; }
-.meta-key-c { display: none; }
-/* D: one quiet line, sentence case */
-body[data-meta="d"] .fl-meta { display: block; font: 500 .76rem/1.35 var(--sans); letter-spacing: 0; text-transform: none; color: #6b5d55; }
-body[data-meta="d"] .fl-meta > * + *::before { content: " · "; }
-body[data-meta="d"] .fl-now { font-weight: 700; }
-body[data-meta="d"] .fl-al { color: #8a3a2c; }
-body[data-meta="d"] .fl-al-t { display: none; } body[data-meta="d"] .fl-al-s { display: inline; }
+/* Flavor cards: "This week" rides as a sticker on the photo, allergens get one quiet line */
+.fl-stk { display: grid; place-items: center; position: absolute; z-index: 2; top: 4px; right: 2%; width: 48px; height: 48px; border-radius: 50%; background: var(--mint); color: var(--ink); font: 800 .5rem/1.1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(10deg); padding: 5px; box-shadow: 0 2px 6px rgba(36,35,35,.15); }
+.fl-meta { font: 500 .78rem/1.3 var(--sans); letter-spacing: 0; text-transform: none; color: #8a3a2c; }

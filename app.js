@@ -346,7 +346,6 @@
     $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
-    { const m = new URLSearchParams(location.search).get("meta"); if (m) document.body.dataset.meta = m; }
     const FILTERS = [
       ["all", "All"], ["week", "This week"], ["bakes", "Cakes and rolls"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
       ["cookie", "Cookie"], ["filled", "Filled"], ["spirited", "Spirited"], ["classic", "Classics"],
@@ -360,8 +359,8 @@
         <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
         ${f.img ? `<img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">` : `<span class="fl-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>Photo soon</small></span>`}
         <span class="fl-name">${esc(f.name)}</span>
-        ${thisWeek.has(f.id) ? '<span class="fl-stk" aria-hidden="true">This week</span>' : ""}
-        <span class="fl-meta">${thisWeek.has(f.id) ? '<span class="fl-now">This week</span>' : ""}${f.contains ? `<span class="fl-al${/^Ask/.test(f.contains) ? " ask" : ""}"><i class="fl-ic" aria-hidden="true"></i><span class="fl-al-t">${esc(f.contains)}</span><span class="fl-al-s">${/^Ask/.test(f.contains) ? "Ask about allergens" : esc(f.contains)}</span></span>` : f.tags.includes("pups") ? "<span>For dogs</span>" : ""}</span>
+        ${thisWeek.has(f.id) ? '<span class="fl-stk">This week</span>' : ""}
+        <span class="fl-meta">${f.contains ? esc(/^Ask/.test(f.contains) ? "Ask about allergens" : f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
 
     // Flavor picker: mood + style + topping + booze, nut-free, this week or the full rotation
