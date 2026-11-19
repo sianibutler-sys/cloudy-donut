@@ -160,7 +160,7 @@ __BTS__
   <h2 id="terms-h">Email terms</h2>
   <ul>
     <li>The weekly flavor lineup, pop-up dates and the occasional note from Cloudy Donut Co., about once a week.</li>
-    <li>Your email, and your city or state if you add one, is used only to send these emails. It's never sold or shared.</li>
+    <li>Your email, and your ZIP code if you add one, is used only to send these emails. It's never sold or shared.</li>
     <li>Every email has an unsubscribe link. You can also write to <a href="mailto:info@cloudydonut.com">info@cloudydonut.com</a>.</li>
   </ul>
   <p class="fine">Draft for Cloudy Donut Co. to confirm before launch.</p>
@@ -314,9 +314,10 @@ TOUR_FORM = """
         <label for="tour-email">Bring Cloudy to my city</label>
         <div class="inline-row">
           <input id="tour-email" name="email" type="email" autocomplete="email" placeholder="Email" required>
-          <input name="city" type="text" autocomplete="address-level2" placeholder="City" aria-label="City" required>
+          <input name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="ZIP (optional)" aria-label="ZIP code, optional" aria-describedby="tour-zip-hint">
           <button class="btn btn-mint" type="submit">Notify me</button>
         </div>
+        <p class="fine" id="tour-zip-hint">Add your ZIP and you'll hear first when the tour comes near you.</p>
         <div class="consent"><input id="tour-consent" name="consent" type="checkbox" required><label for="tour-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <p class="form-msg" role="status"></p>
       </form>"""
@@ -574,7 +575,8 @@ SHIP = """
       </div>
       <form class="stack-form" data-form="ship_waitlist" novalidate>
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
-        <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+        <label>ZIP code <span class="opt">(optional)</span><input name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="ship-zip-hint"></label>
+        <p class="fine" id="ship-zip-hint">Tells us where to ship first.</p>
         <div class="consent"><input id="ship-consent" name="consent" type="checkbox" required><label for="ship-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
         <button class="btn btn-ink" type="submit">Join the waitlist</button>
         <p class="form-msg" role="status"></p>
@@ -721,7 +723,7 @@ POPUPS = f"""
       <ol class="tn-list">
         <li><span class="donut-num g1" aria-hidden="true"><b>1</b></span><p>Dates and addresses drop on Instagram first, then here.</p></li>
         <li><span class="donut-num g2" aria-hidden="true"><b>2</b></span><p>Get there early. Quantities are limited and pop-ups sell out.</p></li>
-        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy in your city? Add it above, and you'll hear first if the tour comes your way. Run a venue, business or group? <a href="#host">Host a stop</a>.</p></li>
+        <li><span class="donut-num g3" aria-hidden="true"><b>3</b></span><p>Want Cloudy near you? Add your ZIP above, and you'll hear first if the tour comes your way. Run a venue, business or group? <a href="#host">Host a stop</a>.</p></li>
       </ol>
     </div>
   </section>
