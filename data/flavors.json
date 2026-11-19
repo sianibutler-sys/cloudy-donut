@@ -751,6 +751,110 @@
       "texture": "smooth",
       "boozy": false,
       "_note": "New on the live menu. Photo to come from the team."
+    },
+    {
+      "id": "lemon-blueberry-poundcake",
+      "name": "Lemon Blueberry Poundcake",
+      "desc": "Lemon pound cake with blueberries.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity"
+      ],
+      "style": "cake",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+    },
+    {
+      "id": "bruleed-sweet-potato-pound-cake",
+      "name": "Brûléed Sweet Potato Pound Cake",
+      "desc": "Sweet potato pound cake with a brûléed top. The Brooklyn Heights shop is known for it.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "spiced"
+      ],
+      "style": "cake",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+    },
+    {
+      "id": "brown-sugar-pineapple-upside-down-cake",
+      "name": "Brown Sugar Pineapple Upside Down Cake",
+      "desc": "Pineapple upside down cake, made with brown sugar.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity"
+      ],
+      "style": "cake",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+    },
+    {
+      "id": "orange-saffron-cake",
+      "name": "Orange Saffron Cake",
+      "desc": "Orange cake with saffron.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity",
+        "fresh"
+      ],
+      "style": "cake",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+    },
+    {
+      "id": "basil-olive-oil-cake",
+      "name": "Basil Olive Oil Cake",
+      "desc": "Olive oil cake with basil.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fresh"
+      ],
+      "style": "cake",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+    },
+    {
+      "id": "apple-pie-cinnamon-roll",
+      "name": "Apple Pie Cinnamon Roll",
+      "desc": "Apple pie cinnamon roll, a Brooklyn Heights favorite.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "spiced",
+        "fruity"
+      ],
+      "style": "roll",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
     }
   ]
 }

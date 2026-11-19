@@ -235,7 +235,8 @@
 
   load().then((data) => {
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
-    const thisWeek = new Set(data.lineup.flavors);
+    const extraNames = new Set((data.lineup.extras || []).flatMap((x) => x.flavors || []));
+    const thisWeek = new Set([...data.lineup.flavors, ...data.flavors.filter((f) => extraNames.has(f.name)).map((f) => f.id)]);
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
@@ -346,7 +347,7 @@
 
     // Flavor library
     const FILTERS = [
-      ["all", "All"], ["week", "This week"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
+      ["all", "All"], ["week", "This week"], ["bakes", "Cakes and rolls"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
       ["cookie", "Cookie"], ["filled", "Filled"], ["spirited", "Spirited"], ["classic", "Classics"],
       ["nutfree", "Nut free"], ["pups", "For pups"],
     ];
@@ -367,7 +368,7 @@
     const jitter = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 9973; return ((h * 9301 + seed * 49297) % 233280) / 233280; };
     const runPicker = () => {
       if (!pick.mood) return;
-      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
+      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !f.tags.includes("bakes") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
       const want = [["mood", 3], ["style", 2], ["texture", 1.5], ["boozy", 2]].filter(([k]) => pick[k] !== "any");
       const hit = (f, k) => k === "mood" ? (f.profile || []).includes(pick.mood) : k === "boozy" ? (pick.boozy === "yes") === !!f.boozy : f[k] === pick[k];
       const max = want.reduce((s, [, w]) => s + w, 0);
@@ -412,7 +413,7 @@
         const tagOk =
           active === "all" ? true :
           active === "week" ? thisWeek.has(f.id) :
-          active === "nutfree" ? !f.tags.includes("nuts") && !f.tags.includes("pups") :
+          active === "nutfree" ? !f.tags.includes("nuts") && !f.tags.includes("pups") && !f.contains :
           f.tags.includes(active);
         const qOk = !query || (f.name + " " + f.desc).toLowerCase().includes(query);
         const show = tagOk && qOk;
@@ -535,7 +536,7 @@
     // Marquee
     // This week's lineup first, then fan favorites. Kept to 18 names so the strip stays light enough for phones.
     const lineupIds = new Set((data.lineup && data.lineup.flavors) || []);
-    const pool = data.flavors.filter((f) => !f.tags.includes("pups"));
+    const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !f.tags.includes("bakes"));
     const picked = [...pool.filter((f) => lineupIds.has(f.id)), ...pool.filter((f) => !lineupIds.has(f.id))].slice(0, 18);
     const names = picked.map((f) => `<span>${esc(f.name)}</span>`).join("");
     const mq = $("#marquee");
@@ -783,7 +784,7 @@
     ["Gift cards?", "gift card"],
     ["How can I apply for a job?", "job hiring work apply career"],
   ];
-  const TAG_WORDS = { nuts: "nuts nut", fruity: "fruit fruity", chocolate: "chocolate", cookie: "cookie", filled: "filled", spirited: "boozy alcohol spirited rum wine", classic: "classic plain sugar", pups: "dog pup pet" };
+  const TAG_WORDS = { nuts: "nuts nut", fruity: "fruit fruity", chocolate: "chocolate", cookie: "cookie", filled: "filled", spirited: "boozy alcohol spirited rum wine", classic: "classic plain sugar", pups: "dog pup pet", bakes: "cake pound cake poundcake cinnamon roll bakes" };
 
   function setupSearch(data, thisWeek, byId, openFlavor) {
     const sd = $("#search-dialog"), input = $("#site-search"), box = $("#search-results"), hint = $("#search-hint");
