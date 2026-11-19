@@ -894,7 +894,7 @@ COSTS = [  # running costs, checked Nov 19, 2026
     ("Domain", "cloudydonut.com, moved to a domain registrar that charges the base price with no markup.", "$11.17 a year"),
     ("Online ordering, when you want it", "No monthly fee. Card fees per order vary by the payment types you accept.", "Varies per order"),
     ("Updates", "Your team changes the lineup, hours and tour stops. I'll show you how.", "$0"),
-    ("Bigger changes", "New pages or features, quoted by scope before any work starts.", "$110 an hour"),
+    ("Bigger changes", "New pages or features, priced before any work starts.", "Quoted by scope"),
 ]
 
 WIX_IMG = "https://static.wixstatic.com/media/{0}/v1/fill/w_600,h_315,al_c,q_80,enc_auto/{0}"
