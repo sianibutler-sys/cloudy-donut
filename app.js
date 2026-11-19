@@ -553,10 +553,12 @@
     const flyerDate = (iso) => { const d = new Date(iso + "T12:00:00"); return `${d.toLocaleDateString("en-US", { weekday: "long" })}, ${d.toLocaleDateString("en-US", { month: "long" })} ${ord(d.getDate())}`; };
     if (data.links.flyer_image) $("#flyer").style.setProperty("--flyer-img", `url("${wix(data.links.flyer_image, 1400)}")`);
     if (next) {
-      $("#popups-h").textContent = next.city.split(",")[0];
+      const cityName = next.city.split(",")[0]; $("#popups-h").textContent = cityName;
+      $("#popups-h").style.setProperty("--chars", Math.max(...cityName.split(" ").map((w) => w.length)));
       $("#flyer-bottom").innerHTML = `<span>${esc(next.address || next.venue || next.city)}</span><span class="r">${esc(next.time || "")}<br>${esc(flyerDate(next.date))}</span>`;
       const days = Math.round((new Date(next.date + "T12:00:00") - new Date(todayISO + "T12:00:00")) / 864e5);
-      $("#flyer-count").textContent = days === 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`;
+      const fc = $("#flyer-count"); fc.hidden = false;
+      fc.innerHTML = days === 0 ? "<b>Today</b>" : days === 1 ? "<b>Tomorrow</b>" : `<b>${days}</b> days to go`;
       $("#hero-popup").textContent = `Next pop-up: ${next.city.split(",")[0]}`;
     } else {
       $("#flyer-bottom").innerHTML = `<span>New cities announced on Instagram</span><span class="r">@cloudydonuts</span>`;

@@ -135,7 +135,13 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 .flyer-bottom { align-items: flex-end; }
 .flyer-bottom .r { text-align: right; }
 .flyer-city { font-size: clamp(3.6rem, 11vw, 10rem); line-height: .86; margin: 40px 0; word-break: break-word; }
-.flyer-count { position: absolute; top: 50%; right: clamp(20px, 3vw, 44px); transform: translateY(-50%); writing-mode: vertical-rl; font: 800 .74rem var(--sans); letter-spacing: .28em; text-transform: uppercase; color: var(--mint); margin: 0; }
+.flyer { container-type: inline-size; }
+.flyer-mid { margin: 40px 0; }
+.flyer-mid .flyer-city { font-size: clamp(2.6rem, calc(86cqi / (var(--chars, 6) * .64)), 10rem); }
+.flyer-mid .flyer-city { margin: 0; }
+.flyer-count { display: inline-flex; align-items: baseline; gap: .5em; margin: 0 0 18px; padding: .5em 1em; background: var(--mint); color: var(--ink); font: 800 .78rem var(--sans); letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; }
+.flyer-count[hidden] { display: none; }
+.flyer-count b { font: 400 1.5em/1 var(--display); letter-spacing: .02em; }
 .tour-side { padding: clamp(36px, 5vw, 72px) var(--pad); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line-d); }
 .tour-list { list-style: none; padding: 0; margin: 0 0 18px; }
 .tour-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line-d); }
@@ -347,7 +353,6 @@ select option { color: var(--ink); }
   .firsts { grid-template-columns: 1fr; }
   .flyer-bottom { flex-direction: column; align-items: flex-start; }
   .flyer-bottom .r { text-align: left; }
-  .flyer-count { display: none; }
   .sky { transform: scale(.6); }
 }
 
