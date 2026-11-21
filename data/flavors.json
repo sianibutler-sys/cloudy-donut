@@ -773,7 +773,7 @@
       "id": "berry-sage",
       "name": "Berry Sage",
       "desc": "Berries with sage.",
-      "img": "",
+      "img": "assets/berry-sage.png",
       "tags": [
         "fruity"
       ],
@@ -785,7 +785,7 @@
       "style": "glazed",
       "texture": "smooth",
       "boozy": false,
-      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
+      "_note": "On the NYC menu 11.20–11.22. Photo from Siani (shot at the shop). Full description to come from the team."
     },
     {
       "id": "berry-olive-oil",
