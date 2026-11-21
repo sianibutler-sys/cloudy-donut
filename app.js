@@ -15,7 +15,7 @@
 
   // Wix-hosted images, resized on their CDN
   // New flavors without a photo yet show a drawn donut until the team adds one
-  const wix = (id, w = 600) => id ?
+  const wix = (id, w = 600) => id && id.startsWith("assets/") ? id : id ?
     `https://static.wixstatic.com/media/${id}/v1/fit/w_${w},h_${w},q_90,enc_auto/${id}` : "assets/photo-soon.svg";
   const hydrateImages = (root = document) =>
     $$("img.wix[data-wix]", root).forEach((img) => {

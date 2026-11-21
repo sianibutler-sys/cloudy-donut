@@ -220,7 +220,7 @@ __BTS__
 
 
 def page_hero(kicker, title, sub, img=None, cta="", cls=""):
-    photo = (f'<img class="ph-photo" src="{img}" alt="" decoding="async" fetchpriority="high">' if img.startswith("assets/") else f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">') if img else ""
+    photo = (f'<img class="ph-photo" src="{img.replace('.jpg', '-hd.jpg') if img == 'assets/exp-trays.jpg' else img}" alt="" decoding="async" fetchpriority="high">' if img.startswith("assets/") else f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">') if img else ""
     return f"""
   <section class="page-hero{' has-photo' if img else ''}{' ' + cls if cls else ''}">
     {photo}
@@ -780,7 +780,7 @@ EXPERIENCES = f"""
       </div>{CATERING_FORM}
     </div>
   </section>
-  <section class="banner-photo" aria-hidden="true"><img class="wix" data-wix="d6231e_2ddfd7964b1f4e089573e576a08eb5e0~mv2.jpg" data-w="1800" alt=""></section>
+  <section class="banner-photo" aria-hidden="true"><img class="wix" data-wix="d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg" data-w="1800" alt=""></section>
 </main>"""
 
 LOCS = f"""
