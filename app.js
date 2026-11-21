@@ -245,6 +245,8 @@
     const extraNames = new Set(shopsMenu.extras.flatMap((x) => x.flavors || []).map(norm));
     const thisWeek = new Set([...shopsMenu.ids, ...data.flavors.filter((f) => extraNames.has(norm(f.name))).map((f) => f.id), ...(tourMenu ? tourMenu.ids : [])]);
     const onTour = new Set(tourMenu ? tourMenu.ids : []);
+    // Where a this-week item is sold: the NYC shops (lineup + counter extras) or the pop-up. Never both labels on one item.
+    const whereNow = (id) => (onTour.has(id) && !shopsMenu.ids.includes(id) && !extraNames.has(norm(byId[id].name)) ? "tour" : "shops");
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     // A box of six. Spare wells get a "Mix and match" tag. The shops' extras (cinnamon rolls) sit on tent cards beside the box.
@@ -411,7 +413,7 @@
         <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
         ${f.img ? `<img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">` : `<span class="fl-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>Photo soon</small></span>`}
         <span class="fl-name">${esc(f.name)}</span>
-        ${thisWeek.has(f.id) ? `<span class="fl-stk">${onTour.has(f.id) && !shopsMenu.ids.includes(f.id) ? "On tour" : "This week"}</span>` : ""}
+        ${thisWeek.has(f.id) ? (whereNow(f.id) === "tour" ? '<span class="fl-stk tour">On tour</span>' : '<span class="fl-stk">In the shops</span>') : ""}
         <span class="fl-meta">${f.contains ? esc(/^Ask/.test(f.contains) ? "Ask about allergens" : f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
 
@@ -437,7 +439,7 @@
         <button class="pk" type="button" data-id="${r.f.id}">
           ${r.f.img ? `<img src="${wix(r.f.img, 300)}" alt="" loading="lazy">` : `<span class="fl-tag sm" aria-hidden="true"><b>${esc(r.f.name)}</b></span>`}
           <span class="pk-name">${esc(r.f.name)}</span>
-          <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${!thisWeek.has(r.f.id) ? "in the rotation" : onTour.has(r.f.id) && !shopsMenu.ids.includes(r.f.id) ? "at this week's pop-up" : "in the case this week"}</span>
+          <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${!thisWeek.has(r.f.id) ? "in the rotation" : whereNow(r.f.id) === "tour" ? "at this week's pop-up" : "in the shops this week"}</span>
         </button>`).join("") : "";
       const note = !ranked.length
         ? (pick.scope === "week" ? "Nothing in the case this week fits all of that. Try Any flavor." : "Nothing fits all of that. Loosen one answer.")
@@ -514,6 +516,8 @@
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
       $("#fd-badge").hidden = !thisWeek.has(f.id);
+      $("#fd-badge").classList.toggle("tour", whereNow(f.id) === "tour");
+      $("#fd-badge span").innerHTML = whereNow(f.id) === "tour" ? `At this week's<br>pop-up` : `In the shops<br>this week`;
       const sheet = $("#fd-sheet"); sheet.classList.remove("play"); void sheet.offsetWidth; sheet.classList.add("play");
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
     };
