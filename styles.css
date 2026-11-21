@@ -1419,3 +1419,10 @@ body:not([data-lock="b"]) .flyer-top .ft-a { display: none; }
 body:not([data-lock="b"]) .flyer-top .ft-b { display: inline; }
 /* B: keep "Cloudy Donut Presents" up top, script "Pop up" only */
 body[data-lock="b"] .pu-logo { display: none; }
+/* Tapped card with no photo yet: the paper tag sits where the donut would land */
+.fd-soon { width: 82%; height: 82%; margin: 9% auto; }
+.fd-soon[hidden] { display: none; }
+.fd-soon b { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+.fd-soon small { font-size: .7rem; }
+.play .fd-soon { animation: drop .6s .5s cubic-bezier(.2,1.2,.35,1) both; }
+@media (prefers-reduced-motion: reduce) { .play .fd-soon { animation: none !important; } }

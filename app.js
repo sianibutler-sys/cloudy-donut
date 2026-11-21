@@ -455,7 +455,7 @@
         printed = true;
       }
       $("#fd-paper").style.clipPath = `polygon(0% .3%, ${tear(.15, 1).join(",")}, 100% 99.7%, ${tear(99.85, -1).reverse().join(",")}, 0% 99.7%)`;
-      $("#fd-img").hidden = !f.img; if (f.img) { $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name; }
+      $("#fd-img").hidden = !f.img; $("#fd-soon").hidden = !!f.img; $("#fd-soon-name").textContent = f.name; if (f.img) { $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name; }
       $("#fd-name").textContent = f.name;
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
