@@ -235,32 +235,115 @@
 
   load().then((data) => {
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
-    const extraNames = new Set((data.lineup.extras || []).flatMap((x) => x.flavors || []));
-    const thisWeek = new Set([...data.lineup.flavors, ...data.flavors.filter((f) => extraNames.has(f.name)).map((f) => f.id)]);
+    // Two menus: the NYC shops' weekend lineup, and the next pop-up's menu (pop-ups bring their own bakes)
+    const norm = (s) => s.toLowerCase().replace(/s$/, "").trim();
+    const byName = Object.fromEntries(data.flavors.map((f) => [norm(f.name), f]));
+    const todayISO0 = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+    const tourStop = (data.tour.stops || []).filter((s) => s.date && s.date >= todayISO0 && (s.menu || []).length).sort((x, y) => x.date.localeCompare(y.date))[0];
+    const shopsMenu = { key: "shops", label: "NYC shops", ids: data.lineup.flavors, extras: data.lineup.extras || [] };
+    const tourMenu = tourStop && { key: "tour", label: `Pop-up · ${tourStop.city.split(",")[0]}`, ids: tourStop.menu.map((n) => byName[norm(n)] && byName[norm(n)].id).filter(Boolean), extras: [], stop: tourStop };
+    const extraNames = new Set(shopsMenu.extras.flatMap((x) => x.flavors || []).map(norm));
+    const thisWeek = new Set([...shopsMenu.ids, ...data.flavors.filter((f) => extraNames.has(norm(f.name))).map((f) => f.id), ...(tourMenu ? tourMenu.ids : [])]);
+    const onTour = new Set(tourMenu ? tourMenu.ids : []);
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
-    const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
-    // A box of six, one of each. A short week fills spare wells with the weekend's extras
-    // (pound cakes, cinnamon rolls), which open like a donut to show their flavors. No flavors: the box stays sealed.
+    // A box of six. Spare wells get a "Mix and match" tag. The shops' extras (cinnamon rolls) sit on tent cards beside the box.
     const priceFor = (item) => (data.prices.find((x) => x.item === item) || {}).price;
-    const extraItems = (data.lineup.extras || []).map((x) => ({ id: "x-" + x.name.toLowerCase().replace(/[^a-z]+/g, "-"), name: x.name, extra: true, flavors: x.flavors || [], flavors_note: x.flavors_note || "", price: priceFor(x.item) }));
-    extraItems.forEach((x) => { byId[x.id] = x; });
-    const size = week.length === 0 ? 0 : 6;
-    $("#cbox").dataset.size = String(size);
-    const boxItems = size ? [...week, ...extraItems].slice(0, size) : [];
-    const spare = Math.max(0, size - boxItems.length);
     const tag = (small, name) => `<span class="slot-tag" aria-hidden="true"><b>${esc(name)}</b><small>${esc(small)}</small></span>`;
-    $("#donut-box").innerHTML = boxItems.map((f, i) => `
-      <button class="slot${f.extra ? " slot-extra" : ""}" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
-        <span class="well" aria-hidden="true"></span>
-        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag(f.extra ? "Also" : "New", f.name)}
-        <span class="visually-hidden">${esc(f.name)}</span>
-      </button>`).join("") + Array.from({ length: spare }, (_, i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag("Your pick", "Mix and match")}</span>`).join("");
-    if (spare) $("#donut-box").insertAdjacentHTML("afterend", `<p class="visually-hidden">Mix and match any amount.</p>`);
-    // Flavor notes (same traits as Find your flavor), always on one line under the donut dots
     const notes = (f) => [...(f.profile || []).slice(0, 1), f.style, f.texture && f.texture !== "smooth" ? f.texture : null, f.boozy ? "spirited" : null].filter(Boolean).slice(0, 3).join(" · ");
     const dotsEl = $("#bd-dots");
-    dotsEl.innerHTML = boxItems.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${boxItems.length}"></button>`).join("");
+    const cbox = $("#cbox");
+    let boxItems = [];
+    const cols = 3;
+    const showBox = (f) => {
+      $$("button.slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
+      const at = boxItems.indexOf(f);
+      dotsEl.hidden = false;
+      $$(".bd-dot", dotsEl).forEach((d) => { const on = d.dataset.go === f.id; d.classList.toggle("on", on); if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
+      const pos = at >= 0 ? `<span class="visually-hidden">${at + 1} of ${boxItems.length}: </span>` : "";
+      if (f.extra) {
+        $("#box-detail").innerHTML = `
+        <h3 class="bd-name">${pos}${esc(f.name)}</h3>
+        ${f.flavors.length ? `${f.flavors_note ? `<p class="bd-desc">${esc(f.flavors_note)}</p>` : ""}<ul class="bd-flavors">${f.flavors.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="bd-desc">This weekend's flavors are at the counter. Ask when you come in.</p>`}`;
+        return;
+      }
+      $("#box-detail").innerHTML = `
+        <p class="bd-num">${pos}${esc(notes(f))}</p>
+        <h3 class="bd-name">${esc(f.name)}</h3>
+        <p class="bd-desc">${esc(f.desc)}</p>
+        ${f.contains ? `<p class="bd-contains">${esc(/^Ask/.test(f.contains) ? "Ask about allergens" : f.contains)}</p>` : ""}`;
+    };
+    const logo = wix("d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", 200);
+    const tiles = (n) => Array.from({ length: n }, () => `<img src="${logo}" alt="">`).join("");
+    $("#cbox-print").innerHTML = tiles(70); $("#lid-pat").innerHTML = tiles(70); $("#lid-pat-in").innerHTML = tiles(70);
+    const openBox = (instant) => {
+      if (!boxItems.length) { $("#box-detail").classList.add("nudge"); setTimeout(() => $("#box-detail").classList.remove("nudge"), 600); return; }
+      if (cbox.dataset.state !== "closed") return;
+      cbox.dataset.state = instant ? "open" : "opening";
+      $("#cbox-seal").setAttribute("aria-expanded", "true");
+      $("#cbox-body").removeAttribute("inert");
+      const done = () => { cbox.dataset.state = "open"; if (boxItems.length) showBox(boxItems[0]); };
+      instant ? done() : setTimeout(done, 1100);
+    };
+    const renderMenu = (m) => {
+      const week = m.ids.map((id) => byId[id]).filter(Boolean);
+      const extraItems = m.extras.map((x) => ({ id: "x-" + x.name.toLowerCase().replace(/[^a-z]+/g, "-"), name: x.name, extra: true, flavors: x.flavors || [], flavors_note: x.flavors_note || "", price: priceFor(x.item) }));
+      extraItems.forEach((x) => { byId[x.id] = x; });
+      const size = week.length === 0 ? 0 : 6;
+      cbox.dataset.size = String(size);
+      boxItems = size ? week.slice(0, size) : [];
+      const spare = Math.max(0, size - boxItems.length);
+      $("#donut-box").innerHTML = boxItems.map((f, i) => `
+      <button class="slot${f.tags && f.tags.includes("bakes") ? " slot-extra" : ""}" type="button" role="tab" data-box="${f.id}" aria-selected="false" aria-controls="box-detail" style="--r:${[-18, 34, -50, 12, 64, -8, 40, -30][i % 8]}deg;--x:${[-4, 5, -2, 3, 4, -3, 2, -5][i % 8]}px;--y:${[3, -2, 4, -3, 2, -4, 3, -1][i % 8]}px">
+        <span class="well" aria-hidden="true"></span>
+        ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag("Photo soon", f.name)}
+        <span class="visually-hidden">${esc(f.name)}</span>
+      </button>`).join("") + Array.from({ length: spare }, (_, i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag("Your pick", "Mix and match")}</span>`).join("");
+      $("#donut-box").setAttribute("aria-label", m.key === "tour" ? `${m.stop.city.split(",")[0]} pop-up menu` : "This week's flavors at the NYC shops");
+      dotsEl.innerHTML = boxItems.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${boxItems.length}"></button>`).join("");
+      // Tent cards for the shops' extras; the price strip lists what this menu sells
+      $("#counter").hidden = !m.extras.length;
+      $("#tents").innerHTML = m.extras.map((x) => `<li class="tent"><button type="button" class="tent-btn" data-open="x-${x.name.toLowerCase().replace(/[^a-z]+/g, "-")}" aria-controls="box-detail"><span class="tent-name">${esc(x.name)}</span>${priceFor(x.item) ? `<span class="tent-price">$${priceFor(x.item)}</span>` : ""}<span class="tent-more">See flavors <span aria-hidden="true">→</span></span></button></li>`).join("");
+      const skip = new Set(m.extras.map((x) => x.item));
+      const sells = new Set(boxItems.map((f) => (!f.tags.includes("bakes") ? "donut" : f.style === "roll" ? "Cinnamon roll" : "Pound cake")));
+      $$("#lineup #price-strip").forEach((el) => { el.innerHTML = data.prices.filter((p) => !skip.has(p.item) && (sells.has(p.item) || (sells.has("donut") && /donut/i.test(p.item)))).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); el.setAttribute("aria-label", m.key === "tour" ? "Pop-up prices" : "Shop prices"); });
+      // Dates ride in the kicker, the way their site dates each menu
+      if (m.key === "tour") {
+        const d = new Date(m.stop.date + "T12:00:00");
+        $("#lineup-when").innerHTML = `${d.toLocaleDateString("en-US", { weekday: "short" })} · ${esc(m.stop.city.split(",")[0])} <span class="lw-date">${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
+        $("#lineup-sub").textContent = [m.stop.time, m.stop.address || m.stop.venue, m.stop.note].filter(Boolean).join(" · ") + ".";
+      } else if (data.lineup.week_of) {
+        const over = data.lineup.ends && todayISO0 > data.lineup.ends;
+        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
+        $("#lineup-when").innerHTML = over ? "Fri · Sat · Sun" : `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
+      }
+      if (!week.length) {
+        $("#cbox-seal").setAttribute("aria-expanded", "false");
+        $("#box-detail").innerHTML = `<p class="bd-num">Menu coming soon</p><h3 class="bd-name">The box is still sealed</h3><p class="bd-desc">This weekend's flavors post before the weekend. <a href="#lineup-signup">Get the lineup by email</a> and you'll see it first.</p>`;
+      } else if (cbox.dataset.state === "open") {
+        showBox(boxItems[0]);
+      } else {
+        dotsEl.hidden = true;
+        $("#box-detail .bd-num") && ($("#box-detail .bd-num").textContent = `${boxItems.length} inside`);
+      }
+    };
+    // Menu switch: opens on the pop-up's menu on a pop-up day, the shops' menu otherwise
+    const sw = $("#menu-switch");
+    if (sw) {
+      if (!tourMenu) sw.hidden = true;
+      else {
+        sw.innerHTML = [shopsMenu, tourMenu].map((m) => `<button type="button" data-menu="${m.key}" aria-pressed="false">${esc(m.label)}</button>`).join("");
+        sw.addEventListener("click", (e) => {
+          const b = e.target.closest("[data-menu]"); if (!b || b.getAttribute("aria-pressed") === "true") return;
+          $$("[data-menu]", sw).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+          renderMenu(b.dataset.menu === "tour" ? tourMenu : shopsMenu);
+        });
+      }
+    }
+    const startMenu = tourMenu && tourMenu.stop.date === todayISO0 ? tourMenu : shopsMenu;
+    if (sw && tourMenu) $$("[data-menu]", sw).forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.menu === startMenu.key)));
+    renderMenu(startMenu);
+    $$("#price-strip").forEach((el) => { if (!el.closest("#lineup")) el.innerHTML = data.prices.map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
     dotsEl.addEventListener("click", (e) => {
       const d = e.target.closest(".bd-dot"); if (!d) return;
       const g = boxItems.find((x) => x.id === d.dataset.go); if (g) showBox(g);
@@ -272,47 +355,8 @@
       if (n === null) return;
       e.preventDefault(); const t = all[(n + all.length) % all.length]; t.focus(); t.click();
     });
-    const showBox = (f) => {
-      $$("button.slot").forEach((s) => s.setAttribute("aria-selected", String(s.dataset.box === f.id)));
-      dotsEl.hidden = false;
-      $$(".bd-dot", dotsEl).forEach((d) => { const on = d.dataset.go === f.id; d.classList.toggle("on", on); if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
-      const pos = `<span class="visually-hidden">${boxItems.indexOf(f) + 1} of ${boxItems.length}: </span>`;
-      if (f.extra) {
-        $("#box-detail").innerHTML = `
-        <h3 class="bd-name">${pos}${esc(f.name)}</h3>
-        ${f.flavors.length ? `${f.flavors_note ? `<p class="bd-desc">${esc(f.flavors_note)}</p>` : ""}<ul class="bd-flavors">${f.flavors.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="bd-desc">This weekend's flavors are at the counter. Ask when you come in.</p>`}`;
-        return;
-      }
-      $("#box-detail").innerHTML = `
-        <p class="bd-num">${pos}${esc(notes(f))}</p>
-        <h3 class="bd-name">${esc(f.name)}</h3>
-        <p class="bd-desc">${esc(f.desc)}</p>
-        ${f.contains ? `<p class="bd-contains">${esc(f.contains)}</p>` : ""}`;
-    };
-    // Sealed box: tap the seal, the lid swings open, then donuts can be tapped
-    const cbox = $("#cbox");
-    const logo = wix("d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png", 200);
-    const tiles = (n) => Array.from({ length: n }, () => `<img src="${logo}" alt="">`).join("");
-    $("#cbox-print").innerHTML = tiles(70); $("#lid-pat").innerHTML = tiles(70); $("#lid-pat-in").innerHTML = tiles(70);
-    const cols = size === 4 ? 2 : size === 6 ? 3 : 4;
-    // Nothing on the menu yet: the seal says so instead of opening an empty box
-    if (!week.length) {
-      $("#cbox-seal").setAttribute("aria-expanded", "false");
-      $("#box-detail").innerHTML = `<p class="bd-num">Menu coming soon</p><h3 class="bd-name">The box is still sealed</h3><p class="bd-desc">This weekend's flavors post before the weekend. <a href="#lineup-signup">Get the lineup by email</a> and you'll see it first.</p>`;
-    } else {
-      $("#box-detail .bd-num").textContent = `${boxItems.length} inside`;
-    }
-    const openBox = (instant) => {
-      if (!week.length) { $("#box-detail").classList.add("nudge"); setTimeout(() => $("#box-detail").classList.remove("nudge"), 600); return; }
-      if (cbox.dataset.state !== "closed") return;
-      cbox.dataset.state = instant ? "open" : "opening";
-      $("#cbox-seal").setAttribute("aria-expanded", "true");
-      $("#cbox-body").removeAttribute("inert");
-      const done = () => { cbox.dataset.state = "open"; if (boxItems.length) showBox(boxItems[0]); };
-      instant ? done() : setTimeout(done, 1100);
-    };
     $("#cbox-seal").addEventListener("click", () => openBox(reduceMotion));
-    if (reduceMotion && week.length) openBox(true);
+    if (reduceMotion && boxItems.length) openBox(true);
     $("#donut-box").addEventListener("click", (e) => { const s = e.target.closest("button.slot"); if (s) showBox(byId[s.dataset.box]); });
     $("#donut-box").addEventListener("keydown", (e) => {
       const slots = $$("button.slot"); const i = slots.indexOf(document.activeElement);
@@ -320,12 +364,6 @@
       const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols }[e.key];
       if (step) { e.preventDefault(); const n = slots[(i + step + slots.length) % slots.length]; n.focus(); showBox(byId[n.dataset.box]); }
     });
-
-    // Pound cakes and cinnamon rolls: tent cards beside the box, priced from the price list
-    const priceOf = (item) => (data.prices.find((x) => x.item === item) || {}).price;
-    const xs = data.lineup.extras || [];
-    $("#counter").hidden = !xs.length;
-    $("#tents").innerHTML = xs.map((x) => `<li class="tent"><button type="button" class="tent-btn" data-open="x-${x.name.toLowerCase().replace(/[^a-z]+/g, "-")}" aria-controls="box-detail"><span class="tent-name">${esc(x.name)}</span>${priceOf(x.item) ? `<span class="tent-price">$${priceOf(x.item)}</span>` : ""}<span class="tent-more">See flavors <span aria-hidden="true">→</span></span></button></li>`).join("");
     // A tent card opens the box (if it's still sealed) and shows that item's flavors
     $("#tents").addEventListener("click", (e) => {
       const b = e.target.closest(".tent-btn"); if (!b || !byId[b.dataset.open]) return;
@@ -333,16 +371,6 @@
       showBox(byId[b.dataset.open]);
       $("#box-detail").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     });
-    const shown = new Set(xs.map((x) => x.item));
-    $$("#lineup #price-strip").forEach((el) => el.dataset.skip = [...shown].join("|"));
-    if (data.lineup.week_of) {
-      // After the weekend ends, the dates come off so the page never shows a menu that's over
-      const over = data.lineup.ends && new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date()) > data.lineup.ends;
-      // The dates ride in the kicker above the heading, the way their site dates each weekend's menu
-      if (over) $("#lineup-sub").textContent = "Last weekend's menu. The new one posts before the weekend. " + $("#lineup-sub").textContent;
-      else $("#lineup-when").innerHTML = `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
-    }
-    $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
     const FILTERS = [
@@ -358,7 +386,7 @@
         <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
         ${f.img ? `<img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">` : `<span class="fl-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>Photo soon</small></span>`}
         <span class="fl-name">${esc(f.name)}</span>
-        ${thisWeek.has(f.id) ? '<span class="fl-stk">This week</span>' : ""}
+        ${thisWeek.has(f.id) ? `<span class="fl-stk">${onTour.has(f.id) && !shopsMenu.ids.includes(f.id) ? "On tour" : "This week"}</span>` : ""}
         <span class="fl-meta">${f.contains ? esc(/^Ask/.test(f.contains) ? "Ask about allergens" : f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
 

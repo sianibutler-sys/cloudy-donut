@@ -1416,3 +1416,9 @@ form[data-form] .lab-txt { display: inline; }
 .fd-soon small { font-size: .7rem; }
 .play .fd-soon { animation: drop .6s .5s cubic-bezier(.2,1.2,.35,1) both; }
 @media (prefers-reduced-motion: reduce) { .play .fd-soon { animation: none !important; } }
+/* Menu switch: NYC shops or the next pop-up */
+.menu-switch { display: inline-flex; gap: 0; margin: 0 0 22px; border: 2px solid var(--char); border-radius: 999px; padding: 3px; background: var(--cream); }
+.menu-switch[hidden] { display: none; }
+.menu-switch button { font: 800 .74rem var(--sans); letter-spacing: .14em; text-transform: uppercase; border: 0; background: transparent; color: var(--char); padding: .75em 1.2em; border-radius: 999px; cursor: pointer; min-height: 44px; }
+.menu-switch button[aria-pressed="true"] { background: var(--char); color: var(--cream); }
+.menu-switch button:focus-visible { outline: 3px solid var(--sage, #3f6f5c); outline-offset: 2px; }

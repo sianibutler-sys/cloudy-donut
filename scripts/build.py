@@ -245,6 +245,7 @@ LINEUP = """
         </div>
         <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
       </div>
+      <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
       <div class="box-wrap">
         <div class="cbox" id="cbox" data-state="closed">
           <div class="cbox-stage">
