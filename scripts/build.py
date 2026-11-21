@@ -296,8 +296,9 @@ LINEUP = """
 FLYER = """
   <section class="popups" id="popups" aria-labelledby="popups-h">
     <div class="flyer" id="flyer">
-      <div class="flyer-top"><span>Cloudy Donut</span><span>Presents</span></div>
+      <div class="flyer-top"><span class="ft-a">Cloudy Donut</span><span class="ft-a">Presents</span><span class="ft-b">On tour</span><span class="ft-b">Next stop</span></div>
       <div class="flyer-mid">
+        <p class="pu-lock" role="img" aria-label="Cloudy Donut Co. pop-up"><img class="wix pu-logo" data-wix="__LOGO__" data-w="600" alt="" width="600" height="290"><span class="pu-word" aria-hidden="true">P<svg class="pu-o" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="26"/><g stroke="#9aa59f" stroke-width="5" stroke-linecap="round"><path d="M30 22l6 4M62 18l7-2M80 40l2 7M78 66l-5 6M56 84l-7 1M24 74l-4-6M16 44l1-7"/></g></svg>p up</span></p>
         <p class="flyer-count" id="flyer-count" hidden></p>
         <h2 class="flyer-city" id="popups-h">On Tour</h2>
       </div>
@@ -310,6 +311,7 @@ FLYER = """
       __TOURMORE__
     </div>
   </section>"""
+FLYER = FLYER.replace("__LOGO__", LOGO)
 
 TOUR_FORM = """
       <form class="inline-signup" data-form="tour_alert" novalidate>
