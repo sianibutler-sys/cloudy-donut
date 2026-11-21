@@ -1443,5 +1443,5 @@ form[data-form] .lab-txt { display: inline; }
 .sc-fine { margin: 14px 0 0; font: 500 .82rem/1.4 var(--sans); color: #5a5550; }
 .price-strip[hidden] { display: none; }
 /* Shops vs tour: two sticker colors so the difference reads at a glance */
-.fl-stk { width: 54px; height: 54px; font-size: .5rem; line-height: 1.15; top: -4px; right: 0; }
+.fl-stk { width: 54px; height: 54px; font-size: .5rem; line-height: 1.15; top: 6px; right: 3%; }
 .fl-stk.tour, .pp-sticker.tour { background: var(--char); color: var(--cream); }
