@@ -1,7 +1,7 @@
 # Renders og-mockups.html cards to 1200x630 JPEGs in og/. Run by the og-images GitHub workflow.
 import asyncio, sys
 from playwright.async_api import async_playwright
-CARDS = ["pop-ups", "locations"]
+CARDS = ["pop-ups", "locations", "home-band", "home-corner", "home-split"]
 async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch()
