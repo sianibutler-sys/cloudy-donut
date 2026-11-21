@@ -297,9 +297,11 @@ FLYER = """
   <section class="popups" id="popups" aria-labelledby="popups-h">
     <div class="flyer" id="flyer">
       <div class="flyer-top"><span>Cloudy Donut</span><span>Presents</span></div>
-      <h2 class="flyer-city" id="popups-h">On Tour</h2>
+      <div class="flyer-mid">
+        <p class="flyer-count" id="flyer-count" hidden></p>
+        <h2 class="flyer-city" id="popups-h">On Tour</h2>
+      </div>
       <div class="flyer-bottom" id="flyer-bottom"></div>
-      <p class="flyer-count" id="flyer-count" aria-live="polite"></p>
     </div>
     <div class="tour-side">
       <p class="kicker">The tour</p>

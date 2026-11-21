@@ -135,7 +135,13 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 .flyer-bottom { align-items: flex-end; }
 .flyer-bottom .r { text-align: right; }
 .flyer-city { font-size: clamp(3.6rem, 11vw, 10rem); line-height: .86; margin: 40px 0; word-break: break-word; }
-.flyer-count { position: absolute; top: 50%; right: clamp(20px, 3vw, 44px); transform: translateY(-50%); writing-mode: vertical-rl; font: 800 .74rem var(--sans); letter-spacing: .28em; text-transform: uppercase; color: var(--mint); margin: 0; }
+.flyer { container-type: inline-size; }
+.flyer-mid { margin: 40px 0; }
+.flyer-mid .flyer-city { font-size: clamp(2.6rem, calc(86cqi / (var(--chars, 6) * .64)), 10rem); }
+.flyer-mid .flyer-city { margin: 0; }
+.flyer-count { display: inline-flex; align-items: baseline; gap: .5em; margin: 0 0 18px; padding: .5em 1em; background: var(--mint); color: var(--ink); font: 800 .78rem var(--sans); letter-spacing: .2em; text-transform: uppercase; border-radius: 999px; }
+.flyer-count[hidden] { display: none; }
+.flyer-count b { font: 400 1.5em/1 var(--display); letter-spacing: .02em; }
 .tour-side { padding: clamp(36px, 5vw, 72px) var(--pad); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line-d); }
 .tour-list { list-style: none; padding: 0; margin: 0 0 18px; }
 .tour-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line-d); }
@@ -347,7 +353,6 @@ select option { color: var(--ink); }
   .firsts { grid-template-columns: 1fr; }
   .flyer-bottom { flex-direction: column; align-items: flex-start; }
   .flyer-bottom .r { text-align: left; }
-  .flyer-count { display: none; }
   .sky { transform: scale(.6); }
 }
 
@@ -563,7 +568,6 @@ select option { color: var(--ink); }
 .fl:hover .fl-ghost, .fl:focus-visible .fl-ghost { opacity: .9; transform: translate(-50%, -50%) scale(1); }
 .fl-name { position: relative; z-index: 1; font: 400 1.3rem/1.05 var(--display); text-transform: uppercase; margin-top: 12px; }
 .fl-meta { position: relative; z-index: 1; font: 700 .68rem var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #8a3a2c; margin-top: 6px; min-height: 1.1em; display: flex; gap: 8px; justify-content: center; }
-.fl-now { color: #2f6b55; }
 
 /* ===== Flavor picker ===== */
 .picker { background: var(--mint); color: var(--char); padding: clamp(60px, 8vw, 110px) 0; }
@@ -1398,3 +1402,7 @@ form[data-form] .lab-txt { display: inline; }
 .cost-total b { font-size: 1.35rem; }
 .cost-total small { font-size: .84rem; }
 .costs td { white-space: normal; max-width: 9.5em; }
+
+/* Flavor cards: "This week" rides as a sticker on the photo, allergens get one quiet line */
+.fl-stk { display: grid; place-items: center; position: absolute; z-index: 2; top: 4px; right: 2%; width: 48px; height: 48px; border-radius: 50%; background: var(--mint); color: var(--ink); font: 800 .5rem/1.1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(10deg); padding: 5px; box-shadow: 0 2px 6px rgba(36,35,35,.15); }
+.fl-meta { font: 500 .78rem/1.3 var(--sans); letter-spacing: 0; text-transform: none; color: #8a3a2c; }

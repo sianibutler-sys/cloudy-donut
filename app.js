@@ -235,7 +235,8 @@
 
   load().then((data) => {
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
-    const thisWeek = new Set(data.lineup.flavors);
+    const extraNames = new Set((data.lineup.extras || []).flatMap((x) => x.flavors || []));
+    const thisWeek = new Set([...data.lineup.flavors, ...data.flavors.filter((f) => extraNames.has(f.name)).map((f) => f.id)]);
 
     // Lineup as a donut box (home). Tap a donut to lift it and read about it.
     const week = data.lineup.flavors.map((id) => byId[id]).filter(Boolean);
@@ -346,7 +347,7 @@
 
     // Flavor library
     const FILTERS = [
-      ["all", "All"], ["week", "This week"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
+      ["all", "All"], ["week", "This week"], ["bakes", "Cakes and rolls"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
       ["cookie", "Cookie"], ["filled", "Filled"], ["spirited", "Spirited"], ["classic", "Classics"],
       ["nutfree", "Nut free"], ["pups", "For pups"],
     ];
@@ -358,7 +359,8 @@
         <span class="fl-ghost" aria-hidden="true">${esc(f.name)}</span>
         ${f.img ? `<img src="${wix(f.img, 400)}" alt="" loading="lazy" decoding="async">` : `<span class="fl-tag" aria-hidden="true"><b>${esc(f.name)}</b><small>Photo soon</small></span>`}
         <span class="fl-name">${esc(f.name)}</span>
-        <span class="fl-meta">${thisWeek.has(f.id) ? '<span class="fl-now">This week</span>' : ""}${f.contains ? esc(f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
+        ${thisWeek.has(f.id) ? '<span class="fl-stk">This week</span>' : ""}
+        <span class="fl-meta">${f.contains ? esc(/^Ask/.test(f.contains) ? "Ask about allergens" : f.contains) : f.tags.includes("pups") ? "For dogs" : ""}</span>
       </button></li>`).join("");
 
     // Flavor picker: mood + style + topping + booze, nut-free, this week or the full rotation
@@ -367,7 +369,7 @@
     const jitter = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 9973; return ((h * 9301 + seed * 49297) % 233280) / 233280; };
     const runPicker = () => {
       if (!pick.mood) return;
-      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
+      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !f.tags.includes("bakes") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
       const want = [["mood", 3], ["style", 2], ["texture", 1.5], ["boozy", 2]].filter(([k]) => pick[k] !== "any");
       const hit = (f, k) => k === "mood" ? (f.profile || []).includes(pick.mood) : k === "boozy" ? (pick.boozy === "yes") === !!f.boozy : f[k] === pick[k];
       const max = want.reduce((s, [, w]) => s + w, 0);
@@ -412,7 +414,7 @@
         const tagOk =
           active === "all" ? true :
           active === "week" ? thisWeek.has(f.id) :
-          active === "nutfree" ? !f.tags.includes("nuts") && !f.tags.includes("pups") :
+          active === "nutfree" ? !f.tags.includes("nuts") && !f.tags.includes("pups") && !f.contains :
           f.tags.includes(active);
         const qOk = !query || (f.name + " " + f.desc).toLowerCase().includes(query);
         const show = tagOk && qOk;
@@ -535,7 +537,7 @@
     // Marquee
     // This week's lineup first, then fan favorites. Kept to 18 names so the strip stays light enough for phones.
     const lineupIds = new Set((data.lineup && data.lineup.flavors) || []);
-    const pool = data.flavors.filter((f) => !f.tags.includes("pups"));
+    const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !f.tags.includes("bakes"));
     const picked = [...pool.filter((f) => lineupIds.has(f.id)), ...pool.filter((f) => !lineupIds.has(f.id))].slice(0, 18);
     const names = picked.map((f) => `<span>${esc(f.name)}</span>`).join("");
     const mq = $("#marquee");
@@ -552,10 +554,12 @@
     const flyerDate = (iso) => { const d = new Date(iso + "T12:00:00"); return `${d.toLocaleDateString("en-US", { weekday: "long" })}, ${d.toLocaleDateString("en-US", { month: "long" })} ${ord(d.getDate())}`; };
     if (data.links.flyer_image) $("#flyer").style.setProperty("--flyer-img", `url("${wix(data.links.flyer_image, 1400)}")`);
     if (next) {
-      $("#popups-h").textContent = next.city.split(",")[0];
+      const cityName = next.city.split(",")[0]; $("#popups-h").textContent = cityName;
+      $("#popups-h").style.setProperty("--chars", Math.max(...cityName.split(" ").map((w) => w.length)));
       $("#flyer-bottom").innerHTML = `<span>${esc(next.address || next.venue || next.city)}</span><span class="r">${esc(next.time || "")}<br>${esc(flyerDate(next.date))}</span>`;
       const days = Math.round((new Date(next.date + "T12:00:00") - new Date(todayISO + "T12:00:00")) / 864e5);
-      $("#flyer-count").textContent = days === 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`;
+      const fc = $("#flyer-count"); fc.hidden = false;
+      fc.innerHTML = days === 0 ? "<b>Today</b>" : days === 1 ? "<b>Tomorrow</b>" : `<b>${days}</b> days to go`;
       $("#hero-popup").textContent = `Next pop-up: ${next.city.split(",")[0]}`;
     } else {
       $("#flyer-bottom").innerHTML = `<span>New cities announced on Instagram</span><span class="r">@cloudydonuts</span>`;
@@ -783,7 +787,7 @@
     ["Gift cards?", "gift card"],
     ["How can I apply for a job?", "job hiring work apply career"],
   ];
-  const TAG_WORDS = { nuts: "nuts nut", fruity: "fruit fruity", chocolate: "chocolate", cookie: "cookie", filled: "filled", spirited: "boozy alcohol spirited rum wine", classic: "classic plain sugar", pups: "dog pup pet" };
+  const TAG_WORDS = { nuts: "nuts nut", fruity: "fruit fruity", chocolate: "chocolate", cookie: "cookie", filled: "filled", spirited: "boozy alcohol spirited rum wine", classic: "classic plain sugar", pups: "dog pup pet", bakes: "cake pound cake poundcake cinnamon roll bakes" };
 
   function setupSearch(data, thisWeek, byId, openFlavor) {
     const sd = $("#search-dialog"), input = $("#site-search"), box = $("#search-results"), hint = $("#search-hint");
