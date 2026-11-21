@@ -780,7 +780,7 @@ EXPERIENCES = f"""
       </div>{CATERING_FORM}
     </div>
   </section>
-  <section class="banner-photo" aria-hidden="true"><img class="wix" data-wix="d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg" data-w="1800" alt=""></section>
+  <section class="banner-photo bp-framed"><img src="assets/exp-trays.jpg" width="480" height="360" loading="lazy" decoding="async" alt="Two women smiling, each holding a tray of Cloudy donuts"></section>
 </main>"""
 
 LOCS = f"""
