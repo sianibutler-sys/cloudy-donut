@@ -1447,7 +1447,7 @@ form[data-form] .lab-txt { display: inline; }
 .fl-stk.tour, .pp-sticker.tour { background: var(--char); color: var(--cream); }
 /* Lineup header: title, note and switch on the left; what's on the counter (or the pop-up card) on the right,
    in the same columns as the box and its details below */
-.lineup .head-row.lineup-head { grid-template-columns: 1.25fr .75fr; gap: 28px clamp(24px, 4vw, 60px); align-items: end; margin-bottom: clamp(28px, 3.4vw, 48px); }
+.lineup .head-row.lineup-head { grid-template-columns: 1.25fr .75fr; gap: 28px clamp(24px, 4vw, 60px); align-items: start; margin-bottom: clamp(28px, 3.4vw, 48px); }
 .lineup-head .head-note { margin: 14px 0 0; max-width: 34em; }
 .lineup-head .menu-switch { margin: 22px 0 0; }
 .lh-side { display: grid; gap: 18px; justify-items: start; margin: 0; }
@@ -1459,3 +1459,5 @@ form[data-form] .lab-txt { display: inline; }
 .page-hero.ph-exp { min-height: 100svh; }
 .page-hero.ph-exp .ph-photo { object-position: 50% 28%; }
 @media (max-width: 700px) { .page-hero.ph-exp .ph-photo { object-position: 66% 30%; } }
+/* The counter/card starts level with the date line, not above it */
+.lh-side { padding-top: 2px; }

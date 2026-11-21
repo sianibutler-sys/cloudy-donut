@@ -1,6 +1,11 @@
 /* Cloudy Donut Co. concept, Siani Creates */
 (() => {
   const TZ = "America/New_York";
+  // Pop-up stops end at their closing time ("12PM–5PM" ends at 5PM), not at midnight
+  const nyNowMin = () => { const d = new Date(new Date().toLocaleString("en-US", { timeZone: TZ })); return d.getHours() * 60 + d.getMinutes(); };
+  const nyToday = () => new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+  const stopEndMin = (s) => { const m = (s.time || "").match(/[–-]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i); return m ? ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2] || 0) : 24 * 60; };
+  const stopIsOver = (s) => !s.date || s.date < nyToday() || (s.date === nyToday() && nyNowMin() >= stopEndMin(s));
   const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   // Pages share this script. A missing element returns a no-op stand-in, so each page
   // only renders the sections it actually contains.
@@ -241,7 +246,18 @@
     const todayISO0 = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
     const nowMin0 = (() => { const d = new Date(new Date().toLocaleString("en-US", { timeZone: TZ })); return d.getHours() * 60 + d.getMinutes(); })();
     const endMin = (s) => { const m = (s.time || "").match(/[–-]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i); return m ? ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2] || 0) : 24 * 60; };
-    const tourStop = (data.tour.stops || []).filter((s) => s.date && (s.date > todayISO0 || (s.date === todayISO0 && nowMin0 < endMin(s))) && (s.menu || []).length).sort((x, y) => x.date.localeCompare(y.date))[0];
+    // A stop is over once its end time passes (not at midnight), everywhere on the site
+    const stopOver = stopIsOver;
+    const tourStop = (data.tour.stops || []).filter((s) => !stopOver(s) && (s.menu || []).length).sort((x, y) => x.date.localeCompare(y.date))[0];
+    // When today's stop ends while the page is open, refresh so the flyer, tour list and menu move on.
+    // Skipped if someone is typing in a form, so nothing they entered is lost.
+    (data.tour.stops || []).filter((s) => s.date === todayISO0 && !stopOver(s)).forEach((s) => {
+      const ms = (endMin(s) - nowMin0) * 60000 + 5000;
+      if (ms > 0 && ms < 864e5) setTimeout(() => {
+        const typing = [...document.querySelectorAll("form input, form textarea")].some((el) => el.type !== "checkbox" && el.type !== "radio" && el.value);
+        if (!typing && !document.querySelector("dialog[open]")) location.reload();
+      }, ms);
+    });
     const shopsMenu = { key: "shops", label: "NYC shops", ids: data.lineup.flavors, extras: data.lineup.extras || [] };
     const tourMenu = tourStop && { key: "tour", label: `Pop-up · ${tourStop.city.split(",")[0]}`, ids: tourStop.menu.map((n) => byName[norm(n)] && byName[norm(n)].id).filter(Boolean), extras: [], stop: tourStop };
     const extraNames = new Set(shopsMenu.extras.flatMap((x) => x.flavors || []).map(norm));
@@ -561,7 +577,7 @@
     const tourLine = document.getElementById("tour-line");
     if (tourLine) {
       const today = new Date(); today.setHours(0, 0, 0, 0);
-      const next = (data.tour.stops || []).filter((s) => s.date && new Date(s.date + "T23:59:00") >= today).sort((x, y) => x.date.localeCompare(y.date))[0];
+      const next = (data.tour.stops || []).filter((s) => !stopIsOver(s)).sort((x, y) => x.date.localeCompare(y.date))[0];
       const when = next && new Date(next.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
       tourLine.innerHTML = next
         ? `<span class="tl-donut" aria-hidden="true"></span><b>On tour</b><span class="tl-sep" aria-hidden="true">·</span><span>Next stop ${esc(next.city.split(",")[0])}, ${esc(when)}</span><a href="pop-ups.html">See the tour <span aria-hidden="true">→</span></a>`
@@ -646,7 +662,7 @@
     // Pop-ups: next dated stop becomes the flyer
     const todayISO = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
     const stops = data.tour.stops.slice().sort((a, b) => (a.date || "9999") < (b.date || "9999") ? -1 : 1);
-    const upcoming = stops.filter((s) => s.date && s.date >= todayISO && s.status !== "sold_out");
+    const upcoming = stops.filter((s) => s.date && !stopOver(s) && s.status !== "sold_out");
     const next = upcoming[0];
     const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
     const ord = (d) => { const s = ["th", "st", "nd", "rd"], v = d % 100; return d + (s[(v - 20) % 10] || s[v] || s[0]); };
@@ -665,7 +681,7 @@
     }
     $("#tour-list").innerHTML = stops.map((s) => {
       const isNext = next && s === next;
-      const past = s.date && s.date < todayISO;
+      const past = s.date && stopOver(s);
       if (past) return "";
       const when = s.date ? [fmtDate(s.date), s.time, [s.venue, s.address].filter(Boolean).join(", ")].filter(Boolean).map(esc).join(" · ") : "Date and venue announced on Instagram";
       const badge = s.status === "sold_out" ? ["sold", "Sold out"] : isNext ? ["next", "Next up"] : s.date ? ["", "Announced"] : ["", "Coming soon"];
@@ -903,7 +919,7 @@
     // Quick menu shown before anyone types: the things people come to the site for
     const go = (u) => () => { sd.close(); location.href = u; };
     const todayISO = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
-    const nextStop = data.tour.stops.filter((s) => s.date && s.date >= todayISO).sort((a, b) => (a.date < b.date ? -1 : 1))[0];
+    const nextStop = data.tour.stops.filter((s) => !stopIsOver(s)).sort((a, b) => (a.date < b.date ? -1 : 1))[0];
     const openShop = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
     const firstShop = data.locations.find((l) => Object.keys(l.hours).length);
     const weekNames = data.lineup.flavors.map((id) => byId[id] && byId[id].name).filter(Boolean);
