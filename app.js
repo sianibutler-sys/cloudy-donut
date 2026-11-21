@@ -313,14 +313,13 @@
         const s = m.stop, d = new Date(s.date + "T12:00:00");
         const phone = ((s.note || "").match(/\d{3}[.\-\s)]*\d{3}[.\-\s]*\d{4}/) || [""])[0];
         const where = s.address || s.venue;
-        const cakePrice = priceFor("Pound cake");
         sc.innerHTML = `
           <p class="kicker dark">At the pop-up</p>
           <p class="sc-city">${esc(s.city.split(",")[0])}</p>
           <ul class="sc-lines">
             <li><b>${d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</b>${s.time ? ` · ${esc(s.time)}` : ""}</li>
             ${where ? `<li>${esc([s.venue, s.address].filter(Boolean).join(", "))}</li>` : ""}
-            <li>${m.ids.length} cakes this stop${cakePrice ? `, $${cakePrice} each` : ""}</li>
+            <li>${m.ids.length} cakes on this stop's menu</li>
           </ul>
           <div class="sc-actions">
             ${phone ? `<a class="btn btn-ink" href="tel:+1${phone.replace(/\D/g, "")}">Call to preorder</a>` : ""}
@@ -337,7 +336,7 @@
       if (m.key === "tour") {
         const d = new Date(m.stop.date + "T12:00:00");
         $("#lineup-when").innerHTML = `${d.toLocaleDateString("en-US", { weekday: "short" })} · ${esc(m.stop.city.split(",")[0])} <span class="lw-date">${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
-        $("#lineup-sub").textContent = `${m.stop.city.split(",")[0]} gets its own menu, separate from the NYC shops. Small batches, so when it's gone, it's gone.`;
+        $("#lineup-sub").textContent = "Pull up early. Small batches don't stick around.";
       } else if (data.lineup.week_of) {
         const over = data.lineup.ends && todayISO0 > data.lineup.ends;
         $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
@@ -866,7 +865,6 @@
     { t: "Pop-up tour", d: "Next stop, dates and city signups", u: "pop-ups.html", k: "pop up popup tour events city" },
     { t: "Our story", d: "Firsts, intention and Worlds of Black luxury", u: "our-story.html", k: "story about founders history black owned derrick zewiditu brown collective 7streams" },
     { t: "Experiences", d: "Cloudy Donut Minis for events and catering", u: "experiences.html", k: "catering events party wedding minis order large" },
-    { t: "Cake shipping waitlist", d: "Pound cakes, shipped, coming next year", u: "experiences.html#ship", k: "ship shipping delivery mail cake pound waitlist" },
     { t: "Locations & hours", d: "Brooklyn Heights and NoLita", u: "locations.html", k: "locations hours address directions open shop store" },
   ];
   const FAQS = [
@@ -923,7 +921,6 @@
         { icon: "", t: "Boozy flavors", d: "Rum, rosé, champagne and more", go: go("flavors.html?filter=spirited") },
         { icon: "", t: "Something for the dog", d: "Lil Bow Wow and Snoop Doggy Donut", go: go("flavors.html?filter=pups") },
         { icon: "", t: "Catering & events", d: "Cloudy Donut Minis for your event", go: go("experiences.html") },
-        { icon: "", t: "Ship a pound cake", d: "Join the waitlist", go: go("experiences.html#ship") },
       ]],
       ["Questions", [
         { icon: IC.faq, t: "Are the donuts gluten free?", d: "Good to know", go: go("locations.html#faq") },
