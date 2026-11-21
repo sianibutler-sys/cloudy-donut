@@ -279,8 +279,7 @@
       const pos = `<span class="visually-hidden">${boxItems.indexOf(f) + 1} of ${boxItems.length}: </span>`;
       if (f.extra) {
         $("#box-detail").innerHTML = `
-        <p class="bd-num">${pos}On the counter${f.price ? ` · $${f.price}` : ""}</p>
-        <h3 class="bd-name">${esc(f.name)}</h3>
+        <h3 class="bd-name">${pos}${esc(f.name)}</h3>
         ${f.flavors.length ? `${f.flavors_note ? `<p class="bd-desc">${esc(f.flavors_note)}</p>` : ""}<ul class="bd-flavors">${f.flavors.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="bd-desc">This weekend's flavors are at the counter. Ask when you come in.</p>`}`;
         return;
       }
