@@ -298,7 +298,7 @@ FLYER = """
     <div class="flyer" id="flyer">
       <div class="flyer-top"><span>On tour</span><span>Next stop</span></div>
       <div class="flyer-mid">
-        <img class="pu-lock" src="assets/popup-lockup.svg" alt="Cloudy Donut Co. Pop up" width="632" height="577">
+        <img class="pu-lock" src="assets/popup-lockup.svg" alt="Cloudy Donut Co. Pop up" width="2553" height="2310">
         <p class="flyer-count" id="flyer-count" hidden></p>
         <h2 class="flyer-city" id="popups-h">On Tour</h2>
       </div>
