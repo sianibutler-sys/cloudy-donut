@@ -270,6 +270,7 @@ LINEUP = """
             <p class="kicker dark" id="counter-h">Also on the counter</p>
             <ul class="tents" id="tents"></ul>
           </div>
+          <div class="stop-card" id="stop-card" hidden></div>
           <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
         </div>
         <div class="bd-wrap">

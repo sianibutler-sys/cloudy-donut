@@ -1432,3 +1432,13 @@ form[data-form] .lab-txt { display: inline; }
 @media (prefers-reduced-motion: reduce) { .on-rot.in { animation: none; } }
 .open-now.multi { cursor: pointer; }
 .open-now:focus-visible { outline: 3px solid var(--sage-ink, #3f6f5c); outline-offset: 4px; border-radius: 4px; }
+/* Pop-up stop card beside the box */
+.stop-card[hidden] { display: none; }
+.stop-card { background: #fff; border: 2px solid var(--char); padding: 24px 26px 22px; box-shadow: 8px 8px 0 var(--mint); max-width: 420px; width: 100%; }
+.stop-card .kicker { margin: 0 0 6px; }
+.sc-city { font: 400 clamp(2.4rem, 4vw, 3.4rem)/.9 var(--display); text-transform: uppercase; margin: 0 0 14px; padding-top: .1em; }
+.sc-lines { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 6px; font: 400 1rem/1.4 var(--sans); color: var(--char); }
+.sc-lines b { font-weight: 700; }
+.sc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.sc-fine { margin: 14px 0 0; font: 500 .82rem/1.4 var(--sans); color: #5a5550; }
+.price-strip[hidden] { display: none; }

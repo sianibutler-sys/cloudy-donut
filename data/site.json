@@ -109,7 +109,8 @@
      "Brown Sugar Pineapple Upside Down Cake",
      "Orange Saffron Cake",
      "Basil Olive Oil Cake"
-    ]
+    ],
+    "walk_ins": true
    },
    {
     "city": "Richmond, VA",

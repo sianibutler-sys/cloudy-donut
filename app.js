@@ -307,11 +307,37 @@
       const skip = new Set(m.extras.map((x) => x.item));
       const sells = new Set(boxItems.map((f) => (!f.tags.includes("bakes") ? "donut" : f.style === "roll" ? "Cinnamon roll" : "Pound cake")));
       $$("#lineup #price-strip").forEach((el) => { el.innerHTML = data.prices.filter((p) => !skip.has(p.item) && (sells.has(p.item) || (sells.has("donut") && /donut/i.test(p.item)))).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); el.setAttribute("aria-label", m.key === "tour" ? "Pop-up prices" : "Shop prices"); });
+      // Pop-up view: a stop card fills the side with what a visitor needs (when, where, price, call to preorder)
+      const sc = $("#stop-card");
+      if (m.key === "tour") {
+        const s = m.stop, d = new Date(s.date + "T12:00:00");
+        const phone = ((s.note || "").match(/\d{3}[.\-\s)]*\d{3}[.\-\s]*\d{4}/) || [""])[0];
+        const where = s.address || s.venue;
+        const cakePrice = priceFor("Pound cake");
+        sc.innerHTML = `
+          <p class="kicker dark">At the pop-up</p>
+          <p class="sc-city">${esc(s.city.split(",")[0])}</p>
+          <ul class="sc-lines">
+            <li><b>${d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</b>${s.time ? ` · ${esc(s.time)}` : ""}</li>
+            ${where ? `<li>${esc([s.venue, s.address].filter(Boolean).join(", "))}</li>` : ""}
+            <li>${m.ids.length} cakes this stop${cakePrice ? `, $${cakePrice} each` : ""}</li>
+          </ul>
+          <div class="sc-actions">
+            ${phone ? `<a class="btn btn-ink" href="tel:+1${phone.replace(/\D/g, "")}">Call to preorder</a>` : ""}
+            ${where ? `<a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(where)}" target="_blank" rel="noopener">Directions<span class="visually-hidden"> (opens in a new tab)</span></a>` : ""}
+          </div>
+          ${phone || s.walk_ins ? `<p class="sc-fine">${[phone ? "Preorders recommended." : "", s.walk_ins ? "Walk-ins welcome." : ""].filter(Boolean).join(" ")}</p>` : ""}`;
+        sc.hidden = false;
+        $$("#lineup #price-strip").forEach((el) => { el.hidden = true; });
+      } else {
+        sc.hidden = true;
+        $$("#lineup #price-strip").forEach((el) => { el.hidden = false; });
+      }
       // Dates ride in the kicker, the way their site dates each menu
       if (m.key === "tour") {
         const d = new Date(m.stop.date + "T12:00:00");
         $("#lineup-when").innerHTML = `${d.toLocaleDateString("en-US", { weekday: "short" })} · ${esc(m.stop.city.split(",")[0])} <span class="lw-date">${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
-        $("#lineup-sub").textContent = [m.stop.time, m.stop.address || m.stop.venue, m.stop.note].filter(Boolean).join(" · ") + ".";
+        $("#lineup-sub").textContent = "Pop-ups bring their own bakes. Small batches, so when it's gone, it's gone until the next stop.";
       } else if (data.lineup.week_of) {
         const over = data.lineup.ends && todayISO0 > data.lineup.ends;
         $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
