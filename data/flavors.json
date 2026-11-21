@@ -10,6 +10,10 @@
       "price": 6
     },
     {
+      "item": "Pound cake",
+      "price": 8
+    },
+    {
       "item": "Cinnamon roll",
       "price": 8
     }
@@ -939,5 +943,6 @@
       "boozy": false,
       "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
     }
-  ]
+  ],
+  "_prices_source": "cloudydonut.com home: mini $4, large $6, pound cakes and cinnamon rolls $8 each."
 }
