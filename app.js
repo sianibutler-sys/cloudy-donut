@@ -279,8 +279,7 @@
       const pos = `<span class="visually-hidden">${boxItems.indexOf(f) + 1} of ${boxItems.length}: </span>`;
       if (f.extra) {
         $("#box-detail").innerHTML = `
-        <p class="bd-num">${pos}On the counter${f.price ? ` · $${f.price}` : ""}</p>
-        <h3 class="bd-name">${esc(f.name)}</h3>
+        <h3 class="bd-name">${pos}${esc(f.name)}</h3>
         ${f.flavors.length ? `${f.flavors_note ? `<p class="bd-desc">${esc(f.flavors_note)}</p>` : ""}<ul class="bd-flavors">${f.flavors.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="bd-desc">This weekend's flavors are at the counter. Ask when you come in.</p>`}`;
         return;
       }
@@ -454,7 +453,7 @@
         printed = true;
       }
       $("#fd-paper").style.clipPath = `polygon(0% .3%, ${tear(.15, 1).join(",")}, 100% 99.7%, ${tear(99.85, -1).reverse().join(",")}, 0% 99.7%)`;
-      $("#fd-img").hidden = !f.img; if (f.img) { $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name; }
+      $("#fd-img").hidden = !f.img; $("#fd-soon").hidden = !!f.img; $("#fd-soon-name").textContent = f.name; if (f.img) { $("#fd-img").src = wix(f.img, 700); $("#fd-img").alt = f.name; }
       $("#fd-name").textContent = f.name;
       $("#fd-desc").textContent = f.desc;
       $("#fd-contains").textContent = f.contains || "";
