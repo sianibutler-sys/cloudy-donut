@@ -221,8 +221,8 @@
     } catch (e) {}
     try {
       const [f, s] = await Promise.all([
-        fetch("data/flavors.json").then((r) => r.json()),
-        fetch("data/site.json").then((r) => r.json()),
+        fetch("data/flavors.json", { cache: "no-cache" }).then((r) => r.json()),
+        fetch("data/site.json", { cache: "no-cache" }).then((r) => r.json()),
       ]);
       return { ...f, ...s };
     } catch (e) {

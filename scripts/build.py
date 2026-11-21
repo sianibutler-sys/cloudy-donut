@@ -6,6 +6,9 @@ Output is plain static HTML in the repo root, so Cloudflare Pages needs no build
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+import hashlib as _h
+# Cache-busting stamp: changes whenever styles, script or data change, so phones never keep an old copy
+VER = _h.sha1(b"".join((ROOT / f).read_bytes() for f in ["styles.css", "app.js", "data/fallback.js", "data/site.json", "data/flavors.json"])).hexdigest()[:8]
 LOGO = "d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png"
 
 NAV = [
@@ -54,7 +57,7 @@ def head(title, desc, fname="index.html"):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;700;800;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v={VER}">
 </head>"""
 
 
@@ -209,8 +212,8 @@ __BTS__
   </div>
 </dialog>
 
-<script src="data/fallback.js" defer></script>
-<script src="app.js" defer></script>
+<script src="data/fallback.js?v={VER}" defer></script>
+<script src="app.js?v={VER}" defer></script>
 </body>
 </html>
 """
