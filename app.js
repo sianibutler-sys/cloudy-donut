@@ -337,7 +337,7 @@
       if (m.key === "tour") {
         const d = new Date(m.stop.date + "T12:00:00");
         $("#lineup-when").innerHTML = `${d.toLocaleDateString("en-US", { weekday: "short" })} · ${esc(m.stop.city.split(",")[0])} <span class="lw-date">${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
-        $("#lineup-sub").textContent = `${esc(m.stop.city.split(",")[0])} gets its own menu, separate from the NYC shops. Small batches, so when it's gone, it's gone.`;
+        $("#lineup-sub").textContent = `${m.stop.city.split(",")[0]} gets its own menu, separate from the NYC shops. Small batches, so when it's gone, it's gone.`;
       } else if (data.lineup.week_of) {
         const over = data.lineup.ends && todayISO0 > data.lineup.ends;
         $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
