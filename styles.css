@@ -1422,3 +1422,6 @@ form[data-form] .lab-txt { display: inline; }
 .menu-switch button { font: 800 .74rem var(--sans); letter-spacing: .14em; text-transform: uppercase; border: 0; background: transparent; color: var(--char); padding: .75em 1.2em; border-radius: 999px; cursor: pointer; min-height: 44px; }
 .menu-switch button[aria-pressed="true"] { background: var(--char); color: var(--cream); }
 .menu-switch button:focus-visible { outline: 3px solid var(--sage, #3f6f5c); outline-offset: 2px; }
+/* Room for accented capitals (Brûléed, Rosé) so they clear the line above */
+.bd-name, .pp-text h3 { padding-top: .16em; }
+.bd-name { overflow-wrap: break-word; }
