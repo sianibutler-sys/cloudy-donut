@@ -220,7 +220,7 @@ __BTS__
 
 
 def page_hero(kicker, title, sub, img=None, cta="", cls=""):
-    photo = (f'<img class="ph-photo" src="{img}" alt="" decoding="async" fetchpriority="high">' if img.startswith("assets/") else f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">') if img else ""
+    photo = (f'<img class="ph-photo" src="{img.replace('.jpg', '-hd.jpg') if img == 'assets/exp-trays.jpg' else img}" alt="" decoding="async" fetchpriority="high">' if img.startswith("assets/") else f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">') if img else ""
     return f"""
   <section class="page-hero{' has-photo' if img else ''}{' ' + cls if cls else ''}">
     {photo}
