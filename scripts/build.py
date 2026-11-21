@@ -243,7 +243,7 @@ LINEUP = """
           <p class="kicker dark" id="lineup-when">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
         </div>
-        <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
+        <p class="head-note" id="lineup-sub">Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
       </div>
       <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
       <div class="box-wrap">

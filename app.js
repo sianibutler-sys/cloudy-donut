@@ -321,11 +321,11 @@
           <ul class="sc-lines">
             <li><b>${d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</b>${s.time ? ` · ${esc(s.time)}` : ""}</li>
             ${where ? `<li>${esc([s.venue, s.address].filter(Boolean).join(", "))}</li>` : ""}
-            <li>${m.ids.length} cakes on this stop's menu</li>
+            <li>${m.ids.length} cakes on this stop's menu${priceFor("Pound cake") ? `, $${priceFor("Pound cake")} each` : ""}</li>
           </ul>
           <div class="sc-actions">
             ${phone ? `<a class="btn btn-ink" href="tel:+1${phone.replace(/\D/g, "")}">Call to preorder</a>` : ""}
-            ${where ? `<a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(where)}" target="_blank" rel="noopener">Directions<span class="visually-hidden"> (opens in a new tab)</span></a>` : ""}
+            ${where ? `<a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(where)}" target="_blank" rel="noopener">Directions</a>` : ""}
           </div>
           ${phone || s.walk_ins ? `<p class="sc-fine">${[phone ? "Preorders recommended." : "", s.walk_ins ? "Walk-ins welcome." : ""].filter(Boolean).join(" ")}</p>` : ""}`;
         sc.hidden = false;
@@ -341,7 +341,7 @@
         $("#lineup-sub").textContent = "Pull up early. Small batches don't stick around.";
       } else if (data.lineup.week_of) {
         const over = data.lineup.ends && todayISO0 > data.lineup.ends;
-        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
+        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
         $("#lineup-when").innerHTML = over ? "Fri · Sat · Sun" : `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
       }
       if (!week.length) {
