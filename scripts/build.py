@@ -1019,7 +1019,7 @@ PAGES = {
     "flavors.html": ("Flavors", "40+ vegan donut flavors, plus pound cakes and cinnamon rolls. See what's in the shops, what's on tour, allergens, and a quick flavor finder.", FLAVORS, False),
     "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: the next stop, dates, and a signup to bring Cloudy to your city.", POPUPS, False),
     "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
-    "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices, showers and events. Tell us the date and headcount and we'll take it from there.", EXPERIENCES, False),
+    "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices, showers and events. Send the date and details and we'll take it from there.", EXPERIENCES, False),
     "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights and NoLita, with hours, maps, directions and FAQ, plus where the tour stops next.", LOCS, False),
     "accessibility.html": ("Accessibility", "How the Cloudy Donut Co. site is built to work for everyone, and who to contact if something doesn't.", ACCESS, False),
 }
