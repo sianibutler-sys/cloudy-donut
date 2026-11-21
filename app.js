@@ -345,7 +345,6 @@
     $$("#price-strip").forEach((el) => { const skip = (el.dataset.skip || "").split("|"); el.innerHTML = data.prices.filter((p) => !skip.includes(p.item)).map((p) => `<span class="pi"><b>${esc(p.item)}</b><i aria-hidden="true"></i><em>$${p.price}</em></span>`).join(""); });
 
     // Flavor library
-    { const l = new URLSearchParams(location.search).get("lock"); if (l) document.body.dataset.lock = l; }
     const FILTERS = [
       ["all", "All"], ["week", "This week"], ["bakes", "Cakes and rolls"], ["fruity", "Fruity"], ["chocolate", "Chocolate"],
       ["cookie", "Cookie"], ["filled", "Filled"], ["spirited", "Spirited"], ["classic", "Classics"],

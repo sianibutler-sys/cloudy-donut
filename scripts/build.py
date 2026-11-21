@@ -296,9 +296,9 @@ LINEUP = """
 FLYER = """
   <section class="popups" id="popups" aria-labelledby="popups-h">
     <div class="flyer" id="flyer">
-      <div class="flyer-top"><span class="ft-a">Cloudy Donut</span><span class="ft-a">Presents</span><span class="ft-b">On tour</span><span class="ft-b">Next stop</span></div>
+      <div class="flyer-top"><span>On tour</span><span>Next stop</span></div>
       <div class="flyer-mid">
-        <p class="pu-lock" role="img" aria-label="Cloudy Donut Co. pop-up"><img class="wix pu-logo" data-wix="__LOGO__" data-w="600" alt="" width="600" height="290"><span class="pu-word" aria-hidden="true">P<svg class="pu-o" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="26"/><g stroke="#9aa59f" stroke-width="5" stroke-linecap="round"><path d="M30 22l6 4M62 18l7-2M80 40l2 7M78 66l-5 6M56 84l-7 1M24 74l-4-6M16 44l1-7"/></g></svg>p up</span></p>
+        <img class="pu-lock" src="assets/popup-lockup.svg" alt="Cloudy Donut Co. Pop up" width="632" height="577">
         <p class="flyer-count" id="flyer-count" hidden></p>
         <h2 class="flyer-city" id="popups-h">On Tour</h2>
       </div>
@@ -311,7 +311,6 @@ FLYER = """
       __TOURMORE__
     </div>
   </section>"""
-FLYER = FLYER.replace("__LOGO__", LOGO)
 
 TOUR_FORM = """
       <form class="inline-signup" data-form="tour_alert" novalidate>
@@ -875,7 +874,7 @@ LIVE = {  # what cloudydonut.com has for each page, checked Nov 10, 2026
 SAME = {
     "index.html": ["Logo, cream, mint and sage, and the Caudex type", "Photos from cloudydonut.com", "This week's lineup", "The box: mint, white logo and DONUT stop BELIEVING! on the side"],
     "flavors.html": ["Flavor names, descriptions and photos", "Nut notes from each description"],
-    "pop-ups.html": ["The \"Cloudy Donut Presents\" flyer style from Instagram", "The Baltimore and Richmond stops, with the pre-order line, as listed on cloudydonut.com"],
+    "pop-ups.html": ["The Cloudy Donut Co. Pop up lockup and flyer style from Instagram", "The Baltimore and Richmond stops, with the pre-order line, as listed on cloudydonut.com"],
     "our-story.html": ["The Our Story copy, word for word"],
     "experiences.html": ["Event and catering packages"],
     "locations.html": ["The two NYC shops, with addresses, hours and phone", "All 14 FAQ answers"],
@@ -883,7 +882,7 @@ SAME = {
 }
 BUILD = [
     ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one simple list. Change it there and every page follows. It can run on the tools Cloudy already uses, or a standard free or low-cost one."),
-    ("Every pop-up gets a flyer", "Add a city and date, and the site builds the \"Cloudy Donut Presents\" flyer with a live countdown."),
+    ("Every pop-up gets a flyer", "Add a city and date, and the site builds the pop-up flyer with a live countdown."),
     ("Demand, mapped", "\"Bring Cloudy to my city\" signups show where the next tour stop should go."),
     ("Shipping, ready before launch", "The cake waitlist builds now, so the first day of shipping already has buyers."),
     ("One inbox for every form", "Experiences, newsletter, tour alerts and the waitlist land in one inbox, connected to what Cloudy uses now or a standard free or low-cost tool."),

@@ -1407,18 +1407,8 @@ form[data-form] .lab-txt { display: inline; }
 .fl-stk { display: grid; place-items: center; position: absolute; z-index: 2; top: 4px; right: 2%; width: 48px; height: 48px; border-radius: 50%; background: var(--mint); color: var(--ink); font: 800 .5rem/1.1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-align: center; transform: rotate(10deg); padding: 5px; box-shadow: 0 2px 6px rgba(36,35,35,.15); }
 .fl-meta { font: 500 .78rem/1.3 var(--sans); letter-spacing: 0; text-transform: none; color: #8a3a2c; }
 
-/* Pop-up lockup from their Instagram flyers: logo over a script "Pop up" with a donut for the o */
-@font-face { font-family: "Damion"; src: url("assets/fonts/damion.woff2") format("woff2"); font-display: swap; }
-.pu-lock { margin: 0 0 22px; display: flex; flex-direction: column; align-items: flex-start; color: var(--cream, #fffaf0); }
-.pu-logo { width: clamp(150px, 26cqi, 260px); height: auto; filter: brightness(0) invert(1); margin: 0 0 -.12em .2em; }
-.pu-word { font: 400 clamp(4rem, 17cqi, 8.5rem)/.9 "Damion", cursive; display: inline-flex; align-items: baseline; transform: rotate(-4deg); transform-origin: left center; -webkit-text-stroke: .018em currentColor; paint-order: stroke fill; }
-.pu-o { width: .5em; height: .5em; margin: 0 .03em 0 .07em; align-self: baseline; transform: translateY(.04em); }
-.ft-b { display: none; }
-/* A (default): full lockup, top line changes so it doesn't say the name twice */
-body:not([data-lock="b"]) .flyer-top .ft-a { display: none; }
-body:not([data-lock="b"]) .flyer-top .ft-b { display: inline; }
-/* B: keep "Cloudy Donut Presents" up top, script "Pop up" only */
-body[data-lock="b"] .pu-logo { display: none; }
+/* Pop-up lockup traced from their Instagram story */
+.pu-lock { display: block; width: clamp(210px, 50cqi, 440px); height: auto; margin: 0 0 24px; }
 /* Tapped card with no photo yet: the paper tag sits where the donut would land */
 .fd-soon { width: 82%; height: 82%; margin: 9% auto; }
 .fd-soon[hidden] { display: none; }
