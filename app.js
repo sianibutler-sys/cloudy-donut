@@ -391,13 +391,14 @@
       </button></li>`).join("");
 
     // Flavor picker: mood + style + topping + booze, nut-free, this week or the full rotation
-    const pick = { mood: null, style: "any", texture: "any", boozy: "any", nonuts: false, scope: "week", page: 0 };
+    const pick = { kind: "any", mood: null, style: "any", texture: "any", boozy: "any", nonuts: false, scope: "week", page: 0 };
     let seed = Math.random();
     const jitter = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 9973; return ((h * 9301 + seed * 49297) % 233280) / 233280; };
     const runPicker = () => {
       if (!pick.mood) return;
-      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && !f.tags.includes("bakes") && !(pick.nonuts && f.tags.includes("nuts")) && (pick.scope === "all" || thisWeek.has(f.id)));
-      const want = [["mood", 3], ["style", 2], ["texture", 1.5], ["boozy", 2]].filter(([k]) => pick[k] !== "any");
+      const isBake = (f) => f.tags.includes("bakes");
+      const pool = data.flavors.filter((f) => !f.tags.includes("pups") && (pick.kind === "any" || (pick.kind === "bakes") === isBake(f)) && !(pick.nonuts && (f.tags.includes("nuts") || f.contains)) && (pick.scope === "all" || thisWeek.has(f.id)));
+      const want = [["mood", 3], ["style", 2], ["texture", 1.5], ["boozy", 2]].filter(([k]) => pick[k] !== "any" && !(pick.kind === "bakes" && (k === "style" || k === "texture")));
       const hit = (f, k) => k === "mood" ? (f.profile || []).includes(pick.mood) : k === "boozy" ? (pick.boozy === "yes") === !!f.boozy : f[k] === pick[k];
       const max = want.reduce((s, [, w]) => s + w, 0);
       const ranked = pool.map((f) => {
@@ -411,7 +412,7 @@
         <button class="pk" type="button" data-id="${r.f.id}">
           ${r.f.img ? `<img src="${wix(r.f.img, 300)}" alt="" loading="lazy">` : `<span class="fl-tag sm" aria-hidden="true"><b>${esc(r.f.name)}</b></span>`}
           <span class="pk-name">${esc(r.f.name)}</span>
-          <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${thisWeek.has(r.f.id) ? "in the case this week" : "in the rotation"}</span>
+          <span class="pk-meta">${r.perfect ? "Perfect match" : "Close match"} · ${!thisWeek.has(r.f.id) ? "in the rotation" : onTour.has(r.f.id) && !shopsMenu.ids.includes(r.f.id) ? "at this week's pop-up" : "in the case this week"}</span>
         </button>`).join("") : "";
       const note = !ranked.length
         ? (pick.scope === "week" ? "Nothing in the case this week fits all of that. Try Any flavor." : "Nothing fits all of that. Loosen one answer.")
@@ -424,6 +425,8 @@
     };
     $$("[data-pick]").forEach((b) => b.addEventListener("click", () => {
       const [q, v] = b.dataset.pick.split(":"); pick[q] = v; pick.page = 0; seed = Math.random();
+      // Glaze and toppings are donut questions; they step aside for cakes and rolls
+      if (q === "kind") $$(".pq-donut").forEach((g) => { g.hidden = v === "bakes"; });
       $$(`[data-pick^="${q}:"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       runPicker();
     }));
@@ -539,14 +542,52 @@
         const s = status(l);
         $(`[data-loc="${l.id}"] .loc-status`).innerHTML = `<span class="dot ${s.open ? "on" : ""}"></span>${esc(s.text)}`;
       });
-      const openLoc = data.locations.map((l) => [l, status(l)]).find(([, s]) => s.open);
+      // Hero line: everything open right now (each shop, plus a pop-up happening today), one at a time
       const hero = $("#hero-status");
       const lc = (t) => t.charAt(0).toLowerCase() + t.slice(1);
-      if (openLoc) hero.innerHTML = `<span class="dot on"></span><span class="on-txt">${esc(openLoc[0].name)} is ${esc(lc(openLoc[1].text))}</span>`;
-      else {
+      const items = data.locations.map((l) => [l, status(l)]).filter(([, s]) => s.open).map(([l, s]) => `${l.name} is ${lc(s.text)}`);
+      const nowNY = new Date(new Date().toLocaleString("en-US", { timeZone: TZ }));
+      const isoNY = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+      (data.tour.stops || []).filter((s) => s.date === isoNY).forEach((s) => {
+        // "12PM–5PM": before it starts it says when; while it runs it reads like the shops
+        const tm = (s.time || "").match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?\s*[–-]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+        const mins = (h, mm, ap) => ((+h % 12) + (/pm/i.test(ap) ? 12 : 0)) * 60 + (+mm || 0);
+        const now = nowNY.getHours() * 60 + nowNY.getMinutes(), city = s.city.split(",")[0];
+        if (!tm) { items.push(`${city} pop-up today`); return; }
+        const start = mins(tm[1], tm[2], tm[3] || tm[6]), end = mins(tm[4], tm[5], tm[6]);
+        const fmt = (h, mm, ap) => `${+h}${mm ? ":" + mm : ""}${(ap || "").toLowerCase()}`;
+        if (now < start) items.push(`${city} pop-up today at ${fmt(tm[1], tm[2], tm[3] || tm[6])}`);
+        else if (now < end) items.push(`${city} pop-up is open now until ${fmt(tm[4], tm[5], tm[6])}`);
+      });
+      if (!items.length) {
         const next = data.locations.map((l) => [l, status(l)]).find(([l]) => Object.keys(l.hours).length);
         hero.innerHTML = next ? `<span class="dot"></span><span class="on-txt">${esc(next[0].name)} ${esc(lc(next[1].text))}</span>` : "";
+        hero.__items = [];
+        return;
       }
+      hero.__items = items;
+      if (!hero.querySelector(".on-rot")) {
+        hero.removeAttribute("aria-live");
+        hero.innerHTML = `<span class="dot on"></span><span class="on-txt on-rot" aria-hidden="true"></span><span class="visually-hidden on-all"></span>`;
+        hero.__i = 0;
+        const show = () => { const its = hero.__items || []; if (!its.length) return; hero.__i %= its.length; const t = hero.querySelector(".on-rot"); t.classList.remove("in"); void t.offsetWidth; t.textContent = its[hero.__i]; t.classList.add("in"); };
+        hero.__show = show;
+        // Rotates every 4 seconds; hover or focus pauses it, a tap moves to the next one and stops the rotation
+        let paused = reduceMotion, stopped = false;
+        hero.addEventListener("mouseenter", () => { paused = true; });
+        hero.addEventListener("mouseleave", () => { paused = reduceMotion || stopped; });
+        hero.addEventListener("focus", () => { paused = true; });
+        hero.addEventListener("blur", () => { paused = reduceMotion || stopped; });
+        const step = () => { hero.__i++; show(); };
+        hero.addEventListener("click", () => { stopped = paused = true; step(); });
+        hero.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); stopped = paused = true; step(); } });
+        setInterval(() => { if (!paused && (hero.__items || []).length > 1) step(); }, 4000);
+      }
+      hero.querySelector(".on-all").textContent = "Open now: " + items.join(". ") + ".";
+      hero.classList.toggle("multi", items.length > 1);
+      if (items.length > 1) { hero.tabIndex = 0; hero.setAttribute("role", "button"); hero.setAttribute("aria-label", "Open now: " + items.join(". ") + ". Press for the next one."); }
+      else { hero.removeAttribute("tabindex"); hero.removeAttribute("role"); hero.removeAttribute("aria-label"); }
+      hero.__show();
     };
     refreshStatus();
     window.__cdRefresh = refreshStatus;

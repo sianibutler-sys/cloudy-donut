@@ -683,18 +683,22 @@ FLAVORS = f"""
       <div>
         <p class="kicker dark">Not sure?</p>
         <h2 class="display-md" id="picker-h">Find Your Flavor.</h2>
-        <p class="picker-sub">Tell us your mood and we'll pull three for you.</p>
+        <p class="picker-sub">Donut, cake or roll. Tell us your mood and we'll pull three for you.</p>
       </div>
       <div class="picker-qs">
+        <div class="pq" role="group" aria-label="What kind">
+          <span class="pq-label">I want a</span>
+          <div class="pq-opts"><button type="button" data-pick="kind:any" aria-pressed="true">Surprise me</button><button type="button" data-pick="kind:donut" aria-pressed="false">Donut</button><button type="button" data-pick="kind:bakes" aria-pressed="false">Cake or roll</button></div>
+        </div>
         <div class="pq" role="group" aria-label="Flavor mood">
           <span class="pq-label">I'm in the mood for</span>
           <div class="pq-opts"><button type="button" data-pick="mood:fruity" aria-pressed="false">Fruity</button><button type="button" data-pick="mood:rich" aria-pressed="false">Rich</button><button type="button" data-pick="mood:spiced" aria-pressed="false">Spiced</button><button type="button" data-pick="mood:fresh" aria-pressed="false">Zesty</button></div>
         </div>
-        <div class="pq" role="group" aria-label="Style">
+        <div class="pq pq-donut" role="group" aria-label="Style">
           <span class="pq-label">Done up</span>
           <div class="pq-opts"><button type="button" data-pick="style:any" aria-pressed="true">Any way</button><button type="button" data-pick="style:glazed" aria-pressed="false">Glazed</button><button type="button" data-pick="style:sugar" aria-pressed="false">Sugar-tossed</button><button type="button" data-pick="style:filled" aria-pressed="false">Filled</button></div>
         </div>
-        <div class="pq" role="group" aria-label="Texture">
+        <div class="pq pq-donut" role="group" aria-label="Texture">
           <span class="pq-label">On top</span>
           <div class="pq-opts"><button type="button" data-pick="texture:any" aria-pressed="true">Either</button><button type="button" data-pick="texture:crunchy" aria-pressed="false">Crunch</button><button type="button" data-pick="texture:smooth" aria-pressed="false">Smooth</button></div>
         </div>

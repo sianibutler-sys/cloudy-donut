@@ -1425,3 +1425,10 @@ form[data-form] .lab-txt { display: inline; }
 /* Room for accented capitals (Brûléed, Rosé) so they clear the line above */
 .bd-name, .pp-text h3 { padding-top: .16em; }
 .bd-name { overflow-wrap: break-word; }
+/* Hero open-now line rotates through everything open right now */
+.on-rot { display: inline-block; }
+.on-rot.in { animation: onrot .45s ease both; }
+@keyframes onrot { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .on-rot.in { animation: none; } }
+.open-now.multi { cursor: pointer; }
+.open-now:focus-visible { outline: 3px solid var(--sage-ink, #3f6f5c); outline-offset: 4px; border-radius: 4px; }
