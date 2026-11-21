@@ -220,7 +220,7 @@ __BTS__
 
 
 def page_hero(kicker, title, sub, img=None, cta="", cls=""):
-    photo = f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">' if img else ""
+    photo = (f'<img class="ph-photo" src="{img}" alt="" decoding="async" fetchpriority="high">' if img.startswith("assets/") else f'<img class="wix ph-photo" data-wix="{img}" data-w="1600" alt="">') if img else ""
     return f"""
   <section class="page-hero{' has-photo' if img else ''}{' ' + cls if cls else ''}">
     {photo}
@@ -767,7 +767,7 @@ STORY = f"""
 
 EXPERIENCES = f"""
 <main id="main">
-{page_hero("Luxury dessert experiences", "Bring Cloudy<br>To The Party.", "Weddings, launches, showers, office days. Cloudy Donut Minis turn any event into a Cloudy experience.", "d6231e_2ddfd7964b1f4e089573e576a08eb5e0~mv2.jpg")}
+{page_hero("Luxury dessert experiences", "Bring Cloudy<br>To The Party.", "Weddings, launches, showers, office days. Cloudy Donut Minis turn any event into a Cloudy experience.", "assets/exp-trays.jpg", cls="ph-exp")}
   <section class="experiences" id="experiences" aria-labelledby="exp-h">
     <div class="wrap exp-grid">
       <div class="exp-copy">
@@ -780,7 +780,7 @@ EXPERIENCES = f"""
       </div>{CATERING_FORM}
     </div>
   </section>
-  <section class="banner-photo bp-framed"><img src="assets/exp-trays.jpg" width="480" height="360" loading="lazy" decoding="async" alt="Two women smiling, each holding a tray of Cloudy donuts"></section>
+  <section class="banner-photo" aria-hidden="true"><img class="wix" data-wix="d6231e_2ddfd7964b1f4e089573e576a08eb5e0~mv2.jpg" data-w="1800" alt=""></section>
 </main>"""
 
 LOCS = f"""
