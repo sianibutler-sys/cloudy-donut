@@ -242,7 +242,7 @@ LINEUP = """
         <div class="lh-main">
           <p class="kicker dark" id="lineup-when">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
-          <p class="head-note" id="lineup-sub">Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
+          <p class="head-note" id="lineup-sub">6–8 donut flavors a week, in small batches. When it's gone, it's gone until it rotates back.</p>
           <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
         </div>
         <div class="lineup-foot lh-side">
@@ -643,7 +643,7 @@ HOME = f"""
 
 FLAVORS = f"""
 <main id="main">
-{page_hero("The full rotation", "Every Flavor<br>We Make.", "Six to eight of these hit the case each weekend. All 100% vegan, small-batched and hand crafted. Tap a donut for the details and allergens.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", cta='<div class="hero-cta"><a class="btn btn-mint" href="#picker">Find your flavor <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span>Four questions, three donuts.</span></div>')}
+{page_hero("The full rotation", "Every Flavor<br>We Make.", "Each week, 6–8 donut flavors are picked from this list, plus cinnamon rolls and pound cakes. All 100% vegan, small-batched and hand crafted. Tap one for the details and allergens.", "d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg", cta='<div class="hero-cta"><a class="btn btn-mint" href="#picker">Find your flavor <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span>Four questions, three donuts.</span></div>')}
   <section class="cream flavors" id="flavors" aria-label="Flavor library">
     <div class="wrap">
       <div class="flavor-tools">

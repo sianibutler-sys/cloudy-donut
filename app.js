@@ -343,7 +343,7 @@
         $("#lineup-sub").textContent = "Pull up early. Small batches don't stick around.";
       } else if (data.lineup.week_of) {
         const over = data.lineup.ends && todayISO0 > data.lineup.ends;
-        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.";
+        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. 6–8 donut flavors a week, in small batches. When it's gone, it's gone until it rotates back.";
         $("#lineup-when").innerHTML = over ? "Fri · Sat · Sun" : `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
       }
       if (!week.length) {
