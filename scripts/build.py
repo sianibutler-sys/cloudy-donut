@@ -6,6 +6,9 @@ Output is plain static HTML in the repo root, so Cloudflare Pages needs no build
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+import hashlib as _h
+# Cache-busting stamp: changes whenever styles, script or data change, so phones never keep an old copy
+VER = _h.sha1(b"".join((ROOT / f).read_bytes() for f in ["styles.css", "app.js", "data/fallback.js", "data/site.json", "data/flavors.json"])).hexdigest()[:8]
 LOGO = "d6231e_9077a0dc3d96405ca1bae4d9ad1a346c~mv2.png"
 
 NAV = [
@@ -54,7 +57,7 @@ def head(title, desc, fname="index.html"):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;700;800;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v={VER}">
 </head>"""
 
 
@@ -209,8 +212,8 @@ __BTS__
   </div>
 </dialog>
 
-<script src="data/fallback.js" defer></script>
-<script src="app.js" defer></script>
+<script src="data/fallback.js?v={VER}" defer></script>
+<script src="app.js?v={VER}" defer></script>
 </body>
 </html>
 """
@@ -242,6 +245,7 @@ LINEUP = """
         </div>
         <p class="head-note" id="lineup-sub">A handful of flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
       </div>
+      <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
       <div class="box-wrap">
         <div class="cbox" id="cbox" data-state="closed">
           <div class="cbox-stage">
@@ -266,6 +270,7 @@ LINEUP = """
             <p class="kicker dark" id="counter-h">Also on the counter</p>
             <ul class="tents" id="tents"></ul>
           </div>
+          <div class="stop-card" id="stop-card" hidden></div>
           <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
         </div>
         <div class="bd-wrap">
@@ -515,7 +520,7 @@ FAQ = """
     <div class="wrap faq-wrap">
       <h2 class="display-md" id="faq-h">Good To Know</h2>
       <div class="faq-list">
-        <details><summary>Where are you all located?</summary><p>We have two shops in NYC: 14 Columbia Pl., Brooklyn, NY 11201 and 209 Mott Street, New York, NY 10012. Baltimore and other cities get pop-ups, with dates on the <a href="pop-ups.html">Pop-ups page</a>. See <a href="locations.html">shop hours and maps</a>.</p></details>
+        <details><summary>Where are you all located?</summary><p>We have two shops in NYC: 14 Columbia Pl., Brooklyn, NY 11201 and 209 Mott Street, New York, NY 10012. We also pop up in cities across the country, with dates on the <a href="pop-ups.html">Pop-ups page</a>. See <a href="locations.html">shop hours and maps</a>.</p></details>
         <details><summary>What oils are your donuts made in?</summary><p>All our donuts are fried in liquid vegetable shortening.</p></details>
         <details><summary>What substitutes do you use to make the donuts vegan?</summary><p>Applesauce, coconut milk and shortening are used in place of animal products.</p></details>
         <details><summary>Are your donuts gluten free?</summary><p>Our donuts are 100% vegan, but they are not gluten free.</p></details>
@@ -524,7 +529,7 @@ FAQ = """
         <details><summary>What happens if I place a preorder and forget to pick it up?</summary><p>Contact the company where you placed your order, like DoorDash or Grubhub, to sort it out. If you ordered directly from us, give us a call at <a href="tel:+13474639628">347.463.9628</a> and we will do our best to accommodate you.</p></details>
         <details><summary>Do you cater or do large orders?</summary><p>Yes. Tell us about your event on the <a href="experiences.html">Experiences page</a>, or call <a href="tel:+13474639628">347.463.9628</a> to place a large order.</p></details>
         <details><summary>Do you all do custom or special order donuts?</summary><p>We have special holiday and occasion packages, but we do not make custom order donuts at this time.</p></details>
-        <details><summary>Do you all ship?</summary><p>Due to the short shelf life of our vegan donuts, we do not ship them. Pound cakes are coming next year, and the <a href="experiences.html#ship">waitlist</a> hears first.</p></details>
+        <details><summary>Do you all ship?</summary><p>Due to the short shelf life of our vegan donuts, we do not ship them.</p></details>
         <details><summary>Do you all wholesale the donuts?</summary><p>We do not wholesale our donuts at this time, but call <a href="tel:+13474639628">347.463.9628</a> to learn how we can help with your program or event.</p></details>
         <details><summary>Do you sell gift cards?</summary><p>Gift cards are available in store at our Brooklyn Heights location.</p></details>
         <details><summary>Do you all sell merchandise?</summary><p>Call <a href="tel:+13474639628">347.463.9628</a> or DM <a href="https://www.instagram.com/cloudydonuts/" target="_blank" rel="noopener">@cloudydonuts</a> to ask what merch is in stock.</p></details>
@@ -568,24 +573,7 @@ CATERING_FORM = """
         <p class="form-msg" role="status"></p>
       </form>"""
 
-SHIP = """
-  <section class="ship" id="ship" aria-labelledby="ship-h">
-    <div class="wrap ship-card">
-      <div>
-        <p class="kicker dark">Coming next year</p>
-        <h2 class="display-md" id="ship-h">Cloudy, Shipped.</h2>
-        <p>Donuts are best within hours, so they stay in the shop. Pound cakes keep for days, and they're the first thing we'll ship. The waitlist hears first.</p>
-      </div>
-      <form class="stack-form" data-form="ship_waitlist" novalidate>
-        <label>Email<input name="email" type="email" autocomplete="email" required></label>
-        <label>ZIP code <span class="opt">(optional)</span><input name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" aria-describedby="ship-zip-hint"></label>
-        <p class="fine" id="ship-zip-hint">Tells us where to ship first.</p>
-        <div class="consent"><input id="ship-consent" name="consent" type="checkbox" required><label for="ship-consent">I agree to the <button type="button" class="terms-link" data-terms>email terms</button></label></div>
-        <button class="btn btn-ink" type="submit">Join the waitlist</button>
-        <p class="form-msg" role="status"></p>
-      </form>
-    </div>
-  </section>"""
+
 
 # ---------- Pages ----------
 
@@ -679,18 +667,22 @@ FLAVORS = f"""
       <div>
         <p class="kicker dark">Not sure?</p>
         <h2 class="display-md" id="picker-h">Find Your Flavor.</h2>
-        <p class="picker-sub">Tell us your mood and we'll pull three for you.</p>
+        <p class="picker-sub">Donut, cake or roll. Tell us your mood and we'll pull three for you.</p>
       </div>
       <div class="picker-qs">
+        <div class="pq" role="group" aria-label="What kind">
+          <span class="pq-label">I want a</span>
+          <div class="pq-opts"><button type="button" data-pick="kind:any" aria-pressed="true">Surprise me</button><button type="button" data-pick="kind:donut" aria-pressed="false">Donut</button><button type="button" data-pick="kind:bakes" aria-pressed="false">Cake or roll</button></div>
+        </div>
         <div class="pq" role="group" aria-label="Flavor mood">
           <span class="pq-label">I'm in the mood for</span>
           <div class="pq-opts"><button type="button" data-pick="mood:fruity" aria-pressed="false">Fruity</button><button type="button" data-pick="mood:rich" aria-pressed="false">Rich</button><button type="button" data-pick="mood:spiced" aria-pressed="false">Spiced</button><button type="button" data-pick="mood:fresh" aria-pressed="false">Zesty</button></div>
         </div>
-        <div class="pq" role="group" aria-label="Style">
+        <div class="pq pq-donut" role="group" aria-label="Style">
           <span class="pq-label">Done up</span>
           <div class="pq-opts"><button type="button" data-pick="style:any" aria-pressed="true">Any way</button><button type="button" data-pick="style:glazed" aria-pressed="false">Glazed</button><button type="button" data-pick="style:sugar" aria-pressed="false">Sugar-tossed</button><button type="button" data-pick="style:filled" aria-pressed="false">Filled</button></div>
         </div>
-        <div class="pq" role="group" aria-label="Texture">
+        <div class="pq pq-donut" role="group" aria-label="Texture">
           <span class="pq-label">On top</span>
           <div class="pq-opts"><button type="button" data-pick="texture:any" aria-pressed="true">Either</button><button type="button" data-pick="texture:crunchy" aria-pressed="false">Crunch</button><button type="button" data-pick="texture:smooth" aria-pressed="false">Smooth</button></div>
         </div>
@@ -789,7 +781,6 @@ EXPERIENCES = f"""
     </div>
   </section>
   <section class="banner-photo" aria-hidden="true"><img class="wix" data-wix="d6231e_53d7df9586bb4bcfa7d31a527d4cfe90~mv2.jpg" data-w="1800" alt=""></section>
-{SHIP}
 </main>"""
 
 LOCS = f"""
@@ -829,13 +820,13 @@ COMPARE_PAGES = {
     "experiences.html": ("Experiences",
         ["Catering notice reads 14 days in one place and 7 in another."],
         ["One number, 14 days, in the event form.",
-         "Event requests and the cake waitlist land in one place, connected to the tools Cloudy already uses or a standard free or low-cost one."]),
+         "Event requests land in one place, connected to the tools Cloudy already uses or a standard free or low-cost one."]),
     "locations.html": ("Locations",
         ["Hours are listed with no open or closed status, no map and no directions link.",
          "The FAQ sends merch shoppers to a Federal Hill shop this page doesn't list."],
         ["Maps with donut pins, plus Google Maps, Apple Maps and Waze links.",
          "Open now, by shop, and tap to call.",
-         "The two NYC shops, with Baltimore treated as a pop-up that shows on the tour when it's on, and all 14 FAQ answers."]),
+         "The two NYC shops, with pop-up cities shown on the tour when they're on, and all 14 FAQ answers."]),
     "accessibility.html": ("Accessibility",
         ["No accessibility statement, and no way to report a problem."],
         ["A plain-language statement: the standard, what's built in, what's still being worked on, and who to call.",
@@ -884,8 +875,7 @@ BUILD = [
     ("The lineup updates itself", "Flavors, shop hours and pop-up dates live in one simple list. Change it there and every page follows. It can run on the tools Cloudy already uses, or a standard free or low-cost one."),
     ("Every pop-up gets a flyer", "Add a city and date, and the site builds the pop-up flyer with a live countdown."),
     ("Demand, mapped", "\"Bring Cloudy to my city\" signups show where the next tour stop should go."),
-    ("Shipping, ready before launch", "The cake waitlist builds now, so the first day of shipping already has buyers."),
-    ("One inbox for every form", "Experiences, newsletter, tour alerts and the waitlist land in one inbox, connected to what Cloudy uses now or a standard free or low-cost tool."),
+    ("One inbox for every form", "Experiences, newsletter and tour alerts land in one inbox, connected to what Cloudy uses now or a standard free or low-cost tool."),
     ("Owned by Cloudy", "Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription."),
 ]
 
@@ -1029,7 +1019,7 @@ PAGES = {
     "flavors.html": ("Flavors", "40+ Cloudy Donut flavors, with allergens, this week's lineup and a four-question flavor finder.", FLAVORS, False),
     "pop-ups.html": ("Pop-ups", "The Cloudy Donut pop-up tour: the next stop, dates, and a signup to bring Cloudy to your city.", POPUPS, False),
     "our-story.html": ("Our story", "How Cloudy Donut Co. became NYC's first 100% vegan donut shop, and the first Black-owned food and beverage business in Brooklyn Heights and NoLita.", STORY, False),
-    "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events, plus the waitlist for pound cakes by mail.", EXPERIENCES, False),
+    "experiences.html": ("Experiences", "Cloudy Donut Minis for weddings, offices and events.", EXPERIENCES, False),
     "locations.html": ("Locations", "Cloudy Donut shops in Brooklyn Heights and NoLita, with hours, maps, directions and FAQ, plus where the tour stops next.", LOCS, False),
     "accessibility.html": ("Accessibility", "How the Cloudy Donut Co. site is built to work for everyone, and who to contact if something doesn't.", ACCESS, False),
 }

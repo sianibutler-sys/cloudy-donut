@@ -10,10 +10,6 @@
       "price": 6
     },
     {
-      "item": "Pound cake",
-      "price": 8
-    },
-    {
       "item": "Cinnamon roll",
       "price": 8
     }
@@ -753,6 +749,76 @@
       "_note": "New on the live menu. Photo to come from the team."
     },
     {
+      "id": "lemon-blueberry-poundcake-donut",
+      "name": "Lemon Blueberry Poundcake Donut",
+      "desc": "The lemon blueberry pound cake, made as a donut.",
+      "img": "",
+      "tags": [
+        "fruity"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity"
+      ],
+      "style": "glazed",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
+    },
+    {
+      "id": "berry-sage",
+      "name": "Berry Sage",
+      "desc": "Berries with sage.",
+      "img": "",
+      "tags": [
+        "fruity"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity",
+        "fresh"
+      ],
+      "style": "glazed",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
+    },
+    {
+      "id": "berry-olive-oil",
+      "name": "Berry Olive Oil",
+      "desc": "Berries with olive oil.",
+      "img": "",
+      "tags": [
+        "fruity"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "fruity",
+        "fresh"
+      ],
+      "style": "glazed",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
+    },
+    {
+      "id": "double-chocolate",
+      "name": "Double Chocolate",
+      "desc": "Chocolate on chocolate.",
+      "img": "",
+      "tags": [
+        "chocolate"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "rich"
+      ],
+      "style": "glazed",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
+    },
+    {
       "id": "lemon-blueberry-poundcake",
       "name": "Lemon Blueberry Poundcake",
       "desc": "Lemon pound cake with blueberries.",
@@ -767,7 +833,7 @@
       "style": "cake",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From the pop-up menus on cloudydonut.com. Photo and full description to come from the team."
     },
     {
       "id": "bruleed-sweet-potato-pound-cake",
@@ -784,7 +850,7 @@
       "style": "cake",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From the pop-up menus on cloudydonut.com. Photo and full description to come from the team."
     },
     {
       "id": "brown-sugar-pineapple-upside-down-cake",
@@ -801,7 +867,7 @@
       "style": "cake",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From the pop-up menus on cloudydonut.com. Photo and full description to come from the team."
     },
     {
       "id": "orange-saffron-cake",
@@ -819,7 +885,7 @@
       "style": "cake",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From the pop-up menus on cloudydonut.com. Photo and full description to come from the team."
     },
     {
       "id": "basil-olive-oil-cake",
@@ -836,7 +902,7 @@
       "style": "cake",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From the pop-up menus on cloudydonut.com. Photo and full description to come from the team."
     },
     {
       "id": "apple-pie-cinnamon-roll",
@@ -854,7 +920,24 @@
       "style": "roll",
       "texture": "smooth",
       "boozy": false,
-      "_note": "Pound cake and cinnamon roll, $8. Photo and full description to come from the team."
+      "_note": "From their story copy."
+    },
+    {
+      "id": "sweet-potato-cinnamon-roll",
+      "name": "Sweet Potato Cinnamon Roll",
+      "desc": "Sweet potato cinnamon roll.",
+      "img": "",
+      "tags": [
+        "bakes"
+      ],
+      "contains": "Ask in store about allergens",
+      "profile": [
+        "spiced"
+      ],
+      "style": "roll",
+      "texture": "smooth",
+      "boozy": false,
+      "_note": "On the NYC menu 11.20–11.22. Photo and full description to come from the team."
     }
   ]
 }
