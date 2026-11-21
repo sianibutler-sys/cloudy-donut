@@ -876,7 +876,7 @@ BUILD = [
     ("Every pop-up gets a flyer", "Add a city and date, and the site builds the pop-up flyer with a live countdown."),
     ("Demand, mapped", "\"Bring Cloudy to my city\" signups show where the next tour stop should go."),
     ("One inbox for every form", "Experiences, newsletter and tour alerts land in one inbox, connected to what Cloudy uses now or a standard free or low-cost tool."),
-    ("Owned by Cloudy", "Custom code in Cloudy's own GitHub and Cloudflare accounts. No platform subscription."),
+    ("Owned by Cloudy", "Custom code, kept in accounts Cloudy owns. No platform subscription."),
 ]
 
 COSTS = [  # running costs, checked Nov 19, 2026
