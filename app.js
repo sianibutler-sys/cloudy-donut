@@ -239,7 +239,9 @@
     const norm = (s) => s.toLowerCase().replace(/s$/, "").trim();
     const byName = Object.fromEntries(data.flavors.map((f) => [norm(f.name), f]));
     const todayISO0 = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
-    const tourStop = (data.tour.stops || []).filter((s) => s.date && s.date >= todayISO0 && (s.menu || []).length).sort((x, y) => x.date.localeCompare(y.date))[0];
+    const nowMin0 = (() => { const d = new Date(new Date().toLocaleString("en-US", { timeZone: TZ })); return d.getHours() * 60 + d.getMinutes(); })();
+    const endMin = (s) => { const m = (s.time || "").match(/[–-]\s*(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i); return m ? ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + (+m[2] || 0) : 24 * 60; };
+    const tourStop = (data.tour.stops || []).filter((s) => s.date && (s.date > todayISO0 || (s.date === todayISO0 && nowMin0 < endMin(s))) && (s.menu || []).length).sort((x, y) => x.date.localeCompare(y.date))[0];
     const shopsMenu = { key: "shops", label: "NYC shops", ids: data.lineup.flavors, extras: data.lineup.extras || [] };
     const tourMenu = tourStop && { key: "tour", label: `Pop-up · ${tourStop.city.split(",")[0]}`, ids: tourStop.menu.map((n) => byName[norm(n)] && byName[norm(n)].id).filter(Boolean), extras: [], stop: tourStop };
     const extraNames = new Set(shopsMenu.extras.flatMap((x) => x.flavors || []).map(norm));

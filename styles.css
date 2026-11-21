@@ -1445,3 +1445,13 @@ form[data-form] .lab-txt { display: inline; }
 /* Shops vs tour: two sticker colors so the difference reads at a glance */
 .fl-stk { width: 54px; height: 54px; font-size: .5rem; line-height: 1.15; top: 6px; right: 3%; }
 .fl-stk.tour, .pp-sticker.tour { background: var(--char); color: var(--cream); }
+/* Lineup header: title, note and switch on the left; what's on the counter (or the pop-up card) on the right,
+   in the same columns as the box and its details below */
+.lineup .head-row.lineup-head { grid-template-columns: 1.25fr .75fr; gap: 28px clamp(24px, 4vw, 60px); align-items: end; margin-bottom: clamp(28px, 3.4vw, 48px); }
+.lineup-head .head-note { margin: 14px 0 0; max-width: 34em; }
+.lineup-head .menu-switch { margin: 22px 0 0; }
+.lh-side { display: grid; gap: 18px; justify-items: start; margin: 0; }
+.lh-side .counter { display: grid; gap: 12px; }
+.lh-side .counter[hidden] { display: none; }
+.box-side { padding-top: 0; justify-content: flex-end; }
+@media (max-width: 900px) { .lineup .head-row.lineup-head { grid-template-columns: 1fr; } }

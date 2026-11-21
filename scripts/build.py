@@ -238,14 +238,22 @@ def page_hero(kicker, title, sub, img=None, cta="", cls=""):
 LINEUP = """
   <section class="cream lineup" id="lineup" aria-labelledby="lineup-h">
     <div class="wrap">
-      <div class="head-row">
-        <div>
+      <div class="head-row lineup-head">
+        <div class="lh-main">
           <p class="kicker dark" id="lineup-when">Fri · Sat · Sun</p>
           <h2 class="display-md" id="lineup-h">This Week's Lineup</h2>
+          <p class="head-note" id="lineup-sub">Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
+          <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
         </div>
-        <p class="head-note" id="lineup-sub">Six to eight donut flavors a weekend, in small batches. When it's gone, it's gone until it rotates back.</p>
+        <div class="lineup-foot lh-side">
+          <div class="counter" id="counter" aria-labelledby="counter-h" role="group" hidden>
+            <p class="kicker dark" id="counter-h">Also on the counter</p>
+            <ul class="tents" id="tents"></ul>
+          </div>
+          <div class="stop-card" id="stop-card" hidden></div>
+          <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
+        </div>
       </div>
-      <div class="menu-switch" id="menu-switch" role="group" aria-label="Which menu"></div>
       <div class="box-wrap">
         <div class="cbox" id="cbox" data-state="closed">
           <div class="cbox-stage">
@@ -265,14 +273,6 @@ LINEUP = """
           <button class="seal" id="cbox-seal" type="button" aria-controls="cbox-body" aria-expanded="false"><span>Where<br>Dreams<br>Crumb<br>True</span><span class="visually-hidden">Open this week's box</span></button>
         </div>
         <div class="box-side">
-        <div class="lineup-foot">
-          <div class="counter" id="counter" aria-labelledby="counter-h" role="group" hidden>
-            <p class="kicker dark" id="counter-h">Also on the counter</p>
-            <ul class="tents" id="tents"></ul>
-          </div>
-          <div class="stop-card" id="stop-card" hidden></div>
-          <div class="price-strip" id="price-strip" aria-label="Donut prices"></div>
-        </div>
         <div class="bd-wrap">
         <div class="bd-dots" id="bd-dots" role="group" aria-label="Flavors in this week's box" hidden></div>
         <div class="box-detail" id="box-detail" role="tabpanel" aria-live="polite">
