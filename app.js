@@ -258,10 +258,12 @@
         if (!typing && !document.querySelector("dialog[open]")) location.reload();
       }, ms);
     });
+    // Limbo: after the shops' weekend ends and before staff post the next menu, the box shows last weekend, labeled as such
+    const shopsOver = !!(data.lineup.ends && todayISO0 > data.lineup.ends);
     const shopsMenu = { key: "shops", label: "NYC shops", ids: data.lineup.flavors, extras: data.lineup.extras || [] };
     const tourMenu = tourStop && { key: "tour", label: `Pop-up · ${tourStop.city.split(",")[0]}`, ids: tourStop.menu.map((n) => byName[norm(n)] && byName[norm(n)].id).filter(Boolean), extras: [], stop: tourStop };
     const extraNames = new Set(shopsMenu.extras.flatMap((x) => x.flavors || []).map(norm));
-    const thisWeek = new Set([...shopsMenu.ids, ...data.flavors.filter((f) => extraNames.has(norm(f.name))).map((f) => f.id), ...(tourMenu ? tourMenu.ids : [])]);
+    const thisWeek = new Set([...(shopsOver ? [] : [...shopsMenu.ids, ...data.flavors.filter((f) => extraNames.has(norm(f.name))).map((f) => f.id)]), ...(tourMenu ? tourMenu.ids : [])]);
     const onTour = new Set(tourMenu ? tourMenu.ids : []);
     // Where a this-week item is sold: the NYC shops (lineup + counter extras) or the pop-up. Never both labels on one item.
     const whereNow = (id) => (onTour.has(id) && !shopsMenu.ids.includes(id) && !extraNames.has(norm(byId[id].name)) ? "tour" : "shops");
@@ -319,7 +321,11 @@
         ${f.img ? `<img src="${wix(f.img, 360)}" alt="" loading="lazy" decoding="async">` : tag("Photo soon", f.name)}
         <span class="visually-hidden">${esc(f.name)}</span>
       </button>`).join("") + Array.from({ length: spare }, (_, i) => `<span class="slot slot-fill" aria-hidden="true" style="--r:${[10, -14, 6, -8][i % 4]}deg">${tag("Your pick", "Mix and match")}</span>`).join("");
-      $("#donut-box").setAttribute("aria-label", m.key === "tour" ? `${m.stop.city.split(",")[0]} pop-up menu` : "This week's flavors at the NYC shops");
+      const last = m.key === "shops" && shopsOver;
+      $("#counter-h").textContent = last ? "Also last weekend" : "Also on the counter";
+      $("#donut-box").setAttribute("aria-label", m.key === "tour" ? `${m.stop.city.split(",")[0]} pop-up menu` : last ? "Last weekend's flavors at the NYC shops" : "This week's flavors at the NYC shops");
+      $("#bd-dots").setAttribute("aria-label", last ? "Flavors in last weekend's box" : "Flavors in this week's box");
+      if (cbox.dataset.state !== "open" && $("#box-detail .bd-desc")) $("#box-detail .bd-desc").textContent = last ? "Last weekend's box. Break the seal to see what was inside." : "This week's box is packed and sealed. Break the seal to see what's inside.";
       dotsEl.innerHTML = boxItems.map((g, i) => `<button type="button" class="bd-dot" data-go="${g.id}" aria-label="${esc(g.name)}, ${i + 1} of ${boxItems.length}"></button>`).join("");
       // Tent cards for the shops' extras; the price strip lists what this menu sells
       $("#counter").hidden = !m.extras.length;
@@ -356,11 +362,18 @@
       if (m.key === "tour") {
         const d = new Date(m.stop.date + "T12:00:00");
         $("#lineup-when").innerHTML = `${d.toLocaleDateString("en-US", { weekday: "short" })} · ${esc(m.stop.city.split(",")[0])} <span class="lw-date">${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>`;
+        $("#lineup-h").textContent = "This Week's Lineup";
         $("#lineup-sub").textContent = "Pull up early. Small batches don't stick around.";
       } else if (data.lineup.week_of) {
-        const over = data.lineup.ends && todayISO0 > data.lineup.ends;
-        $("#lineup-sub").textContent = (over ? "Last weekend's menu. The new one posts before the weekend. " : "") + "Brooklyn Heights and NoLita. 6–8 donut flavors a week, in small batches. When it's gone, it's gone until it rotates back.";
-        $("#lineup-when").innerHTML = over ? "Fri · Sat · Sun" : `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
+        if (shopsOver) {
+          $("#lineup-h").textContent = "Last Weekend's Lineup";
+          $("#lineup-when").innerHTML = `Last weekend <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
+          $("#lineup-sub").innerHTML = `This weekend's lineup is on its way. <a href="#lineup-signup">Sign up</a> to be the first to know.`;
+        } else {
+          $("#lineup-h").textContent = "This Week's Lineup";
+          $("#lineup-when").innerHTML = `Fri · Sat · Sun <span class="lw-date">${esc(data.lineup.week_of)}</span>`;
+          $("#lineup-sub").textContent = "Brooklyn Heights and NoLita. 6–8 donut flavors a week, in small batches. When it's gone, it's gone until it rotates back.";
+        }
       }
       if (!week.length) {
         $("#cbox-seal").setAttribute("aria-expanded", "false");
@@ -423,6 +436,7 @@
       ["cookie", "Cookie"], ["filled", "Filled"], ["spirited", "Spirited"], ["classic", "Classics"],
       ["nutfree", "Nut free"], ["pups", "For pups"],
     ];
+    if (!thisWeek.size) FILTERS.splice(FILTERS.findIndex(([k]) => k === "week"), 1);
     let active = "all", query = "";
     $("#chips").innerHTML = FILTERS.map(([k, label]) =>
       `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === "all"}">${label}</button>`).join("");
@@ -436,7 +450,8 @@
       </button></li>`).join("");
 
     // Flavor picker: mood + style + topping + booze, nut-free, this week or the full rotation
-    const pick = { kind: "any", mood: null, style: "any", texture: "any", boozy: "any", nonuts: false, scope: "week", page: 0 };
+    const pick = { kind: "any", mood: null, style: "any", texture: "any", boozy: "any", nonuts: false, scope: thisWeek.size ? "week" : "all", page: 0 };
+    if (!thisWeek.size) $$(".scope").forEach((g) => { g.hidden = true; });
     let seed = Math.random();
     const jitter = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 9973; return ((h * 9301 + seed * 49297) % 233280) / 233280; };
     const runPicker = () => {
