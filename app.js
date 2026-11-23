@@ -632,7 +632,10 @@
       // Hero line: everything open right now (each shop, plus a pop-up happening today), one at a time
       const hero = $("#hero-status");
       const lc = (t) => t.charAt(0).toLowerCase() + t.slice(1);
-      const items = data.locations.map((l) => [l, status(l)]).filter(([, s]) => s.open).map(([l, s]) => `${l.name} is ${lc(s.text)}`);
+      // Every shop rotates: open ones say until when, closed ones say when they open next
+      const shopStats = data.locations.filter((l) => Object.keys(l.hours || {}).length).map((l) => [l, status(l)]);
+      const items = shopStats.map(([l, s]) => s.open ? `${l.name} is ${lc(s.text)}` : `${l.name} ${lc(s.text)}`);
+      const anyOpen = shopStats.some(([, s]) => s.open);
       const nowNY = new Date(new Date().toLocaleString("en-US", { timeZone: TZ }));
       const isoNY = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
       (data.tour.stops || []).filter((s) => s.date === isoNY).forEach((s) => {
@@ -646,12 +649,7 @@
         if (now < start) items.push(`${city} pop-up today at ${fmt(tm[1], tm[2], tm[3] || tm[6])}`);
         else if (now < end) items.push(`${city} pop-up is open now until ${fmt(tm[4], tm[5], tm[6])}`);
       });
-      if (!items.length) {
-        const next = data.locations.map((l) => [l, status(l)]).find(([l]) => Object.keys(l.hours).length);
-        hero.innerHTML = next ? `<span class="dot"></span><span class="on-txt">${esc(next[0].name)} ${esc(lc(next[1].text))}</span>` : "";
-        hero.__items = [];
-        return;
-      }
+      if (!items.length) { hero.innerHTML = ""; hero.__items = []; return; }
       hero.__items = items;
       if (!hero.querySelector(".on-rot")) {
         hero.removeAttribute("aria-live");
@@ -670,9 +668,10 @@
         hero.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); stopped = paused = true; step(); } });
         setInterval(() => { if (!paused && (hero.__items || []).length > 1) step(); }, 4000);
       }
-      hero.querySelector(".on-all").textContent = "Open now: " + items.join(". ") + ".";
+      hero.querySelector(".dot").classList.toggle("on", anyOpen || items.some((t) => /pop-up is open/.test(t)));
+      hero.querySelector(".on-all").textContent = items.join(". ") + ".";
       hero.classList.toggle("multi", items.length > 1);
-      if (items.length > 1) { hero.tabIndex = 0; hero.setAttribute("role", "button"); hero.setAttribute("aria-label", "Open now: " + items.join(". ") + ". Press for the next one."); }
+      if (items.length > 1) { hero.tabIndex = 0; hero.setAttribute("role", "button"); hero.setAttribute("aria-label", items.join(". ") + ". Press for the next one."); }
       else { hero.removeAttribute("tabindex"); hero.removeAttribute("role"); hero.removeAttribute("aria-label"); }
       hero.__show();
     };
