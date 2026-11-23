@@ -63,7 +63,7 @@
   /* ---------- Demo badge: clock switch + behind the scenes ---------- */
   const MODES = [
     { id: "live", label: "Right now", short: "Now", note: "Showing the real time in New York." },
-    { id: "sat", label: "Saturday 10am", short: "Sat 10am", note: "Saturday, 10am in New York: Brooklyn Heights is open, NoLita opens at 11.", day: 6, mins: 600 },
+    { id: "sat", label: "Saturday 10am", short: "Sat 10am", note: "Saturday, 10am in New York: Brooklyn Heights is open, NoLita opens at 11. The lineup shows a sample of a freshly posted menu.", day: 6, mins: 600, sample: true },
     { id: "tue", label: "Tuesday", short: "Tue", note: "Tuesday in New York: both shops show when they open next.", day: 2, mins: 720 },
   ];
   let modeIx = 0;
@@ -75,9 +75,16 @@
     modeBtn.setAttribute("aria-label", `${m.label} view. Switch the clock`);
   };
   paintMode();
+  try { const n = sessionStorage.getItem("cd-toast"); if (n) { sessionStorage.removeItem("cd-toast"); const t = $("#mode-toast"); t.textContent = n; t.classList.add("on"); $("#mode-live").textContent = n; setTimeout(() => t.classList.remove("on"), 3600); } } catch (e) {}
   modeBtn.addEventListener("click", () => {
+    const wasSample = !!MODES[modeIx].sample;
     modeIx = (modeIx + 1) % MODES.length;
     try { sessionStorage.setItem("cd-mode", MODES[modeIx].id); } catch (e) {}
+    // The sample lineup is built when the page loads, so moving into or out of it reloads in place
+    if (wasSample !== !!MODES[modeIx].sample && $("#lineup, #flavor-grid, #picker")) {
+      try { sessionStorage.setItem("cd-toast", MODES[modeIx].note); } catch (e) {}
+      location.reload(); return;
+    }
     paintMode();
     if (window.__cdRefresh) window.__cdRefresh();
     const t = $("#mode-toast"); t.textContent = MODES[modeIx].note; t.classList.add("on");
@@ -239,6 +246,24 @@
   const esc = (s = "") => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   load().then((data) => {
+    // Saturday 10am view: a sample of a freshly posted NYC menu (donuts in the box, cakes and rolls on the counter),
+    // dated for the coming weekend. Real data is untouched; this only exists while the demo clock is on Saturday.
+    if (MODES[modeIx].sample) {
+      const now = new Date(new Date().toLocaleString("en-US", { timeZone: TZ }));
+      const fri = new Date(now); fri.setDate(now.getDate() + ({ 6: -1, 0: -2 }[now.getDay()] ?? (5 - now.getDay())));
+      const sun = new Date(fri); sun.setDate(fri.getDate() + 2);
+      const md = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      data = Object.assign({}, data, { lineup: {
+        where: "NYC shops", sample: true,
+        week_of: fri.getMonth() === sun.getMonth() ? `${md(fri)}–${sun.getDate()}` : `${md(fri)}–${md(sun)}`,
+        ends: iso(sun),
+        flavors: ["berry-sage", "maple-butter-pecan", "brown-butter-chocolate-chip", "raspberry-rose", "chai-sugar", "pistachio"],
+        extras: [
+          { name: "Pound cakes", item: "Pound cake", flavors: ["Brûléed Sweet Potato Pound Cake", "Lemon Blueberry Poundcake", "Basil Olive Oil Cake"], flavors_note: "This weekend's cakes:" },
+          { name: "Cinnamon rolls", item: "Cinnamon roll", flavors: ["Apple Pie Cinnamon Roll", "Sweet Potato Cinnamon Roll"], flavors_note: "This weekend's rolls:" },
+        ] } });
+    }
     const byId = Object.fromEntries(data.flavors.map((f) => [f.id, f]));
     // Two menus: the NYC shops' weekend lineup, and the next pop-up's menu (pop-ups bring their own bakes)
     const norm = (s) => s.toLowerCase().replace(/s$/, "").trim();
