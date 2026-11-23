@@ -1458,6 +1458,6 @@ form[data-form] .lab-txt { display: inline; }
 /* Experiences hero: the trays photo fills the screen on every device */
 .page-hero.ph-exp { min-height: 100svh; }
 .page-hero.ph-exp .ph-photo { object-position: 50% 28%; }
-@media (max-width: 700px) { .page-hero.ph-exp .ph-photo { object-position: 66% 30%; } }
+@media (max-width: 700px) { .page-hero.ph-exp .ph-photo { object-position: 34% 30%; } }
 /* The counter/card starts level with the date line, not above it */
 .lh-side { padding-top: 2px; }
