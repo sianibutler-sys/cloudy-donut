@@ -1461,3 +1461,4 @@ form[data-form] .lab-txt { display: inline; }
 @media (max-width: 700px) { .page-hero.ph-exp .ph-photo { object-position: 34% 30%; } }
 /* The counter/card starts level with the date line, not above it */
 .lh-side { padding-top: 2px; }
+.scope[hidden] { display: none; }
